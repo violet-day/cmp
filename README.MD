@@ -1,14 +1,5 @@
 # Development
 
-```bash
-#安装node modules
-npm i
-
-#安装bower库
-cd public
-bower i
-```
-
 ##  gulp js
 合并压缩js
 
@@ -37,4 +28,8 @@ bower i
 watch ./src/**/*.js及./views/**/*.html
 发生变化执行gulp js,gulp tpl
 
+* 具体可以参照/views/demo/New.html
+* div.row>div.col-sm-12>div.form-group
+* form-group单列情况下比列为3:9
+* 注意label标签的for属性
 
