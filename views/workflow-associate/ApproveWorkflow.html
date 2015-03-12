@@ -1,0 +1,133 @@
+<form class="form-horizontal" name="frm" ng-submit="submit()">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title" translate="ApproveWorkflow"></h4>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-2"
+                 translate="Approvers"></label>
+
+          <div class="col-sm-10">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th translate="Assign To"></th>
+                <th translate="Order"></th>
+                <th translate="Signature"></th>
+                <th>
+                  <a href class="btn btn-xs"
+                     ng-click="doc.queue.push({assignTo:[],type:'serial',signature:null})">
+                    <i class="fa fa-plus"></i>
+                  </a>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="q in doc.queue">
+                <td>
+                  <ui-select class="form-control" multiple ng-model="q.assignTo">
+                    <ui-select-match>{{$item.title}}</ui-select-match>
+                    <ui-select-choices
+                      repeat="[item.__t,item.title,item.id].join('#') as item in UserRoleSelector | filter: $select.search">
+                      <div ng-bind-html="item.title | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </td>
+                <td>
+                  <select class="form-control input-small"
+                          ng-model="q.type"
+                          required="" ui-message="">
+                    <option value="serial" translate="Serial"></option>
+                    <option value="parallel" translate="Parallel"></option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" class="form-control input-small" name="signature" id="signature"
+                         ng-model="q.signature"/>
+                </td>
+                <td>
+                  <a href class="btn btn-xs" ng-click="doc.queue.splice($index, 1);">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+                      <span class="help-block">
+                        输入用户名，以便工作流向其分配任务，并选择任务分配的顺序。您也可以添加阶段，以不同的顺序将任务分配给更多人员。
+                        请确保指定您希望的分配方式：应一次分配一个任务（串行），还是一次分配所有任务（并行）。
+                      </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="expand" class="control-label col-sm-2"
+                 translate="Expand Groups"></label>
+
+          <div class="col-sm-10">
+            <input type="checkbox" class="form-control" id="expand" name="expand" bs-switch
+                   ng-model="doc.expand"/>
+            <span class="help-block">对于输入的每个组，请向该组的每个成员分配一项任务</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-2"
+                 translate="CC"></label>
+
+          <div class="col-sm-10">
+
+            <ui-select class="form-control" multiple ng-model="doc.copyTo">
+              <ui-select-match>{{$item.username}} &lt;{{$item.email}}&gt;</ui-select-match>
+              <ui-select-choices
+                repeat="[item.username,item.email,item.id].join('#') as item in UserSelector | filter: $select.search">
+                <div ng-bind-html-unsafe="item.id | highlight: $select.search"></div>
+                <small>
+                  Email: {{item.email}}
+                </small>
+              </ui-select-choices>
+            </ui-select>
+
+            {{UserSelector}}
+            <span class="help-block">此工作流启动时通知其他人员，而结束时不向其分配任务。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="ctApprove" class="control-label col-sm-2"
+                 translate="Enable Content Approval"></label>
+
+          <div class="col-sm-10">
+            <input type="checkbox" class="form-control" id="ctApprove" name="ctApprove" bs-switch
+                   ng-model="doc.ctApprove"/>
+            <span class="help-block">在此工作流完成后更新审批状态(使用此工作流控制内容审批)。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button type="submit" class="btn btn-primary" translate="Submit" data-ng-disabled="frm.$invalid"></button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()" translate="Cancel"></button>
+  </div>
+  {{doc}}
+</form>

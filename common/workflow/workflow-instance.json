@@ -1,0 +1,73 @@
+{
+  "name": "WorkflowInstance",
+  "base": "PersistedModel",
+  "properties": {
+    "workflowList": {
+      "type": "string",
+      "description": "所属模型"
+    },
+    "workflowItemId": {
+      "type": "number",
+      "description": "流程启动项Id"
+    },
+    "workflowItemTitle": {
+      "type": "string",
+      "description": "流程启动项标题"
+    },
+    "workflowState": {
+      "type": "string",
+      "default": "Initial",
+      "enum": [
+        "Initial",
+        "Progressing",
+        "Finished",
+        "Terminated",
+        "Cancel"
+      ],
+      "description": "工作流状态"
+    },
+    "internalState": {
+      "type": "string",
+      "default": "Initial",
+      "description": "内部状态"
+    },
+    "isWake": {
+      "type": "boolean",
+      "default": false,
+      "description": "isWake"
+    },
+    "associatedData": {
+      "type": "object",
+      "description": "流程相关数据"
+    },
+    "completeAt": {
+      "type": "date",
+      "description": "完成时间"
+    }
+  },
+  "mixins": {
+    "Core": true,
+    "TimeStamp": true
+  },
+  "validations": [],
+  "relations": {
+    "initiator": {
+      "type": "belongsTo",
+      "model": "User"
+    },
+    "workflowTemplate": {
+      "type": "belongsTo",
+      "model": "WorkflowTemplate"
+    },
+    "workflowAssociation": {
+      "type": "belongsTo",
+      "model": "WorkflowAssociation"
+    },
+    "logs": {
+      "type": "hasMany",
+      "model": "WorkflowLog"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

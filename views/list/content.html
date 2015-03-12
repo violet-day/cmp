@@ -1,0 +1,225 @@
+<style>
+  .grid {
+    width: 100%;
+    height: 400px;
+  }
+</style>
+<div class="page-content">
+  <!-- BEGIN PAGE HEADER-->
+  <div class="row">
+    <div class="col-md-12">
+      <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+      <h3 class="page-title">
+        {{list.displayName || list.name}}
+        <small ng-bind="list.description"></small>
+      </h3>
+      <div ncy-breadcrumb></div>
+      <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+  </div>
+  <!-- END PAGE HEADER-->
+  <!-- BEGIN PAGE CONTENT-->
+
+  <div class="row" ng-show="false">
+    <div class="col-md-12">
+
+      <form class="form-horizontal" ng-submit="getPagedDate()">
+        <div class="form-body">
+          <div class="form-group">
+            <label class="control-label col-md-3">id</label>
+
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="number" class="form-control" name="id" ng-model="filter.where.id.gt">
+                <span class="input-group-addon">to</span>
+                <input type="number" class="form-control" ng-model="filter.where.id.lt">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Title</label>
+
+            <div class="col-md-4">
+              <div class="input-icon right">
+                <i class="glyphicon glyphicon-remove" ng-click="deleteFilter('title')"
+                   ng-show="filter.where.title.like"></i>
+                <input type="text" name="title"
+                       ng-model="filter.where.title.like" class="form-control"
+                       placeholder="title">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3">Date Range</label>
+
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="text" class="form-control" name="created" ng-model="filter.where.created.gt"
+                       datetime-picker>
+                <span class="input-group-addon">to</span>
+                <input type="text" class="form-control" name="created" ng-model="filter.where.created.lt"
+                       datetime-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <input type="search" placeholder="Search..." class="form-control" required ui-message ng-model="search">
+
+          <div class="input-group-btn">
+            <button type="button" class="btn green" data-toggle="dropdown">Search <i
+              class="m-icon-swapright m-icon-white"></i></button>
+          </div>
+          <!-- /btn-group -->
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <label for="exampleInputEmail2">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword2">Password</label>
+          <ui-select class="form-control" ng-model="q.assignTo" style="min-width: 300px;">
+            <ui-select-match>{{$select.selected }}</ui-select-match>
+            <ui-select-choices
+              repeat="item as item in [1,3,4,5] | filter: $select.search">
+              <div ng-bind-html="item | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button type="button" class="btn green" data-toggle="dropdown">Search <i
+              class="m-icon-swapright m-icon-white"></i></button>
+          </div>
+          <!-- /btn-group -->
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-repeat="view in views" ng-bind="view.title"
+                ng-click="currentView=view"></button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-ellipsis-horizontal"></i> More <i class="fa fa-angle-down"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href>
+                创建视图
+              </a>
+            </li>
+            <li>
+              <a href>
+                修改视图
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group">
+        <input type="search" placeholder="Search..." class="form-control" required ui-message ng-model="search">
+
+        <div class="input-group-btn">
+          <button type="button" class="btn green" data-toggle="dropdown">Search <i
+            class="m-icon-swapright m-icon-white"></i></button>
+        </div>
+        <!-- /btn-group -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="pull-right">
+        <div class="btn-group">
+
+          <button type="button" class="btn btn-default" ng-click="gridAction.add()">
+            <i class="fa fa-plus"></i> New
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bullhorn"></i> Alert <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#">
+                  创建通知
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  管理我的通知
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-default" ui-sref="main.listSetting({list: $stateParams.list})"><i
+            class="fa fa-cogs"></i> Settings
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-ellipsis-horizontal"></i> More <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#">
+                  Dropdown link
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  Dropdown link
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--grid-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="grid" ui-grid="gridOptions"
+           external-scopes="gridAction"
+           ui-grid-edit
+
+           ui-grid-auto-resize
+           ui-grid-pinning
+           ui-grid-resize-columns
+           ui-grid-selection>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 col-sm-12">
+      <div class="dataTables_info">Showing
+        <span ng-bind="(filter.page-1)*filter.limit+1"></span> to
+        <span
+          ng-bind="filter.page*filter.limit > totalServerItems ? totalServerItems : filter.page*filter.limit"></span>
+        of <span ng-bind="totalServerItems"></span> entries
+      </div>
+    </div>
+    <div class="col-md-7 col-sm-12">
+      <pagination total-items="totalServerItems"
+                  ng-model="filter.page"
+                  items-per-page="filter.limit"
+                  ng-change="getPagedDate()">
+      </pagination>
+    </div>
+  </div>
+  <div block-ui="gridBlock"></div>
+  <!-- END PAGE CONTENT-->
+</div>

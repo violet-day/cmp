@@ -1,0 +1,244 @@
+<div class="page-sidebar navbar-collapse collapse">
+<!-- BEGIN SIDEBAR MENU -->
+<ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+<li class="sidebar-toggler-wrapper">
+    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+    <div class="sidebar-toggler hidden-phone">
+    </div>
+    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+</li>
+<li class="sidebar-search-wrapper">
+    <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+    <form class="sidebar-search">
+        <div class="form-container">
+            <div class="input-box">
+                <a href class="remove">
+                </a>
+                <input type="text" placeholder="Search..."/>
+                <input type="button" class="submit" value=" "/>
+            </div>
+        </div>
+    </form>
+    <!-- END RESPONSIVE QUICK SEARCH FORM -->
+</li>
+<li class="start ">
+    <a ui-sref="main.index">
+        <i class="fa fa-home"></i>
+        <span class="title">
+            Home
+        </span>
+    </a>
+</li>
+
+<li>
+    <a ui-sref="main.index">
+        <i class="fa fa-tasks"></i>
+						<span class="title" translate="MY TASK">
+							我的任务
+						</span>
+    </a>
+</li>
+
+<li>
+    <a ui-sref="main.index">
+        <i class="fa  fa-pencil-square-o"></i>
+						<span class="title" translate="MY APPLICATION">
+							我的申请
+						</span>
+    </a>
+</li>
+<li>
+    <a>
+        <i class="fa  fa-calendar"></i>
+						<span class="title" translate="CALENDAR">
+							行事历
+						</span>
+						<span class="arrow ">
+						</span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            <a ui-sref="main.list({list:'Group'})">
+                <i class="fa  fa-group"></i>
+                Group
+            </a>
+        </li>
+        <li>
+            <a ui-sref="main.list({list:'User'})">
+                <i class="fa fa-user"></i>
+                User
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a ui-sref="main.list({list:'Announcement'})">
+        <i class="fa fa-folder"></i>
+						<span class="title" translate="FOLDER">
+							文件夹
+						</span>
+    </a>
+</li>
+
+<li>
+    <a href>
+        <i class="fa fa-phone-square"></i>
+						<span class="title" translate="CONTACTS">
+							通讯录
+						</span>
+    </a>
+</li>
+
+
+<li>
+    <a href>
+        <i class="fa fa-laptop"></i>
+						<span class="title" translate="PERSONAL OFFICE">
+							个人办公
+						</span>
+						<span class="arrow ">
+						</span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            <a href>
+                <i class="fa fa-folder-open"></i> Item 1
+								<span class="arrow">
+								</span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href>
+                        <i class="fa fa-angle-double-right"></i>
+                        Sample Link 1
+										<span class="arrow">
+										</span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-angle-double-right"></i> Sample Link 1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-angle-double-right"></i> Sample Link 1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-angle-double-right"></i> Sample Link 1
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 2
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 3
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href>
+                <i class="fa fa-folder-open"></i> Item 2
+								<span class="arrow">
+								</span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 1
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-angle-double-right"></i> Sample Link 1
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fa fa-folder-open"></i>
+                Item 3
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li>
+    <a href>
+        <i class="fa fa-briefcase"></i>
+						<span class="title" translate="ADMINISTRATIVE">
+							综合行政
+						</span>
+						<span class="arrow ">
+						</span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            <a ui-sref="main.list({list:'TravelRequest'})">
+                <i class="fa fa-file-o"></i> Travel Request
+            </a>
+        </li>
+        <li>
+            <a ui-sref="main.list({list:'TravelExpenseReport'})">
+                <i class="fa fa-file-o"></i> Travel Expense Report
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="last">
+    <a href>
+        <i class="fa fa-cog"></i>
+						<span class="title" translate="KNOWLEDGE MANAGEMENT">
+							知识管理
+						</span>
+						<span class="arrow ">
+						</span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            <a ui-sref="main.report-TravelExpenseReport">
+                <i class="fa fa-file-o"></i> Travel Expense Report
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="last">
+    <a href>
+        <i class="fa fa-files-o"></i>
+						<span class="title" translate="REPORT">
+							报告
+						</span>
+						<span class="arrow ">
+						</span>
+    </a>
+    <ul class="sub-menu">
+        <li>
+            <a ui-sref="main.report-TravelExpenseReport">
+                <i class="fa fa-file-o"></i> Travel Expense Report
+            </a>
+        </li>
+    </ul>
+</li>
+</ul>
+<!-- END SIDEBAR MENU -->
+</div>

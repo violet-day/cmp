@@ -1,0 +1,39 @@
+{
+  "name": "ExpensesClaimRequest",
+  "base": "Item",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "columns": [],
+  "views": [],
+  "wfAss": [
+    {
+      "title": "费用报销流程",
+      "workflow": "ApproveWorkflow",
+      "associatedData": {
+        "order": [
+          {
+            "assigned": [
+              {
+                "principalType": "ROLE",
+                "principalId": "IT_经理"
+              }
+            ],
+            "type": "Parallel"
+          },
+          {
+            "assigned": [
+              {
+                "principalType": "ROLE",
+                "principalId": "总经理"
+              }
+            ],
+            "type": "Parallel"
+          }
+        ]
+      }
+    }
+  ],
+  "acls": [],
+  "methods": []
+}

@@ -1,0 +1,7 @@
+<ul class="page-breadcrumb breadcrumb">
+    <li ng-repeat="step in steps">
+        <a href="{{step.ncyBreadcrumbLink}}" ng-bind-html="step.ncyBreadcrumbLabel">
+        </a>
+        <i class="fa fa-angle-right" ng-show="!$last"></i>
+    </li>
+</ul>

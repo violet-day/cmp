@@ -1,0 +1,55 @@
+<form class="form-horizontal" name="frm" ng-submit="submit()">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title" translate="Add Workflow"></h4>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="title" class="control-label col-sm-3 " translate="Title"></label>
+
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="title" name="title"
+                   ng-model="doc.title" required unique="WorkflowAssociation" ui-message=""/>
+            <span class="help-block">键入此工作流的名称。 该名称将用于向此列表的用户标识此工作流。 </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-3"
+                 translate="Workflow Template"></label>
+
+          <div class="col-sm-9">
+            <ui-select class="form-control" ng-model="doc.workflowTemplateId"
+                       selector="{service:'WorkflowTemplate'}" required="" ui-message="">
+              <ui-select-match>{{$select.selected.title}}</ui-select-match>
+              <ui-select-choices
+                repeat="item.id as item in WorkflowTemplateSelector | filter: $select.search">
+                <div ng-bind-html="item.title | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <span class="help-block">传送文档供审批。审批者可以批准或拒绝文档、重新分配审批任务或请求更改文档。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" translate="Submit"
+            data-ng-disabled="frm.$invalid && !doc.associateData"></button>
+
+    <button type="button" class="btn btn-default" translate="Cancel"
+            ui-sref="main.wrkSetting({list:$stateParams.list})"></button>
+  </div>
+
+
+</form>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserGroupMap xmlns="urn:deployment-usergroupmap-schema">
+    <Users>
+        <User Id="1" Name="MSD\spFarmAcc" Login="MSD\spfarmacc" Email="" IsDomainGroup="false" IsSiteAdmin="true" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiUAQAAA==" IsDeleted="false" MobilePhone="1526273525" Flags="0" />
+        <User Id="8" Name="张爱民" Login="MSD\zhangaimin" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiZwQAAA==" IsDeleted="false" Flags="0" />
+        <User Id="9" Name="jiatingyu" Login="MSD\jiatingyu" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiaAQAAA==" IsDeleted="false" MobilePhone="" Flags="0" />
+        <User Id="10" Name="MSD\tianshui" Login="MSD\tianshui" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiawQAAA==" IsDeleted="false" Flags="0" />
+        <User Id="11" Name="fengfeng" Login="MSD\fengfeng" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiaQQAAA==" IsDeleted="false" MobilePhone="" Flags="0" />
+        <User Id="13" Name="MSD\Administrator" Login="MSD\administrator" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxi9AEAAA==" IsDeleted="false" Flags="0" />
+        <User Id="54" Name="MSD\tangjie " Login="MSD\tangjie" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxiagQAAA==" IsDeleted="false" Flags="0" />
+        <User Id="55" Name="MSD\nemo" Login="MSD\nemo" Email="" IsDomainGroup="false" IsSiteAdmin="false" SystemId="AQUAAAAAAAUVAAAAVBbQwd9vfhHyTgxibwQAAA==" IsDeleted="false" Flags="0" />
+    </Users>
+    <Groups />
+</UserGroupMap>

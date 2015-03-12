@@ -1,0 +1,26 @@
+{
+  "name": "WorkflowLog",
+  "base": "PersistedModel",
+  "properties": {
+    "body": {
+      "type": "string",
+      "description": "内容"
+    },
+    "type": {
+      "type": "string",
+      "default": "Log",
+      "enum": [
+        "Debug",
+        "Error",
+        "Log"
+      ]
+    }
+  },
+  "mixins": {
+    "TimeStamp": true
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

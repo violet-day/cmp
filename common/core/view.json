@@ -1,0 +1,26 @@
+{
+  "name": "View",
+  "base": "PersistedModel",
+  "properties": {
+    "principalType": "string",
+    "principalId": "string",
+    "columns": {
+      "type": "object",
+      "required": true
+    }
+  },
+  "mixins": {
+    "Core": true,
+    "TimeStamp": true,
+    "Owner": true
+  },
+  "validations": [],
+  "relations": {
+    "list": {
+      "type": "belongsTo",
+      "model": "List"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

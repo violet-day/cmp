@@ -1,0 +1,19 @@
+<form role="form" name="frm" ng-submit="submit()">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title"><%= modelName %></h4>
+  </div>
+  <div class="modal-body">
+    <% columns.forEach(function(col){
+      %>
+    <div class="form-group">
+      <label class="control-label"><%=col.displayName%></label>
+      <p class="form-control-static" ng-bind="doc.<%= col.name %>"></p>
+    </div>
+    <%
+    }) %>
+
+  </div>
+  <div class="modal-footer">
+  </div>
+</form>

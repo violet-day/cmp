@@ -1,0 +1,35 @@
+{
+  "name": "WorkflowTask",
+  "base": "Task",
+  "properties": {
+    "changedMethod": {
+      "type": "string",
+      "description": "发生变化时的方法"
+    },
+    "extendProp": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "columns": [
+    "core:status",
+    "project:assignTo",
+    "project:startDate",
+    "workflow:instanceId",
+    "workflow:workflowAssociationId",
+    "workflow:outcome"
+  ],
+  "validations": [],
+  "relations": {
+    "workflowAssociation": {
+      "type": "belongsTo",
+      "model": "WorkflowAssociation"
+    },
+    "instance": {
+      "type": "belongsTo",
+      "model": "WorkflowInstance"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

@@ -1,0 +1,111 @@
+<form class="form-horizontal" role="form" name="frm" ng-submit="submit()">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title">Post</h4>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-3" for="title">Title</label>
+
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="title" name="title"
+                   ng-model="doc.title" required/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-3" for="status">Status</label>
+
+          <div class="col-sm-9">
+            <input type="checkbox" class="form-control" id="status" name="status" bs-switch
+                   ng-model="doc.status">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="select" class="col-sm-3 control-label">Select</label>
+
+          <div class="col-sm-9">
+            <select class="form-control" id="select" name="select" ui-select2 ng-model="doc.select2">
+              <option value="one">First</option>
+              <option value="two">Second</option>
+              <option value="three">Third</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label col-sm-3" for="remark">Remark</label>
+
+          <div class="col-sm-9">
+            <textarea class="form-control" name="remark" id="remark" cols="30" rows="3" ng-model="doc.remark"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">附件</label>
+
+          <div class="col-sm-9" ng-attachment>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="control-label">富文本1</label>
+
+          <div ng-model="doc.fulltext" text-angular="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="row">-->
+      <!--<div class="clo-ms-12">-->
+        <!--<table class="table table-bordered">-->
+          <!--<thead>-->
+          <!--<tr>-->
+            <!--<th>#</th>-->
+            <!--<th>Username</th>-->
+          <!--</tr>-->
+          <!--</thead>-->
+          <!--<tbody>-->
+          <!--<tr ng-repeat="i in log">-->
+            <!--<td>-->
+              <!--<input type="text" ng-model="i.username"/>-->
+            <!--</td>-->
+            <!--<td>-->
+              <!--<div repeat-table="{item:{username:null},rows:'log'}"></div>-->
+            <!--</td>-->
+          <!--</tr>-->
+          <!--</tbody>-->
+        <!--</table>-->
+      <!--</div>-->
+    <!--</div>-->
+
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$dismiss()">Cancel</button>
+  </div>
+</form>

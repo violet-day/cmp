@@ -1,0 +1,7 @@
+<div ng-show="state.blockCount > 0" class="block-ui-overlay" ng-class="{ 'block-ui-visible': state.blocking }"></div>
+<div ng-show="state.blocking" class="block-ui-message-container">
+  <div class="loading-message">
+    <img src="./assets/img/loading-spinner-grey.gif">
+    <span>&nbsp;&nbsp;{{ state.message }}</span>
+  </div>
+</div>

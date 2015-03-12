@@ -1,0 +1,59 @@
+{
+  "name": "Post",
+  "base": "Item",
+  "description": "笔记",
+  "views": [],
+  "wfAss": [
+    {
+      "title": "测试流程",
+      "workflow": "ApproveWorkflow",
+      "associatedData": {
+        "queue": [
+          {
+            "assignTo": [
+              "ROLE#IT经理"
+            ],
+            "type": "serial"
+          },
+          {
+            "assigned": [
+              "ROLE#IT经理"
+            ],
+            "type": "serial"
+          }
+        ]
+      }
+    }
+  ],
+  "columns": [
+    "core:title",
+    "core:created",
+    "core:ownerId",
+    "core:modified",
+    "core:modifierId",
+    "Post:tags",
+    "core:remark"
+  ],
+  "properties": {
+    "tags": {
+      "type": "string",
+      "required": true,
+      "description": "标签"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "person": {
+      "type": "belongsTo",
+      "model": "Person"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "Administrator",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": []
+}

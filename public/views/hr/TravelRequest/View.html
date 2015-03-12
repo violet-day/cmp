@@ -1,0 +1,131 @@
+<form action="#" class="form-horizontal">
+    <div class="modal-header">
+        <h4 class="modal-title" ng-bind="'TRAVEL_APPLICATION'|translate"></h4>
+    </div>
+    <div class="modal-body padding-0">
+        <div class="form-body">
+
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'TRAVEL_APPLICATION'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.title"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'DEPARTMENT'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.department"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'APPLICANT'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.initiator.title"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'APPLICATION_TIME'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.requestTime | date:'yyyy-MM-dd HH:mm'"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'START_TIME'|translate"></label>
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.start | date:'yyyy-MM-dd HH:mm'"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'END_TIME'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.end | date:'yyyy-MM-dd HH:mm'"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Abroad"></label>
+                        <div class="col-md-6">
+                            <input type="checkbox" ng-model="doc.abroad" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Plane"></label>
+                        <div class="col-md-6">
+                            <input type="checkbox" ng-model="doc.plane" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'TOTAL_DAYS'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.days"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-6" ng-bind="'BUDGET'|translate"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.money"></p>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3" ng-bind="'TRAVEL_REASON'|translate"></label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static" ng-bind="doc.reason"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

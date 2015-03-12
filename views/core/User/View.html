@@ -1,0 +1,237 @@
+<form class="form-horizontal" ng-submit="submit()">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title">User</h4>
+</div>
+<div class="modal-body padding-0">
+<div class="form-body">
+<tabset>
+<tab heading="General">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">First Name</label>
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.firstName"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Last Name</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.lastName"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Initial</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.initial"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">DisplayName</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.displayName"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Description</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.description"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Office</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.office"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Telephones</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.telephones.join(',')"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Email</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.email"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</tab>
+<tab heading="Account">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Login Name</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.username"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Status</label>
+
+                <div class="col-md-9">
+                    <input type="checkbox" class="form-control" id="status" name="status" bs-switch
+                           ng-model="doc.status" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</tab>
+<tab heading="Organization">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Company</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.company"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Department</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.department"></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Job</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.job"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Manager</label>
+
+                <div class="col-md-9">
+                    <p class="form-control-static" ng-bind="doc.manager.title"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-3">Director Reports</label>
+
+                <div class="col-md-9">
+                    <div class="table-responsive flip-scroll">
+                        <table class="table table-striped table-bordered table-condensed table-hover flip-content">
+                            <thead>
+                            <tr>
+                                <th>
+                                    LoginName
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in reporters">
+                                <td ng-bind="item.title">
+                                </td>
+                                <td ng-bind="item.description">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</tab>
+<tab heading="MemberOf">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive flip-scroll">
+                <table class="table table-striped table-bordered table-condensed table-hover flip-content">
+                    <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="group in groups">
+                        <td ng-bind="group.title">
+                        </td>
+                        <td ng-bind="group.description">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</tab>
+</tabset>
+<!--/row-->
+
+
+</div>
+</div>
+</form>

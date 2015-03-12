@@ -1,0 +1,10 @@
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href translate="Insert after this row" ng-click="insert($index+1)" ng-hide="rows.length>5"></a></li>
+    <li><a href translate="Insert before this row" ng-click="insert($index)"></a></li>
+    <li><a href translate="Delete this row" ng-click="del($index)"></a></li>
+  </ul>
+</div>

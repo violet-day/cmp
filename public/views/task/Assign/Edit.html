@@ -1,0 +1,68 @@
+<form class="form-horizontal" role="form" name="taskForm" ng-submit="submit()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"></button>
+        <h4 class="modal-title">Task</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group ">
+            <label class="col-md-3 control-label">Title</label>
+
+            <div class="col-md-9">
+                <p class="form-control-static" ng-bind="task.title"></p>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-md-3 control-label">Description</label>
+
+            <div class="col-md-9">
+                <p class="form-control-static" ng-bind="task.description"></p>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="col-md-3 control-label">Initial Item</label>
+
+            <div class="col-md-9">
+                <p class="form-control-static btn-link" ng-bind="task.instance.initialItem.title"
+                   ng-click="viewInitialItem(task.instance.initialItem)"></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Status</label>
+
+            <div class="col-md-9">
+                <select class="form-control" ng-model="task.status"
+                        ng-options="status for status in ['TASK_PENDING','TASK_PROGRESSING','TASK_COMPLETED']">
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-show="moderationLog.length>0">
+            <label class="col-md-3 control-label">Moderation Log</label>
+
+            <div class="col-md-9">
+                <dl style="margin-bottom: 5px;border-bottom: 1px dotted #cccccc" ng-repeat="log in moderationLog">
+                    <dt> {{log.user.title}}:
+                    <div style="float: right;color:#666666;font-weight: normal">{{log.createAt | date:'MM/dd HH:mm'}}
+                    </div>
+                    </dt>
+                    <dd>{{log.body}}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Comment</label>
+
+            <div class="col-md-9">
+                <textarea class="form-control" name="comment"
+                          cols="30" rows="3" ng-model="task.comment" required></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default" ng-click="cancel()"
+                translate="Cancel"></button>
+        <button type="submit" class="btn btn-success"
+                data-ng-disabled="taskForm.$invalid"
+                translate="Submit"></button>
+    </div>
+</form>

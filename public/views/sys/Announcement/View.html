@@ -1,0 +1,22 @@
+<form class="form-horizontal" role="form" name="frm">
+    <div class="modal-header">
+        <h4>Announcement</h4>
+    </div>
+    <div class="modal-body">
+        <table width="100%">
+            <tr>
+                <td class="announcement-modal-title" colspan="2" ng-bind="doc.title"></td>
+            </tr>
+            <tr>
+                <td width="147" class="announcement-modal-expires"><i style="color: #8ea8a8" class="fa fa-calendar"></i> <span ng-bind="doc.expires | date:'yyyy-MM-dd HH:mm:ss'"></span> </td>
+                <td class="announcement-modal-tag"><i style="color: #8ea8a8" class="fa fa-tags"></i> Tag : <span class="blog-tags" ng-bind="doc.tags"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2" height="1" bgcolor="#808080"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="announcement-modal-body" ng-bind-html="doc.body" ></td>
+            </tr>
+        </table>
+    </div>
+</form>

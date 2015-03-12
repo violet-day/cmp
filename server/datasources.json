@@ -1,0 +1,55 @@
+{
+  "dev": {
+    "host": "221.224.215.171",
+    "port": 4206,
+    "database": "cmp",
+    "username": "nemo",
+    "password": "Harttech",
+    "name": "dev",
+    "connector": "mysql"
+  },
+  "local": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "test",
+    "username": "root",
+    "password": "123456",
+    "name": "local",
+    "connector": "mysql"
+  },
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "document": {
+    "name": "document",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./document"
+  },
+  "mailDS": {
+    "name": "mailDS",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "smtp",
+        "host": "smtp.exmail.qq.com",
+        "secure": false,
+        "port": 25,
+        "tls": {
+          "rejectUnauthorized": false
+        },
+        "auth": {
+          "user": "erp@optachem.com",
+          "pass": "OptaMeet2014"
+        }
+      }
+    ]
+  },
+  "attachment": {
+    "name": "attachment",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./attachment"
+  }
+}

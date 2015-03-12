@@ -1,0 +1,13 @@
+{
+  "name": "ApproveTask",
+  "base": "WorkflowTask",
+  "properties": {
+    "approval":{
+      "type":"string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

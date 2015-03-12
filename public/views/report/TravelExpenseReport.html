@@ -1,0 +1,97 @@
+<div class="page-content">
+    <!-- BEGIN PAGE HEADER-->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+            <h3 class="page-title">
+                TravelExpenseReport
+                <small></small>
+            </h3>
+            <div ncy-breadcrumb></div>
+            <!-- END PAGE TITLE & BREADCRUMB-->
+        </div>
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+    <div class="row">
+        <div class="col-md-12">
+
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    <label>Initiator</label>
+                    <input type="text" class="form-control" ng-model="searchInfo.initiator" placeholder="Initiator">
+                </div>
+                <div class="form-group">
+                    <label>Cost Center</label>
+                    <input type="text" class="form-control" ng-model="searchInfo.center" placeholder="Cost Center">
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" class="form-control" ng-model="searchInfo.workTime" placeholder="Date">
+                </div>
+            </form>
+            <div class="table-responsive scroller">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Cost Center
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Location
+                        </th>
+                        <th>
+                            Customer
+                        </th>
+                        <th>
+                            Air ticket
+                        </th>
+                        <th>
+                            Hotel
+                        </th>
+                        <th>Train&Bus</th>
+                        <th>Others</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in rows | filter: {'initiator.title':searchInfo.initiator,center:searchInfo.center,'info.workTime':searchInfo.workTime}">
+                        <td ng-bind="row.initiator.title"></td>
+                        <td ng-bind="row.center"></td>
+                        <td ng-bind="row.info.workTime"></td>
+                        <td ng-bind="row.info.location"></td>
+                        <td ng-bind="row.info.customer"></td>
+                        <td ng-bind="row.info.air | currency"></td>
+                        <td ng-bind="row.info.hotel | currency"></td>
+                        <td ng-bind="row.info.bus | currency"></td>
+                        <td ng-bind="row.info.other | currency"></td>
+                        <td ng-bind="(row.info.air+row.info.hotel+row.info.bus) | currency"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sum:</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ng-bind="rows | filter: {'initiator.title':searchInfo.initiator,center:searchInfo.center,'info.workTime':searchInfo.workTime} | Sum:'info.air' | currency"></td>
+                        <td ng-bind="rows | filter: {'initiator.title':searchInfo.initiator,center:searchInfo.center,'info.workTime':searchInfo.workTime} | Sum:'info.hotel' | currency"></td>
+                        <td ng-bind="rows | filter: {'initiator.bus':searchInfo.initiator,center:searchInfo.center} | Sum:'info.bus' | currency"></td>
+                        <td ng-bind="rows | filter: {'initiator.bus':searchInfo.initiator,center:searchInfo.center} | Sum:'info.other' | currency"></td>
+                        <td ng-bind="rows
+                            | filter: {'initiator.bus':searchInfo.initiator,center:searchInfo.center}
+                            | Sum:'info.air,info.hotel,info.bus,info.other' | currency"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+</div>
+

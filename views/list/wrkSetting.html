@@ -1,0 +1,46 @@
+<div class="page-content">
+  <!-- BEGIN PAGE HEADER-->
+  <div class="row">
+    <div class="col-md-12">
+      <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+      <h3 class="page-title">
+        Workflow Setting
+        <small>blank page</small>
+      </h3>
+      <div ncy-breadcrumb></div>
+      <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+  </div>
+  <!-- END PAGE HEADER-->
+  <!-- BEGIN PAGE CONTENT-->
+  <div class="row">
+    <div class="col-md-12">
+
+      <accordion>
+        <accordion-group heading="{{ass.title}}" ng-repeat="ass in wfAss">
+          <accordion-heading>
+            {{ass.title}} <span class="badge badge-info" ng-bind="ass.instances.length"></span>
+            <button type="button" class="btn btn-info" translate="Associate Data" ng-click="setAssociateData(ass)"
+                    popover="click here to set the associate data" popover-trigger="mouseenter"></button>
+          </accordion-heading>
+          <div class="list-group">
+            <a ui-sref="main.wrkStat({workflow:ass.title,instanceId:log.id})" class="list-group-item"
+               ng-repeat="instance in ass.instances | orderBy:['-workflowState','-completeAt','-created']">
+              {{log}}
+
+              <span ng-bind="instance.created | date:'yyyy-MM-dd HH:mm:ss'"></span>
+              <span ng-bind="instance.completeAt | date:'yyyy-MM-dd HH:mm:ss'"></span>
+
+              <span class="badge badge-info" ng-bind="instance.workflowState"></span>
+            </a>
+          </div>
+        </accordion-group>
+      </accordion>
+
+      <p>
+        <button type="button" class="btn btn-default" ng-click="addWorkflowAss()" translate="Add Workflow"></button>
+      </p>
+    </div>
+  </div>
+  <!-- END PAGE CONTENT-->
+</div>

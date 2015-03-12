@@ -1,0 +1,55 @@
+{
+  "name": "Item",
+  "base": "PersistedModel",
+  "strict": false,
+  "properties": {
+    "attachments": {
+      "type": ["string"]
+    },
+    "status": {
+      "type": "string",
+      "default": "Draft",
+      "length": 10
+    },
+    "remark": {
+      "type": "string"
+    },
+    "lk_update": {
+      "type": "boolean",
+      "default": false
+    },
+    "lk_remove": {
+      "type": "boolean",
+      "default": false
+    },
+    "lk_workflow": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "instance": {
+      "type": "belongsTo",
+      "model": "WorkflowInstance"
+    },
+    "comments": {
+      "type": "embedsMany",
+      "model": "ModerationComment"
+    }
+  },
+  "mixins": {
+    "Core": true,
+    "TimeStamp": true,
+    "Owner": true
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "Administrator",
+      "permission": "ALLOW"
+    }
+  ],
+  "indexes": {},
+  "methods": []
+}

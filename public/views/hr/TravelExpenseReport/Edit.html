@@ -1,0 +1,183 @@
+<form class="form-horizontal" ng-submit="submit()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"></button>
+        <h4 class="modal-title" translate="TravelExpenseReport"></h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Applicant"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.initiator.title"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="TravelRequest"></label>
+
+                        <div class="col-md-6">
+                            <a ng-click="reWatch(doc.request)">
+                                <p class="form-control-static" ng-bind="doc.request.title"></p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Department"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.department"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Company"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.company"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Application Time"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.requestTime | date:'yyyy-MM-dd HH:mm:ss'"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Total Expense Amount"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.total |currency"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Cost Center"></label>
+
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="center" id="center" ng-model="doc.center"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Balance due Employee"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="doc.balance"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-6" translate="Received Date"></label>
+
+                        <div class="col-md-6">
+                            <p class="form-control-static" ng-bind="receivedDate"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="table-responsive flip-scroll">
+                        <table class="table table-striped table-bordered table-condensed table-hover flip-content">
+                            <thead>
+                            <tr>
+                                <th translate="Date">
+                                </th>
+                                <th translate="Location">
+                                </th>
+                                <th translate="Customer">
+                                </th>
+                                <th translate="Air ticket">
+                                </th>
+                                <th translate="Hotel">
+                                </th>
+                                <th translate="Train&Bus">
+                                </th>
+                                <th translate="Others">
+                                </th>
+                                <th>
+                                    <a class="btn"
+                                       ng-click="doc.info.push({workTime: null,location: null,customer: null,air: 0,hotel: 0,bus: 0,other: 0})"
+                                       ng-bind="'ADD'|translate"></a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in doc.info">
+                                <td>
+                                    <input type="text" class="form-control" ng-model="item.workTime" date-picker
+                                           required ui-message/>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="item.location" required
+                                           ui-message/>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="item.customer" required
+                                           ui-message/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" ng-model="item.air" step="any" required ui-message/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" ng-model="item.hotel" step="any" required ui-message/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" ng-model="item.bus" step="any" required ui-message/>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control" ng-model="item.other" step="any" required ui-message/>
+                                </td>
+                                <th>
+                                    <a class="btn" ng-click="doc.info.splice($index,1)"
+                                       ng-bind="'DELETE'|translate"></a>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-disabled="frm.$invalid" translate="Submit"></button>
+        <button type="button" class="btn btn-default" ng-click="cancel()" translate="Cancel"></button>
+    </div>
+</form>

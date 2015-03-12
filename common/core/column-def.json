@@ -1,0 +1,30 @@
+{
+  "name": "ColumnDef",
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "displayName": {
+      "type": "string",
+      "required": true
+    },
+    "cellTemplate": {
+      "type": "string"
+    },
+    "cellFilter": {
+      "type": "string"
+    },
+    "aggregationType": {
+      "type": "string"
+    }
+  },
+  "mixins":{
+    "Core":true
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

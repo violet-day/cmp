@@ -1,0 +1,419 @@
+a.white{
+    color: #ffffff;
+    cursor: pointer;
+}
+a.white:hover{
+    color: #ffffff;
+}
+.modal-body {
+    position: relative;
+    padding: 15px;
+    min-height: 320px;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 25px;
+    padding: 0 10px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.login-welcome{
+    width: 300px;
+    height: 30px;
+    float: left;
+    line-height: 30px;
+    padding-left: 20px;
+    margin-top: -5px;
+    color: #718383;
+    font-size: 16px;
+    font-weight: bold;
+}
+.login-my-container{
+    width:1160px;
+    height: 325px;
+    background-color: #571067;
+    background: url("../img/loginbg.jpg") no-repeat;
+    position:absolute;
+    top:40%;
+    margin-top:-110px;
+}
+.login-brand{
+    min-width: 202px;
+    position: absolute;
+    top: 90px;
+}
+.login-main{
+    width: 297px;
+    height: 286px;
+    position: absolute;
+    top: -68px;
+    left: 550px;
+}
+.login-main-choose-language{
+    width: 100%;
+    float: left;
+}
+.login-main-choose-language-txt{
+    width: 100%;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    color: #082c58;
+}
+.login-main-choose-language select{
+    width: 120px;
+    height: 20px;
+    color: #8c8c8c;
+    border-radius: 0px;
+}
+.login-main-main{
+    width: 220px;
+    height: 188px;
+    margin-top: 20px;
+    float: right;
+    text-align: right;
+}
+.login-main-main-txt{
+    width: 100%;
+    text-align: right;
+    color: white;
+    font-size: 24px;
+}
+.login-user{
+    height: 25px;
+    background: url("../img/user.gif") no-repeat left white;
+    padding-left: 25px;
+    margin-top: 10px;
+    border-radius: 0px;
+}
+.login-passport{
+    height: 25px;
+    background: url("../img/passport.gif") no-repeat left 5px white;
+    padding-left: 25px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 0px;
+}
+.login-login-button{
+    width: 85px;
+    height: 30px;
+    float: right;
+    line-height: 30px;
+    background-color: #119eba;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-bottom: 1px solid #a7b8bb;
+}
+.login-forget{
+    width: 100%;
+    float: right;
+    margin-top: 10px;
+    color: white;
+    text-align: right;
+    font-weight: bold;
+    cursor: pointer;
+}
+.login-support{
+    width: 100%;
+    float: left;
+    text-align: right;
+    color: #C2C2C2;
+    font-size: 10px;
+    margin-top: 20px;
+}
+
+
+
+a.white {
+    color: white;
+    text-decoration: none;
+}
+
+a.white:hover {
+    color: white;
+    text-decoration: none;
+}
+
+li{
+    overflow: hidden;
+    color: #337eb7;
+}
+
+.margin-top {
+    margin-top: 10px;;
+}
+
+.padding-right-10 {
+    padding-right: 0px;
+}
+.page-content .page-breadcrumb.breadcrumb {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    box-shadow: none;
+    padding-right: 30px;
+    padding-left: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0px !important;
+    background-color: #eee;
+}
+
+/*replace*/
+@media (min-width: 992px) {
+    .page-sidebar {
+        width: 230px;
+        float: left;
+        position: relative;
+        margin-right: -100%;
+    }
+
+    .page-content {
+        margin-left: 230px;
+        margin-top: 0px;
+        min-height: 600px;
+        padding: 0px 10px 10px 10px;
+    }
+
+    .padding-left {
+        padding-left: 0;
+    }
+
+    .padding-right {
+        padding-right: 0;
+    }
+
+    .padding-right-10 {
+        padding-right: 15px;
+    }
+
+    .margin-top {
+        margin-top: 0;;
+    }
+}
+
+.page-sidebar .sidebar-search .form-container {
+    margin: 15px 0 15px 0;
+    height: 35px;
+    padding-top: 7px;
+}
+
+.page-sidebar .sidebar-search .form-container input[type="text"] {
+    margin: 0px;
+    width: 180px;
+    border: 0px;
+    padding: 0 0 0 5px !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.page-sidebar .sidebar-toggler {
+    margin-top: 15px;
+    margin-left: 190px;
+}
+
+/*mine*/
+.my-column {
+    width: 100%;
+    float: left;
+}
+
+.my-column-research {
+    width: 100%;
+    height: 246px;
+    float: left;
+    border: 1px solid #5d7672;
+}
+
+.my-column-title-search {
+    width: 100%;
+    height: 30px;
+    float: left;
+    border-bottom: 1px solid #5d7672;
+    background-color: #c2cece;
+    line-height: 30px;
+    padding-left: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-right: 5px;
+}
+
+.my-column-title {
+    width: 100%;
+    height: 30px;
+    float: left;
+    border: 1px solid #5d7672;
+    background-color: #c2cece;
+    line-height: 30px;
+    padding-left: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-right: 5px;
+}
+
+.my-column-main {
+    width: 100%;
+    float: left;
+    /*padding: 5px;*/
+}
+
+.my-column-main li {
+    height: 25px;
+    width: 100%;
+    background-color: #fafafa;
+    line-height: 25px;
+    margin-left: -30px;
+    margin-top: 5px;
+    border-bottom: 1px solid #8baba6;
+    list-style: inherit;
+}
+.carousel-indicators {
+    position: absolute;
+    height: 20px;
+    line-height: 25px;
+    bottom: 0px;
+    left: 0;
+    z-index: 15;
+    padding-right: 20px;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+    text-align: right;
+    list-style: none;
+}
+.carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: none;
+    border: 0px solid #ffffff;
+    background: url("../img/dot.png") no-repeat center;
+}
+.carousel-indicators .active {
+    width: 12px;
+    height: 12px;
+    margin: 0;
+    background-color:none;
+    background: url("../img/dot_on.png") no-repeat center;
+}
+.icon-style {
+    width: 25px;
+    height: 25px;
+    float: left;
+    background-color: #6a9699;
+    color: #FFFFFF;
+    line-height: 25px;
+    text-align: center;
+    font-size: 15px;
+    margin-right: 5px;;
+}
+
+.my-column-pic {
+    width: 100%;
+    float: left;
+    margin-top: 0px;;
+}
+.research-button {
+    background-color: #67a3bb;
+    padding: 5px 10px;
+    text-align: center;
+    color: white;
+}
+
+.research-button:hover {
+    background-color: #88bbcf;
+}
+.my-column-main-title{
+    height: 25px;
+    width: 90%;
+    background-color: #fafafa;
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    line-height: 25px;
+    margin-top: 5px;
+    overflow: hidden;
+    border-bottom: 1px solid #8baba6;
+}
+.my-column-main-title-0{
+    height: 25px;
+    width: 100%;
+    padding: 0 10px;
+    background-color: #fafafa;
+    float: left;
+    line-height: 25px;
+    margin-top: 5px;
+    overflow: hidden;
+    border-bottom: 1px solid #8baba6;
+}
+.pot{
+    width: 6px;
+    height: 6px;
+    float: left;
+    background: url("../img/icon-dot.png") no-repeat center;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.my-column2{
+    border: 2px solid #d1d1d1;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+.my-column2-div{
+    height: 25px;
+    float: left;
+    line-height: 25px;
+    color: #6a9699;
+    padding: 0 20px;
+}
+.my-column2-div i{
+    color: #636ca9;
+}
+.announcement-modal-title{
+    font-size: 14px;
+    font-weight: bold;
+}
+.announcement-modal-expires{
+    font-size: 10px;
+    color: #808080;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.announcement-modal-tag{
+    font-size: 10px;
+    color: #808080;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.announcement-modal-body{
+    font-size: 12px;
+    padding-top: 10px;
+    text-align: left;
+    line-height: 24px;
+    padding: 10px 20px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: '微软雅黑' arial, sans-serif;
+    font-weight: normal !important;
+    text-align: left;
+}

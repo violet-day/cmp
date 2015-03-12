@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Post:tags",
+    "name": "tags",
+    "type": "String",
+    "displayName": "标签",
+    "formControl": "<input type=\"text\" class=\"form-control\" id=\"tags\" name=\"tags\" ng-model=\"doc.tags\" ui-message/>"
+  }
+]

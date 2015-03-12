@@ -1,0 +1,146 @@
+<div class="page-content">
+  <!-- BEGIN PAGE HEADER-->
+  <div class="row">
+    <div class="col-md-12">
+      <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+      <h3 class="page-title">
+        {{'Workflow History' | translate}}
+        <small></small>
+      </h3>
+      <div ncy-breadcrumb></div>
+      <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+  </div>
+  <!-- END PAGE HEADER-->
+  <!-- BEGIN PAGE CONTENT-->
+
+  <div class="panel panel-success">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      <h3 class="panel-title" translate="Workflow Information"></h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="row">
+        <div class="col-md-6">
+          <label class="col-md-4" translate="Workflow Initiator"></label>
+
+          <div class="col-md-8">
+            <p ng-bind="instance.initiator.username"></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-md-4" translate="Workflow InitialItem"></label>
+
+          <div class="col-md-8">
+            <a href
+               title-link="{title:instance.workflowItemTitle,id:instance.workflowItemId,__t:instance.workflowList}"></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="col-md-4" translate="Workflow StartDate"></label>
+
+          <div class="col-md-8">
+            <p ng-bind="instance.created | date:'yyyy-MM-dd HH:mm:ss'"></p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="col-md-4" translate="Workflow Status"></label>
+
+          <div class="col-md-8">
+            <p ng-bind="instance.workflowState | translate"></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="col-md-2" translate="Workflow Last RunTime"></label>
+
+          <div class="col-md-10">
+            <p ng-bind="instance.modified | date:'yyyy-MM-dd HH:mm:ss'"></p>
+          </div>
+        </div>
+      </div>
+      <!--<button ng-show="instance.workflowState!=='CANCELED'" class="btn btn-danger" type="button"-->
+      <!--ng-click="cancelWorkflow(instance._id)">终止流程-->
+      <!--</button>-->
+    </div>
+  </div>
+
+  <div class="panel panel-success">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      <h3 class="panel-title" translate="Workflow Task"></h3>
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th translate="Task Assigned">
+          </th>
+          <th translate="Title">
+          </th>
+          <th translate="Task DueDate">
+
+          </th>
+          <th translate="Task Status">
+
+          </th>
+          <th translate="Task Outcome">
+
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in tasks">
+          <td ng-bind="task.assigned.title"></td>
+          <td>
+            <a href ng-bind="task.title" ng-click="viewTask(task)"></a>
+          </td>
+          <td ng-bind="task.dueDate | date:'yyyy-MM-dd HH:mm'"></td>
+          <td ng-bind="task.status | translate"></td>
+          <td ng-bind="task.outcome"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Table -->
+
+  </div>
+
+  <div class="panel panel-info">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      <h3 class="panel-title" translate="Workflow　Log"></h3>
+    </div>
+    <div class="panel-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th translate="Date">
+          </th>
+          <th translate="EventType">
+
+          </th>
+          <th translate="Body">
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="log in instance.workflowLogs">
+          <td ng-bind="log.created | date:'yyyy-MM-dd HH:mm'"></td>
+          <td ng-bind="log.type"></td>
+          <td ng-bind="log.body"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Table -->
+  </div>
+
+  <!-- END PAGE CONTENT-->
+</div>
+
+

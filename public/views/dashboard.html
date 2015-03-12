@@ -1,0 +1,292 @@
+<div class="page-content">
+
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title">
+            {{'Home' | translate}}
+            <small></small>
+        </h3>
+        <div ncy-breadcrumb></div>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<!-- END PAGE HEADER-->
+<div class="clearfix">
+</div>
+
+<!-- BEGIN DASHBOARD STATS -->
+<!--<div class="row">-->
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">-->
+<!--<div class="dashboard-stat blue">-->
+<!--<div class="visual">-->
+<!--<i class="fa fa-comments"></i>-->
+<!--</div>-->
+<!--<div class="details">-->
+<!--<div class="number">-->
+<!--1349-->
+<!--</div>-->
+<!--<div class="desc">-->
+<!--New Feedbacks-->
+<!--</div>-->
+<!--</div>-->
+<!--<a class="more" href="#">-->
+<!--View more <i class="m-icon-swapright m-icon-white"></i>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">-->
+<!--<div class="dashboard-stat green">-->
+<!--<div class="visual">-->
+<!--<i class="fa fa-shopping-cart"></i>-->
+<!--</div>-->
+<!--<div class="details">-->
+<!--<div class="number">-->
+<!--549-->
+<!--</div>-->
+<!--<div class="desc">-->
+<!--New Orders-->
+<!--</div>-->
+<!--</div>-->
+<!--<a class="more" href="#">-->
+<!--View more <i class="m-icon-swapright m-icon-white"></i>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">-->
+<!--<div class="dashboard-stat purple">-->
+<!--<div class="visual">-->
+<!--<i class="fa fa-globe"></i>-->
+<!--</div>-->
+<!--<div class="details">-->
+<!--<div class="number">-->
+<!--+89%-->
+<!--</div>-->
+<!--<div class="desc">-->
+<!--Brand Popularity-->
+<!--</div>-->
+<!--</div>-->
+<!--<a class="more" href="#">-->
+<!--View more <i class="m-icon-swapright m-icon-white"></i>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">-->
+<!--<div class="dashboard-stat yellow">-->
+<!--<div class="visual">-->
+<!--<i class="fa fa-bar-chart-o"></i>-->
+<!--</div>-->
+<!--<div class="details">-->
+<!--<div class="number">-->
+<!--12,5M$-->
+<!--</div>-->
+<!--<div class="desc">-->
+<!--Total Profit-->
+<!--</div>-->
+<!--</div>-->
+<!--<a class="more" href="#">-->
+<!--View more <i class="m-icon-swapright m-icon-white"></i>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!-- END DASHBOARD STATS -->
+<div class="clearfix">
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box yellow">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-bell-o"></i>Announcement
+                </div>
+                <div class="actions">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="scroller" data-always-visible="1" data-rail-visible="0">
+                    <ul class="feeds">
+                        <li ng-repeat="announcement in announcements">
+                            <a href ng-click="show(announcement)">
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="label label-sm label-info">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="cont-col2">
+                                            <div class="desc">
+                                                {{ announcement.title }}
+														<span class="label label-sm" ng-repeat="tag in announcement.tags" ng-bind="tag">
+															 Take action <i class="fa fa-share"></i>
+														</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col2">
+                                    <div class="date" ng-bind="announcement.lastModifiedDate | date:'yy-MM-dd'">
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="scroller-footer">
+                    <div class="pull-right">
+                        <a ui-sref="main.list({list:'Announcement'})">
+                            See All Records <i class="m-icon-swapright m-icon-gray"></i>
+                        </a>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row ">
+    <div class="col-md-6 col-sm-6">
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>{{ 'Requisition' | translate }}
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config">
+                    </a>
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive scroller" style="height: 305px;">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>
+                                CreateAt
+                            </th>
+                            <th>
+                                InitialItem
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="instance in instances">
+                            <td ng-bind="instance.createAt | date:'yyyy-MM-dd HH:mm'"></td>
+                            <td>
+                                <a class="btn-link" ng-click="viewInitialItem(instance.initialItem)"
+                                   ng-bind="instance.initialItem.title"></a>
+                            </td>
+                            <td>
+                                <a ui-sref="main.wrkStat({instanceId:instance._id})"
+                                   ng-bind="instance.workflowState | translate"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroller-footer">
+                    <div class="pull-right">
+                        <a href="#">
+                            See All Records <i class="m-icon-swapright m-icon-gray"></i>
+                        </a>
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//TODO:申请-->
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="portlet box green tasks-widget">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-check"></i>{{'TASKS'|translate}}
+                </div>
+                <div class="tools">
+                    <a href="#portlet-config" data-toggle="modal" class="config">
+                    </a>
+                    <a href="" class="reload">
+                    </a>
+                </div>
+                <div class="actions">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive scroller" style="height: 305px;">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>
+                                StartDate
+                            </th>
+                            <th>Title</th>
+                            <th>
+                                InitialItem
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="task in tasks">
+                            <td ng-bind="task.startDate | date:'yyyy-MM-dd HH:mm'"></td>
+                            <td>
+                                <a href ng-click="editTask(task)">
+                                    <div class="task-title">
+                                        <span class="task-title-sp " ng-bind="task.title"></span>
+                                        <small ng-bind="task.description"></small>
+                                        <span class="label label-sm label-danger" ng-bind="task.priority"></span>
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <a href ng-click="viewInitialItem(task.instance.initialItem)"
+                                   ng-bind="task.instance.initialItem.title"></a>
+                            </td>
+                            <td ng-bind="task.status | translate">
+                                <!---->
+                                <!--<a ui-sref="main.wrkStat({instanceId:instance._id})"-->
+                                   <!--ng-bind="instance.workflowState | translate"></a>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroller-footer">
+                    <div class="pull-right">
+                        <a href="#">
+                            See All Records <i class="m-icon-swapright m-icon-gray"></i>
+                        </a>
+                        &nbsp;
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix">
+</div>
+<div class="row ">
+    <div class="col-md-6 col-sm-6">
+
+    </div>
+    <div class="col-md-6 col-sm-6">
+    </div>
+</div>
+</div>
+

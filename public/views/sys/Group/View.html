@@ -1,0 +1,84 @@
+<form class="form-horizontal" ng-submit="submit()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"></button>
+        <h4 class="modal-title">Group</h4>
+    </div>
+    <div class="modal-body padding-0">
+        <div class="form-body">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static" ng-bind="doc.title"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Manager</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static" ng-bind="doc.manager.title"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Members</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                <span ng-repeat="item in doc.members" ng-bind="item.title + ' '"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">MemberOF</label>
+
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                <span ng-repeat="item in doc.memberOf" ng-bind="item.title + ' '"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Status</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static" ng-bind="doc.status">
+                            <!--<div class="btn-group">-->
+                                <!--<label class="btn btn-success" btn-radio="'NORMAL'">Normal</label>-->
+                                <!--<label class="btn btn-success" btn-radio="'LOCK'">Lock</label>-->
+                            <!--</div>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Description</label>
+
+                        <div class="col-md-9" ng-bind="doc.description">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

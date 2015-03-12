@@ -1,0 +1,63 @@
+[
+  {
+    "title": "core:title",
+    "name": "title",
+    "type": "string",
+    "displayName": "Title",
+    "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"row.entity\"></a></div>",
+    "formControl": "<input type=\"text\" class=\"form-control\" id=\"title\" name=\"title\" ng-model=\"doc.title\" ui-message/>",
+    "minWidth":160
+  },
+  {
+    "title": "core:created",
+    "name": "created",
+    "type": "date",
+    "displayName": "Created",
+    "cellFilter": "date:\"yyyy-MM-dd HH:mm\"",
+    "width":140
+  },
+  {
+    "title": "core:ownerId",
+    "name": "ownerId",
+    "type": "object",
+    "displayName": "Creator",
+    "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"{title:row.entity.owner.username,__t:'User',id:row.entity.ownerId}\"></a></div>",
+    "width":100
+  },
+  {
+    "title": "core:modified",
+    "name": "modified",
+    "type": "date",
+    "displayName": "Modified",
+    "cellFilter": "date:\"yyyy-MM-dd HH:mm\"",
+    "width":140
+  },
+  {
+    "title": "core:modifierId",
+    "name": "modifierId",
+    "type": "number",
+    "displayName": "Modifier",
+    "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"{title:row.entity.modifier.username,__t:'User',id:row.entity.modifierId}\"></a></div>",
+    "width":100
+  },
+  {
+    "title": "core:status",
+    "name": "status",
+    "type": "string",
+    "displayName": "Status"
+  },
+  {
+    "title": "core:remark",
+    "name": "status",
+    "type": "string",
+    "displayName": "Remark",
+    "formControl": "<textarea class=\"form-control\" name=\"remark\" id=\"remark\" cols=\"30\" rows=\"3\" ng-model=\"doc.remark\"></textarea>"
+  },
+  {
+    "title": "core:username",
+    "name": "username",
+    "type": "string",
+    "displayName": "Username",
+    "width":100
+  }
+]

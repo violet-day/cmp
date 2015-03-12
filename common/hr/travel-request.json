@@ -1,0 +1,33 @@
+{
+  "name": "TravelRequest",
+  "base": "Item",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "columns": [],
+  "views": [],
+  "wfAss": [
+    {
+      "title": "出差申请流程",
+      "workflow": "ApproveWorkflow",
+      "associatedData": {
+        "queue": [
+          {
+            "assignTo": [
+              "Role#IT经理#1"
+            ],
+            "type": "serial"
+          },
+          {
+            "assigned": [
+              "ROLE#IT经理"
+            ],
+            "type": "serial"
+          }
+        ]
+      }
+    }
+  ],
+  "acls": [],
+  "methods": []
+}

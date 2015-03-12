@@ -1,0 +1,56 @@
+angular.module('cmp')
+.factory('<%= modelName %>Util', [function () {
+return {
+include: [
+{
+relation: 'owner',
+scope: {
+fields: ['username', 'email']
+}
+},
+{
+relation: 'modifier',
+scope: {
+fields: ['username', 'email']
+}
+}
+],
+menu:[],
+fn:{}
+}
+}])
+.controller('<%= modelName %>NewCtrl', ['$scope', '$modalInstance', '<%= modelName %>', 'toastr', 'doc',
+function ($scope, $modalInstance, <%= modelName %>, toastr, doc) {
+$scope.doc = doc;
+$scope.submit = function () {
+<%= modelName %>.create($scope.doc).$promise
+.then(function (result) {
+toastr.success('success');
+$modalInstance.close(result);
+}, function (reason) {
+toastr.error(reason.data.error.message);
+})
+};
+}])
+.controller('<%= modelName %>EditCtrl', ['$scope', '$modalInstance', '<%= modelName %>', 'toastr', 'doc',
+function ($scope, $modalInstance, <%= modelName %>, toastr, doc) {
+$scope.doc = <%= modelName %>.findById({id: doc.id});
+$scope.submit = function () {
+$scope.doc.$prototype$updateAttributes()
+.then(function (result) {
+toastr.success('success');
+$modalInstance.close(result);
+}, function (reason) {
+toastr.error(reason.data.error.message);
+})
+};
+}])
+.controller('<%= modelName %>ViewCtrl', ['$scope', '$modalInstance', '<%= modelName %>', 'doc',
+function ($scope, $modalInstance, <%= modelName %>, doc) {
+$scope.doc = <%= modelName %>.findOne({
+filter: {
+where: {id: doc.id},
+include: []
+}
+});
+}]);

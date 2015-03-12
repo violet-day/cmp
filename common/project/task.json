@@ -1,0 +1,33 @@
+{
+  "name": "Task",
+  "base": "Item",
+  "properties": {
+    "status": {
+      "type": "string",
+      "default":"Pending"
+    },
+    "assignTo": {
+      "type": "string",
+      "description": "分配对象"
+    },
+    "body": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "outcome": {
+      "type": "string",
+      "description":"结果"
+    },
+    "completed": {
+      "type": "boolean",
+      "default":false
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": []
+}

@@ -1,0 +1,96 @@
+<form class="form-horizontal" ng-submit="submit()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()"></button>
+        <h4 class="modal-title">Group</h4>
+    </div>
+    <div class="modal-body padding-0">
+        <div class="form-body">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Title</label>
+
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" ng-unique="Group" ng-model="doc.title" required ui-message/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Manager</label>
+
+                        <div class="col-md-9">
+                            <select class="form-control select2me" name="doc.manager" id="doc.manager"
+                                    ng-model="doc.manager" required ui-message
+                                    ui-select2>
+                                <option value=""></option>
+                                <option ng-repeat="user in UserSelector" value="{{user._id}}">{{user.title}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Members</label>
+                        <div class="col-md-9">
+
+                            <select class="form-control select2me" name="doc.members" id="doc.members" required ui-message
+                                    ng-model="doc.members" multiple
+                                    ui-select2>
+                                <option ng-repeat="user in UserSelector" value="{{user._id}}">{{user.title}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">MemberOF</label>
+
+                        <div class="col-md-9">
+                            <select class="form-control"
+                                    ng-model="doc.memberOf" multiple ui-select2>
+                                <option ng-repeat="group in GroupSelector" value="{{group._id}}">{{group.title}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Status</label>
+
+                        <div class="col-md-9">
+                            <div class="btn-group">
+                                <label class="btn btn-success" ng-model="doc.status" btn-radio="'NORMAL'">Normal</label>
+                                <label class="btn btn-success" ng-model="doc.status" btn-radio="'LOCK'">Lock</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Description</label>
+
+                        <div class="col-md-9">
+                            <textarea class="form-control" ng-model="doc.description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn default" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="btn blue">Submit</button>
+    </div>
+</form>

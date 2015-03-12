@@ -1,0 +1,36 @@
+{
+  "name": "WorkflowAssociation",
+  "base": "PersistedModel",
+  "properties": {
+    "autoStart": {
+      "type": "boolean",
+      "default": false,
+      "description": "满足情况是否自动启动"
+    },
+    "associatedData": {
+      "type": "object",
+      "description": "流程相关数据"
+    }
+  },
+  "mixins": {
+    "Core": true,
+    "TimeStamp": true
+  },
+  "validations": [],
+  "relations": {
+    "list": {
+      "type": "belongsTo",
+      "model": "List"
+    },
+    "workflowTemplate": {
+      "type": "belongsTo",
+      "model": "WorkflowTemplate"
+    },
+    "instances": {
+      "type": "hasMany",
+      "model": "WorkflowInstance"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LookupLists xmlns="urn:deployment-lookuplistmap-schema">
+    <LookupList Id="2db2b29c-6854-4cc6-852b-9c16ffb06c73" Url="/_catalogs/users" Included="false">
+        <LookupItems />
+    </LookupList>
+    <LookupList Id="87ee31f5-2ab1-4bbd-b265-b6e5b7f869f0" Url="/Cache Profiles" Included="true">
+        <LookupItems />
+    </LookupList>
+    <LookupList Id="da6a939c-04c5-4603-857b-fb8d238945be" Url="/qiguanbu/renshiguanli/Lists/List" Included="true">
+        <LookupItems>
+            <LookupItem Id="2" DocId="fbce7c94-465d-4260-8357-327d424d21d1" Url="/qiguanbu/renshiguanli/Lists/List/2_.000" Included="true" />
+            <LookupItem Id="1" DocId="fa2b6cf7-627f-4323-b26f-a2ca9269e874" Url="/qiguanbu/renshiguanli/Lists/List/1_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="2b991199-df4e-4afd-aed6-fa970500b5cb" Url="/qiguanbu/renshiguanli/DocLib" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="00000000-0000-0000-0000-000000000000" Url="" Included="false" />
+            <LookupItem Id="2" DocId="fca44709-55ae-46f5-aa50-d9222c85fc27" Url="/qiguanbu/renshiguanli/DocLib/帮助文件格式.docx" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="6d3d3af4-4b1b-4ecf-a48c-0f1da3278505" Url="/qiguanbu/renshiguanli/Lists/List21" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="a7ad2f35-afec-41ed-9aad-14c430ad997e" Url="/qiguanbu/renshiguanli/Lists/List21/1_.000" Included="true" />
+            <LookupItem Id="2" DocId="1742f9b0-40c5-4575-9488-37505dd78d12" Url="/qiguanbu/renshiguanli/Lists/List21/2_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="5f3441de-12c8-4b66-a36d-f5e5f3752ddc" Url="/qiguanbu/renshiguanli/Lists/List12" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="68245f28-f65b-4441-b586-1c754ba5b9b6" Url="/qiguanbu/renshiguanli/Lists/List12/1_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="4d8a5888-b88d-41a6-b39a-d02db69ad976" Url="/qiguanbu/renshiguanli/Lists/List7" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="9640f676-ab9f-4db6-b218-ae75b516ba35" Url="/qiguanbu/renshiguanli/Lists/List7/1_.000" Included="true" />
+            <LookupItem Id="3" DocId="c91cc771-ebcb-4d45-b0ec-51892dedf8c2" Url="/qiguanbu/renshiguanli/Lists/List7/3_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="81b04c4b-d22d-4252-9eba-93acb3b665b3" Url="/qiguanbu/renshiguanli/Lists/List9" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="c201aed5-d706-4ad5-ac1f-7ebf1953d20e" Url="/qiguanbu/renshiguanli/Lists/List9/1_.000" Included="true" />
+            <LookupItem Id="2" DocId="c2a21aac-24d9-4808-821c-9361e0d46b1a" Url="/qiguanbu/renshiguanli/Lists/List9/2_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="0e89885e-5743-4402-a6da-72afd7822723" Url="/qiguanbu/renshiguanli/Lists/List13" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="5f035ba8-4974-4517-8ffe-7ecc39dff925" Url="/qiguanbu/renshiguanli/Lists/List13/1_.000" Included="true" />
+            <LookupItem Id="2" DocId="275437d1-59fa-41fe-a428-803ee442eb90" Url="/qiguanbu/renshiguanli/Lists/List13/2_.000" Included="true" />
+            <LookupItem Id="4" DocId="4251b3f4-88fa-44b0-bf32-9a572087c8ef" Url="/qiguanbu/renshiguanli/Lists/List13/4_.000" Included="true" />
+            <LookupItem Id="3" DocId="05db2d63-ceb7-4bf8-8525-9cfe8ce5c7f1" Url="/qiguanbu/renshiguanli/Lists/List13/3_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="2ef59c16-9001-41ce-8dd8-673732f747f3" Url="/qiguanbu/renshiguanli/Lists/List8" Included="true">
+        <LookupItems>
+            <LookupItem Id="5" DocId="2cee0937-49bb-4772-8d7d-099da903f003" Url="/qiguanbu/renshiguanli/Lists/List8/5_.000" Included="true" />
+            <LookupItem Id="1" DocId="095f33b5-b637-4a53-9fa5-e009aa4e76ab" Url="/qiguanbu/renshiguanli/Lists/List8/1_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="c254c096-3148-42ac-b9ab-c74ba829a567" Url="/qiguanbu/renshiguanli/Lists/List20" Included="true">
+        <LookupItems>
+            <LookupItem Id="4" DocId="c05d8972-dcc0-4ec2-9c85-cec58158801f" Url="/qiguanbu/renshiguanli/Lists/List20/4_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="12d2faaa-90c3-46c0-9ccc-470b770372f3" Url="/qiguanbu/renshiguanli/Lists/List17" Included="true">
+        <LookupItems>
+            <LookupItem Id="3" DocId="31a69d1f-19b7-49c1-adbd-9e708b001f7c" Url="/qiguanbu/renshiguanli/Lists/List17/3_.000" Included="true" />
+            <LookupItem Id="4" DocId="7e0e01e0-20d9-463c-a9ac-5668f182dc86" Url="/qiguanbu/renshiguanli/Lists/List17/4_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="42d0e264-fff4-45a9-9be0-194e7ec78aca" Url="/qiguanbu/renshiguanli/Lists/List16" Included="true">
+        <LookupItems>
+            <LookupItem Id="5" DocId="ec680c03-0807-4905-b1c0-d92f9bb8a382" Url="/qiguanbu/renshiguanli/Lists/List16/5_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="41977c7c-36bb-41f6-8831-131d4b1bdea9" Url="/qiguanbu/renshiguanli/Lists/List18" Included="true">
+        <LookupItems>
+            <LookupItem Id="2" DocId="9f9424b2-903e-453d-90a6-0d1ba1d05173" Url="/qiguanbu/renshiguanli/Lists/List18/2_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="711fd99b-8881-4897-a5c7-6faa7c66a9da" Url="/qiguanbu/renshiguanli/Lists/List1" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="f759dab4-5a71-4114-b9a5-4d5f35b5cb6c" Url="/qiguanbu/renshiguanli/Lists/List1/1_.000" Included="true" />
+            <LookupItem Id="4" DocId="baf0e037-7da2-4a68-9a95-17561a36256c" Url="/qiguanbu/renshiguanli/Lists/List1/4_.000" Included="true" />
+            <LookupItem Id="6" DocId="ad5f0587-53fa-4a28-84c3-7d507ecbf487" Url="/qiguanbu/renshiguanli/Lists/List1/6_.000" Included="true" />
+            <LookupItem Id="5" DocId="8a15d3a3-a34e-4f61-a824-f1071dd0beb2" Url="/qiguanbu/renshiguanli/Lists/List1/5_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="fee0ce66-ea7f-4236-b6e5-4073524a47f9" Url="/qiguanbu/renshiguanli/Lists/List5" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="65bb365c-de87-47d2-89f0-4c8cf2dd22d6" Url="/qiguanbu/renshiguanli/Lists/List5/1_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="277b2391-cc8c-42d8-b315-90205a2d0556" Url="/qiguanbu/renshiguanli/Lists/List19" Included="true">
+        <LookupItems>
+            <LookupItem Id="1" DocId="153d2aa7-9142-4c11-b0c9-88043f376bda" Url="/qiguanbu/renshiguanli/Lists/List19/1_.000" Included="true" />
+        </LookupItems>
+    </LookupList>
+    <LookupList Id="ac1f914d-528b-4cd8-a18e-b4f794cc2549" Url="/qiguanbu/renshiguanli/Lists/List6" Included="true">
+        <LookupItems />
+    </LookupList>
+</LookupLists>
