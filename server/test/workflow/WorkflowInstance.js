@@ -5,7 +5,10 @@
 var app = require('../../server'),
   Q = require('q');
 describe('WorkflowInstance', function () {
-
+  var instance={};
+  beforeEach(function () {
+    app.models.WorkflowInstance.deleteAll();
+  });
   describe('#initialWorkflow', function () {
     this.timeout(50000);
     //before(function (done) {
@@ -44,33 +47,8 @@ describe('WorkflowInstance', function () {
     });
   });
 
-  describe('create', function () {
-    it('should create instance', function (done) {
-      //app.models.Instance.create({
-      //  initiator: 1,
-      //  workflowList: 'Post',
-      //  workflowItemId: 1,
-      //  workflowItemTitle: 'test'
-      //}, function (err, ins) {
-      //  console.log(err);
-      //  console.log(ins);
-      //  done();
-      //})
-      app.models.WorkflowInstance.create({
-        initiator: 1,
-        workflowList: 'Post',
-        workflowItemId: 1,
-        workflowItemTitle: 'test',
-        workflowItemSnap: {},
-        associatedData: {},
-        workflowId: 1,
-
-      }, function (err, ins) {
-        console.log(err);
-        console.log(ins);
-        done();
-      })
-    })
+  describe('#', function () {
+    sleep
   });
 
 });

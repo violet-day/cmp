@@ -5,6 +5,6 @@ var fs = require('fs'),
   Q = require('q');
 
 module.exports = function (app) {
-  var attachRoot = './document';
-  if (!fs.existsSync(attachRoot))fs.mkdirSync(attachRoot);
+  //var attachRoot = './document';
+  //if (!fs.existsSync(attachRoot))fs.mkdirSync(attachRoot);
 };

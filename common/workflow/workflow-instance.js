@@ -18,7 +18,7 @@ module.exports = function (WorkflowInstance) {
    * @returns {promise}
    */
   WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, cb) {
-    co(function *() {
+    Q.async(function *() {
       var app = WorkflowInstance.app;
       initialItem = yield Q.ninvoke(app.models[initialItem.__t], 'findById', initialItem.id);
       //if (initialItem.lk_workflow) {
@@ -76,11 +76,11 @@ module.exports = function (WorkflowInstance) {
    * 钝化至数据库
    */
   WorkflowInstance.prototype.sleep = function () {
-    var _this = this;
-    debug('sleep %d with state name %s', _this.id, _this.state().name);
-    _this.internalState = _this.state().name;
-    _this.isWake = false;
-    return Q.ninvoke(_this, 'save');
+    var self = this;
+    debug('sleep %d with state name %s', self.id, self.state().name);
+    self.internalState = self.state().name;
+    self.isWake = false;
+    return self.save();
   };
   /**
    * 从数据库中取消持久化，并且传入任务
@@ -107,8 +107,8 @@ module.exports = function (WorkflowInstance) {
    * @returns {Promise}
    */
   WorkflowInstance.prototype.initialItem = function (filter) {
-    var _this = this;
-    return Q.ninvoke(WorkflowInstance.app.models[_this.workflowList], 'findOne', _.defaults({id: _this.workflowItemId}, filter || {}));
+    var self = this;
+    return Q.ninvoke(WorkflowInstance.app.models[self.workflowList], 'findOne', _.defaults({id: self.workflowItemId}, filter || {}));
   };
 
   /**
@@ -117,8 +117,8 @@ module.exports = function (WorkflowInstance) {
    * @returns {Promise}
    */
   WorkflowInstance.prototype.updateInitialItem = function (data) {
-    var _this = this;
-    return Q.ninvoke(WorkflowInstance.app.models[_this.workflowList], 'update', {id: _this.workflowItemId}, data);
+    var self = this;
+    return Q.ninvoke(WorkflowInstance.app.models[self.workflowList], 'update', {id: self.workflowItemId}, data);
   };
 
   /**
@@ -138,14 +138,14 @@ module.exports = function (WorkflowInstance) {
    * @returns {*}
    */
   WorkflowInstance.prototype.assignTask = co.wrap(function *(task) {
-    var _this = this;
+    var self = this;
     var createdTask = Q.ninvoke(WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'], 'create', _.defaults({
       startDate: new Date(),
-      creator: _this.initiator,
-      workflowAssociationId: _this.workflowAssociationId,
-      instanceId: _this.id
+      creator: self.initiator,
+      workflowAssociationId: self.workflowAssociationId,
+      instanceId: self.id
     }, task));
-    yield Q.ninvoke(_this.logs, 'create', ({type: 'Task Created', body: task.title}));
+    yield Q.ninvoke(self.logs, 'create', ({type: 'Task Created', body: task.title}));
     return Q(createdTask);
   });
   /**

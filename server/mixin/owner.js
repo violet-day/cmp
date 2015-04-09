@@ -10,7 +10,7 @@ module.exports = function (Model, option) {
 
   Model.observe('before save', function (ctx, next) {
     var token = loopback.getCurrentContext() ? loopback.getCurrentContext().get('accessToken') : null;
-    if (ctx.instance.isNewRecord()) {
+    if (ctx.isNewInstance) {
       ctx.instance.ownerId = ctx.instance.modifierId = token ? token.userId : 0;
     } else {
       ctx.instance.modifierId = token ? token.userId : 0;
