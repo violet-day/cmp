@@ -1,20 +1,20 @@
 [
   {
-    "title": "workflow:instanceId",
+    "id": "workflow:instanceId",
     "name":"instanceId",
     "type": "number",
     "displayName": "Workflow Instance",
     "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a ui-sref=\"main.wrkStat({workflow:row.entity.workflowAssociation.title,instanceId:row.entity.instanceId})\" ng-bind=\"row.entity.instance.workflowState\"></a></div>"
   },
   {
-    "title": "workflow:workflowAssociationId",
+    "id": "workflow:workflowAssociationId",
     "name":"workflowAssociationId",
     "type": "number",
     "displayName": "Workflow Association",
     "cellTemplate": "<div class=\"ui-grid-cell-contents\">{{row.entity.workflowAssociation.title}}</div>"
   },
   {
-    "title": "workflow:outcome",
+    "id": "workflow:outcome",
     "name":"outcome",
     "type": "string",
     "displayName": "Outcome",

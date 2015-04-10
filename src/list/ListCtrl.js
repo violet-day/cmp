@@ -17,6 +17,7 @@ angular.module('cmp')
       //      toastr.error('Permission Denied');
       //    }
       //  });
+
       //设置默认gridOptions
       $scope.gridOptions = {
         useExternalSorting: true,
@@ -24,6 +25,7 @@ angular.module('cmp')
         multiSelect: false,
         data: 'data',
         columnDefs: [],
+        orderByColumnDefs:false,
         excludeProperties: ['id', '__t', '__v', '_attachments', '_lk_remove', '_lk_update', '_lk_workflow', 'moderationComments', 'remark', 'instanceId']
       };
       //grid相关的操作
@@ -58,22 +60,23 @@ angular.module('cmp')
       }
       var actionMenu = ListUtil.getActionMenu(util ? util.menu : []);
 
-      List.debugColDef({modelName: $stateParams.list}).$promise.then(function (result) {
-        $scope.gridOptions.columnDefs = result;
-        $scope.gridOptions.columnDefs.splice(1, 0, actionMenu);
-      });
+      //List.debugColDef({modelName: $stateParams.list}).$promise.then(function (result) {
+      //  $scope.gridOptions.columnDefs = result;
+      //  $scope.gridOptions.columnDefs.splice(1, 0, actionMenu);
+      //});
 
       //获取list信息
       $scope.list = List.findOne({
         filter: {
-          where: {title: $stateParams.list},
+          where: {id: $stateParams.list},
           include: ['views']
         }
       }).$promise.then(function (result) {
           $scope.list = result;
           $scope.views = result.views;
           $scope.currentView = $scope.views[0];
-
+          $scope.currentView.columns.splice(1, 0, actionMenu);
+          $scope.gridOptions.columnDefs = $scope.currentView.columns;
           $scope.getPagedDate();
         });
 
@@ -114,13 +117,6 @@ angular.module('cmp')
           gridBlock.stop();
         });
       };
-
-      $scope.deleteFilter = function (filter) {
-        //delete $scope.filter.where.title;
-        console.log('delete $scope.filter.where.' + filter);
-        eval('delete $scope.filter.where.' + filter);
-      };
-
 
     }])
   .controller('ListSettingCtrl', ['$scope', '$injector', '$state', '$stateParams', '$q', 'List', 'ACL', 'ListUtil', 'toastr', 'blockUI', 'localStorageService',

@@ -3,7 +3,6 @@
  */
 var state = require('state'),
   Q = require('q'),
-  co = require('co'),
   _ = require('lodash'),
   debug = require('debug')('workflow:WorkflowInstance'),
   wfs = require('../../server/workflow');
@@ -11,21 +10,28 @@ var state = require('state'),
 module.exports = function (WorkflowInstance) {
   /**
    * 启动工作流
-   * @param {number} initiator 流程启动者
+   * @param {any} initiator 流程启动者
    * @param {object} initialItem 流程启动项
-   * @param {object} association 工作流关联
+   *  @property {string}  initialItem.__t 流程启动项对应的模型
+   *  @property {any}  initialItem.id  流程启动项目id
+   *  @property {string}  initialItem.title  流程启动项目标题
+   * @param {object} association
+   *  @property {any} association.id 工作流关联id
+   *  @property {object}  association.associatedData  工作流关联数据
    * @param cb
    * @returns {promise}
    */
   WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, cb) {
-    Q.async(function *() {
+    return Q.async(function *() {
       var app = WorkflowInstance.app;
-      initialItem = yield Q.ninvoke(app.models[initialItem.__t], 'findById', initialItem.id);
-      //if (initialItem.lk_workflow) {
-      //  debug('%s#%d initialItem has been locked', initialItem.__t, initialItem.id);
-      //  return yield Q.reject(new Error('Workflow Locked'));
-      //}
-      var instance = yield Q.ninvoke(WorkflowInstance, 'create', {
+      initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
+      if (initialItem.lk_workflow) {
+        debug('%s#%d initialItem has been locked', initialItem.__t, initialItem.id);
+        var err = new Error('Workflow Locked');
+        err.statusCode = 400;
+        throw err;
+      }
+      var instance = yield WorkflowInstance.create({
         initiatorId: initiator,
         workflowList: initialItem.__t,
         workflowItemId: initialItem.id,
@@ -35,42 +41,24 @@ module.exports = function (WorkflowInstance) {
         associatedData: association.associatedData
       });
       debug('%s#%d created success', instance.__t, instance.id);
-      yield Q.ninvoke(initialItem, 'updateAttributes', {
+      yield initialItem.updateAttributes({
         instanceId: instance.id,
-        moderationStatus: 'Pending',
+        status: 'Pending',
         lk_workflow: true,
-        lk_update: true,
+        //todo:确定是否更新
+        //lk_update: true,
         lk_remove: true
       });
-      debug('%s#%d updateAttributes success', initialItem.__t, initialItem.id);
+      debug('%s#%s updateAttributes success', initialItem.__t, initialItem.id);
       //if (initialItem.workflowPrepartion[association.workflow.name]) {
       //  yield initialItem.workflowPrepartion[association.workflow.name](instance);
       //}
       var stateExpression = wfs[association.workflowTemplate.title];
       state(instance, stateExpression);
       instance.state().go('Initial');
-      return Q(instance);
-    }).nodeify(cb);
+      return instance;
+    })().nodeify(cb);
   };
-  WorkflowInstance.remoteMethod('initialWorkflow', {
-    description: '启动工作流',
-    accepts: [
-      {
-        arg: 'initiator', type: 'number', required: true,
-        http: function (ctx) {
-          return ctx.req.accessToken.userId;
-        },
-        description: '流程启动者'
-      },
-      {
-        arg: 'initialItem', type: 'object', required: true, description: '流程启动项'
-      },
-      {
-        arg: 'association', type: 'object', required: true, description: '工作流关联'
-      }
-    ],
-    returns: {arg: 'instance', type: 'object', root: true}
-  });
 
   /**
    * 钝化至数据库
@@ -86,21 +74,21 @@ module.exports = function (WorkflowInstance) {
    * 从数据库中取消持久化，并且传入任务
    * @param task
    */
-  WorkflowInstance.prototype.wakeUp = co.wrap(function *(task) {
-    var self = this;
-      state(self, wfs[self.workflowTemplateId]);
-    var currentState = self.state(self.internalState);
-    debug('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
-    if (currentState) {
-      if (currentState.hasMethod(task.changedMethod)) {
-        self.state(self.internalState).call(task.changedMethod, task);
-      } else {
-        yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'}));
-      }
-    } else {
-      yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'}));
-    }
-  });
+  //WorkflowInstance.prototype.wakeUp = function (task) {
+  //  var self = this;
+  //  state(self, wfs[self.workflowTemplateId]);
+  //  var currentState = self.state(self.internalState);
+  //  debug('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
+  //  if (currentState) {
+  //    if (currentState.hasMethod(task.changedMethod)) {
+  //      self.state(self.internalState).call(task.changedMethod, task);
+  //    } else {
+  //      yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'}));
+  //    }
+  //  } else {
+  //    yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'}));
+  //  }
+  //};
 //<editor-fold desc="InitialItem">
   /**
    * 得到流程启动项目
@@ -137,7 +125,7 @@ module.exports = function (WorkflowInstance) {
    * @param task
    * @returns {*}
    */
-  WorkflowInstance.prototype.assignTask = co.wrap(function *(task) {
+  WorkflowInstance.prototype.assignTask = function (task) {
     var self = this;
     var createdTask = Q.ninvoke(WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'], 'create', _.defaults({
       startDate: new Date(),
@@ -145,9 +133,9 @@ module.exports = function (WorkflowInstance) {
       workflowAssociationId: self.workflowAssociationId,
       instanceId: self.id
     }, task));
-    yield Q.ninvoke(self.logs, 'create', ({type: 'Task Created', body: task.title}));
-    return Q(createdTask);
-  });
+    //yield Q.ninvoke(self.logs, 'create', ({type: 'Task Created', body: task.title}));
+    //return Q(createdTask);
+  }
   /**
    * 将当前工作流实例中还没有完成的任务标记为废弃
    * @returns {*|Promise|Array|{index: number, input: string}}
@@ -340,4 +328,26 @@ module.exports = function (WorkflowInstance) {
     //    }))
     //  })
   };
+
+  //remoteMethod
+
+  WorkflowInstance.remoteMethod('initialWorkflow', {
+    description: '启动工作流',
+    accepts: [
+      {
+        arg: 'initiator', type: 'number', required: true,
+        http: function (ctx) {
+          return ctx.req.accessToken.userId;
+        },
+        description: '流程启动者'
+      },
+      {
+        arg: 'initialItem', type: 'object', required: true, description: '流程启动项'
+      },
+      {
+        arg: 'association', type: 'object', required: true, description: '工作流关联'
+      }
+    ],
+    returns: {arg: 'instance', type: 'object', root: true}
+  });
 };

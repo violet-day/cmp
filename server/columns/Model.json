@@ -1,6 +1,6 @@
 [
   {
-    "title": "Post:tags",
+    "id": "Post:tags",
     "name": "tags",
     "type": "String",
     "displayName": "标签",

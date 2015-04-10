@@ -42,7 +42,7 @@
   <!--<link rel="stylesheet" href="bower_components/angular-chosen-localytics/chosen-spinner.css"/>-->
 
   <link rel="stylesheet" href="bower_components/angular-block-ui/dist/angular-block-ui.min.css"/>
-  <link rel="stylesheet" href="ui-grid.info-gh-pages/release/ui-grid-unstable.css"/>
+  <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css"/>
   <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.min.css"/>
   <link rel="stylesheet" href="bower_components/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
   <link rel="stylesheet" href="bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"/>
@@ -50,9 +50,16 @@
   <link rel="stylesheet" href="bower_components/textAngular/src/textAngular.css"/>
 
   <link rel="stylesheet" href="bower_components/pace/themes/silver/pace-theme-barber-shop.css"/>
-  <link rel="stylesheet" href="assets/css/pages/tasks.css" />
+  <link rel="stylesheet" href="assets/css/pages/tasks.css"/>
 
   <link href="assets/css/pages/login-soft.css" rel="stylesheet"/>
+
+  <style>
+    .ui-grid-cell {
+      overflow: visible;
+    }
+  </style>
+
   <!-- endbuild -->
 
   <link rel="shortcut icon" href="favicon.ico"/>
@@ -82,7 +89,7 @@
 <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 
-<script src="ui-grid.info-gh-pages/release/ui-grid-unstable.js"></script>
+<script src="bower_components/angular-ui-grid/ui-grid.js"></script>
 
 <script src="bower_components/angular-translate/angular-translate.min.js"></script>
 <script

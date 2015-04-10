@@ -1,9 +1,7 @@
 /**
  * Created by Administrator on 2014/12/11.
  */
-var
-  Q = require('q'),
-  co = require('co'),
+var Q = require('q'),
   _ = require('lodash');
 
 module.exports = function (app) {

@@ -3,7 +3,7 @@ angular.module('cmp')
     function ($scope, $state, $http, User, $rootScope, toastr, $location, localStorageService) {
       $scope.credentials = {
         username: 'nemo',
-        password: 'harttech'
+        password: '123456'
       };
       $scope.submit = function () {
         User.login($scope.credentials).$promise

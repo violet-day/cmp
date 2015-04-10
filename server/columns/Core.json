@@ -1,15 +1,15 @@
 [
   {
-    "title": "core:title",
+    "id": "core:title",
     "name": "title",
     "type": "string",
-    "displayName": "Title",
+    "displayName": "id",
     "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"row.entity\"></a></div>",
     "formControl": "<input type=\"text\" class=\"form-control\" id=\"title\" name=\"title\" ng-model=\"doc.title\" ui-message/>",
     "minWidth":160
   },
   {
-    "title": "core:created",
+    "id": "core:created",
     "name": "created",
     "type": "date",
     "displayName": "Created",
@@ -17,7 +17,7 @@
     "width":140
   },
   {
-    "title": "core:ownerId",
+    "id": "core:ownerId",
     "name": "ownerId",
     "type": "object",
     "displayName": "Creator",
@@ -25,7 +25,7 @@
     "width":100
   },
   {
-    "title": "core:modified",
+    "id": "core:modified",
     "name": "modified",
     "type": "date",
     "displayName": "Modified",
@@ -33,7 +33,7 @@
     "width":140
   },
   {
-    "title": "core:modifierId",
+    "id": "core:modifierId",
     "name": "modifierId",
     "type": "number",
     "displayName": "Modifier",
@@ -41,20 +41,20 @@
     "width":100
   },
   {
-    "title": "core:status",
+    "id": "core:status",
     "name": "status",
     "type": "string",
     "displayName": "Status"
   },
   {
-    "title": "core:remark",
+    "id": "core:remark",
     "name": "status",
     "type": "string",
     "displayName": "Remark",
     "formControl": "<textarea class=\"form-control\" name=\"remark\" id=\"remark\" cols=\"30\" rows=\"3\" ng-model=\"doc.remark\"></textarea>"
   },
   {
-    "title": "core:username",
+    "id": "core:username",
     "name": "username",
     "type": "string",
     "displayName": "Username",

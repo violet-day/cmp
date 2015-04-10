@@ -1,6 +1,6 @@
 (function(window, angular, undefined) {'use strict';
 
-var urlBase = "/api";
+var urlBase = "http://127.0.0.1:3000/api";
 var authHeader = 'authorization';
 
 /**
@@ -56,6 +56,24 @@ module.factory(
         "prototype$__updateById__accessTokens": {
           url: urlBase + "/Users/:id/accessTokens/:fk",
           method: "PUT"
+        },
+
+        // INTERNAL. Use User.manager() instead.
+        "prototype$__get__manager": {
+          url: urlBase + "/Users/:id/manager",
+          method: "GET"
+        },
+
+        // INTERNAL. Use User.owner() instead.
+        "prototype$__get__owner": {
+          url: urlBase + "/Users/:id/owner",
+          method: "GET"
+        },
+
+        // INTERNAL. Use User.modifier() instead.
+        "prototype$__get__modifier": {
+          url: urlBase + "/Users/:id/modifier",
+          method: "GET"
         },
 
         // INTERNAL. Use User.accessTokens() instead.
@@ -537,7 +555,7 @@ module.factory(
          *
          *  - `token` – `{string}` - 
          *
-         *  - `redirect` – `{string}` - 
+         *  - `redirect` – `{string=}` - 
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -589,6 +607,24 @@ module.factory(
         "resetPassword": {
           url: urlBase + "/Users/reset",
           method: "POST"
+        },
+
+        // INTERNAL. Use User.manager() instead.
+        "::get::User::manager": {
+          url: urlBase + "/Users/:id/manager",
+          method: "GET"
+        },
+
+        // INTERNAL. Use User.owner() instead.
+        "::get::User::owner": {
+          url: urlBase + "/Users/:id/owner",
+          method: "GET"
+        },
+
+        // INTERNAL. Use User.modifier() instead.
+        "::get::User::modifier": {
+          url: urlBase + "/Users/:id/modifier",
+          method: "GET"
         },
 
         // INTERNAL. Use AccessToken.user() instead.
@@ -1175,6 +1211,114 @@ module.factory(
         R.accessTokens.updateById = function() {
           var TargetResource = $injector.get("AccessToken");
           var action = TargetResource["::updateById::User::accessTokens"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#manager
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Fetches belongsTo relation manager
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        R.manager = function() {
+          var TargetResource = $injector.get("User");
+          var action = TargetResource["::get::User::manager"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#owner
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Fetches belongsTo relation owner
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        R.owner = function() {
+          var TargetResource = $injector.get("User");
+          var action = TargetResource["::get::User::owner"];
+          return action.apply(R, arguments);
+        };
+
+        /**
+         * @ngdoc method
+         * @name lbServices.User#modifier
+         * @methodOf lbServices.User
+         *
+         * @description
+         *
+         * Fetches belongsTo relation modifier
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *  - `id` – `{*}` - User id
+         *
+         *  - `refresh` – `{boolean=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `User` object.)
+         * </em>
+         */
+        R.modifier = function() {
+          var TargetResource = $injector.get("User");
+          var action = TargetResource["::get::User::modifier"];
           return action.apply(R, arguments);
         };
 
@@ -2178,6 +2322,131 @@ module.factory(
         "prototype$updateAttributes": {
           url: urlBase + "/Roles/:id",
           method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Role#getRoles
+         * @methodOf lbServices.Role
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `context` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `roles` – `{array=}` - 
+         */
+        "getRoles": {
+          url: urlBase + "/Roles/getRoles",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Role#isInRole
+         * @methodOf lbServices.Role
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `role` – `{string}` - 
+         *
+         *  - `context` – `{object=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * Data properties:
+         *
+         *  - `exists` – `{boolean=}` - 
+         */
+        "isInRole": {
+          url: urlBase + "/Roles/isInRole",
+          method: "POST"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.Role#selector
+         * @methodOf lbServices.Role
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `userOnly` – `{boolean=}` - 
+         *
+         *  - `roleOnly` – `{boolean=}` - 
+         *
+         *  - `role` – `{string=}` - 
+         *
+         * @param {function(Array.<Object>,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Array.<Object>} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `Role` object.)
+         * </em>
+         */
+        "selector": {
+          isArray: true,
+          url: urlBase + "/Roles/selector",
+          method: "POST"
         },
 
         // INTERNAL. Use RoleMapping.role() instead.
@@ -3542,6 +3811,54 @@ module.factory(
         "prototype$updateAttributes": {
           url: urlBase + "/ACLs/:id",
           method: "PUT"
+        },
+
+        /**
+         * @ngdoc method
+         * @name lbServices.ACL#checkPermission
+         * @methodOf lbServices.ACL
+         *
+         * @description
+         *
+         * <em>
+         * (The remote method definition does not provide any description.)
+         * </em>
+         *
+         * @param {Object=} parameters Request parameters.
+         *
+         *   This method does not accept any parameters.
+         *   Supply an empty object or omit this argument altogether.
+         *
+         * @param {Object} postData Request data.
+         *
+         *  - `principalType` – `{string}` - 
+         *
+         *  - `principalId` – `{string}` - 
+         *
+         *  - `model` – `{string}` - 
+         *
+         *  - `property` – `{string=}` - 
+         *
+         *  - `accessType` – `{string=}` - 
+         *
+         * @param {function(Object,Object)=} successCb
+         *   Success callback with two arguments: `value`, `responseHeaders`.
+         *
+         * @param {function(Object)=} errorCb Error callback with one argument:
+         *   `httpResponse`.
+         *
+         * @returns {Object} An empty reference that will be
+         *   populated with the actual data once the response is returned
+         *   from the server.
+         *
+         * <em>
+         * (The remote method definition does not provide any description.
+         * This usually means the response is a `ACL` object.)
+         * </em>
+         */
+        "checkPermission": {
+          url: urlBase + "/ACLs/checkPermission",
+          method: "POST"
         },
       }
     );
@@ -19519,49 +19836,34 @@ $templateCache.put("views/grid.html","<div class=page-content><div class=row><di
 $templateCache.put("views/login.html","<div class=login><form class=login-form ng-submit=submit()><h3 class=form-title>Login to your account</h3><div class=\"alert alert-danger display-hide\"><button class=close data-close=alert></button> <span>Enter any username and password.</span></div><div class=form-group><label class=\"control-label visible-ie8 visible-ie9\">Username</label><div class=input-icon><i class=\"fa fa-user\"></i> <input class=\"form-control placeholder-no-fix\" autocomplete=off placeholder=Username name=\"username\"></div></div><div class=form-group><label class=\"control-label visible-ie8 visible-ie9\">Password</label><div class=input-icon><i class=\"fa fa-lock\"></i> <input class=\"form-control placeholder-no-fix\" type=password autocomplete=off placeholder=Password name=\"password\"></div></div><div class=form-actions><label class=checkbox><input type=checkbox name=remember value=\"1\"> Remember me</label><button type=submit class=\"btn blue pull-right\">Login <i class=\"m-icon-swapright m-icon-white\"></i></button></div><div class=forget-password><h4>Forgot your password ?</h4><p>no worries, click <a href=javascript:; id=forget-password>here</a> to reset your password.</p></div><div class=create-account><p>Don\'t have an account yet ?&nbsp; <a href=javascript:; id=register-btn>Create an account</a></p></div></form></div>");
 $templateCache.put("views/test.html","test");
 $templateCache.put("views/upload.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>Blank Page <small>blank page</small></h3><div ncy-breadcrumb></div></div></div><div class=row><div class=col-md-12><form class=form-horizontal role=form><div class=form-group><label for=inputEmail3 class=\"col-sm-2 control-label\">Email</label><div class=col-sm-10><input type=email class=form-control id=inputEmail3 placeholder=Email></div></div><div class=form-group><label for=inputPassword3 class=\"col-sm-2 control-label\">Password</label><div class=col-sm-10><input type=password class=form-control id=inputPassword3 placeholder=Password></div></div><div class=form-group><label for=inputPassword3 class=\"col-sm-2 control-label\">附件</label><div class=col-sm-10 attachment=\"{container:\'1\'}\"></div></div><div class=form-group><div class=\"col-sm-offset-2 col-sm-10\"><button type=submit class=\"btn btn-default\">Sign in</button></div></div></form></div></div></div>");
-$templateCache.put("views/list/content.html","<style>.grid {\r\n    width: 100%;\r\n    height: 400px;\r\n  }</style><div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{list.displayName || list.name}} <small ng-bind=list.description></small></h3><div ncy-breadcrumb></div></div></div><div class=row ng-show=false><div class=col-md-12><form class=form-horizontal ng-submit=getPagedDate()><div class=form-body><div class=form-group><label class=\"control-label col-md-3\">id</label><div class=col-md-4><div class=input-group><input type=number class=form-control name=id ng-model=filter.where.id.gt> <span class=input-group-addon>to</span> <input type=number class=form-control ng-model=filter.where.id.lt></div></div></div><div class=form-group><label class=\"col-md-3 control-label\">Title</label><div class=col-md-4><div class=\"input-icon right\"><i class=\"glyphicon glyphicon-remove\" ng-click=\"deleteFilter(\'title\')\" ng-show=filter.where.title.like></i> <input name=title ng-model=filter.where.title.like class=form-control placeholder=title></div></div></div><div class=form-group><label class=\"control-label col-md-3\">Date Range</label><div class=col-md-4><div class=input-group><input class=form-control name=created ng-model=filter.where.created.gt datetime-picker> <span class=input-group-addon>to</span> <input class=form-control name=created ng-model=filter.where.created.lt datetime-picker></div></div></div></div><div class=input-group><input type=search placeholder=Search... class=form-control required ui-message ng-model=search><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></form></div></div><div class=row><div class=col-md-12><form class=form-inline role=form><div class=form-group><label for=exampleInputEmail2>Email address</label><input type=email class=form-control id=exampleInputEmail2 placeholder=\"Enter email\"></div><div class=form-group><label for=exampleInputPassword2>Password</label><ui-select class=form-control ng-model=q.assignTo style=\"min-width: 300px\"><ui-select-match>{{$select.selected }}</ui-select-match><ui-select-choices repeat=\"item as item in [1,3,4,5] | filter: $select.search\"><div ng-bind-html=\"item | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=input-group><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></form></div></div><div class=row><div class=col-md-4><div class=btn-group><button type=button class=\"btn btn-default\" ng-repeat=\"view in views\" ng-bind=view.title ng-click=\"currentView=view\"></button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-ellipsis-horizontal\"></i> More <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href>创建视图</a></li><li><a href>修改视图</a></li></ul></div></div></div><div class=col-md-4><div class=input-group><input type=search placeholder=Search... class=form-control required ui-message ng-model=search><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></div><div class=col-md-4><div class=pull-right><div class=btn-group><button type=button class=\"btn btn-default\" ng-click=gridAction.add()><i class=\"fa fa-plus\"></i> New</button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-bullhorn\"></i> Alert <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href=#>创建通知</a></li><li><a href=#>管理我的通知</a></li></ul></div><button type=button class=\"btn btn-default\" ui-sref=\"main.listSetting({list: $stateParams.list})\"><i class=\"fa fa-cogs\"></i> Settings</button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-ellipsis-horizontal\"></i> More <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href=#>Dropdown link</a></li><li><a href=#>Dropdown link</a></li></ul></div></div></div></div></div><div class=row><div class=col-md-12><div class=grid ui-grid=gridOptions external-scopes=gridAction ui-grid-edit ui-grid-auto-resize ui-grid-pinning ui-grid-resize-columns ui-grid-selection></div></div></div><div class=row><div class=\"col-md-5 col-sm-12\"><div class=dataTables_info>Showing <span ng-bind=(filter.page-1)*filter.limit+1></span> to <span ng-bind=\"filter.page*filter.limit > totalServerItems ? totalServerItems : filter.page*filter.limit\"></span> of <span ng-bind=totalServerItems></span> entries</div></div><div class=\"col-md-7 col-sm-12\"><pagination total-items=totalServerItems ng-model=filter.page items-per-page=filter.limit ng-change=getPagedDate()></pagination></div></div><div block-ui=gridBlock></div></div>");
-$templateCache.put("views/list/setting.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>Blank Page <small>blank page</small></h3><div ncy-breadcrumb></div></div></div><div class=row><div class=col-md-12>setting<tabset><tab heading=常规设置></tab><tab heading=视图设置></tab><tab heading=权限设置></tab><tab heading=工作流设置></tab></tabset><a ui-sref=main.wrkSetting({list:$stateParams.list}) translate=\"Workflow Setting\"></a></div></div></div>");
-$templateCache.put("views/list/wrkSetting.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>Workflow Setting <small>blank page</small></h3><div ncy-breadcrumb></div></div></div><div class=row><div class=col-md-12><accordion><accordion-group heading={{ass.title}} ng-repeat=\"ass in wfAss\"><accordion-heading>{{ass.title}} <span class=\"badge badge-info\" ng-bind=ass.instances.length></span> <button type=button class=\"btn btn-info\" translate=\"Associate Data\" ng-click=setAssociateData(ass) popover=\"click here to set the associate data\" popover-trigger=mouseenter></button></accordion-heading><div class=list-group><a ui-sref=main.wrkStat({workflow:ass.title,instanceId:log.id}) class=list-group-item ng-repeat=\"instance in ass.instances | orderBy:[\'-workflowState\',\'-completeAt\',\'-created\']\">{{log}} <span ng-bind=\"instance.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span ng-bind=\"instance.completeAt | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span class=\"badge badge-info\" ng-bind=instance.workflowState></span></a></div></accordion-group></accordion><p><button type=button class=\"btn btn-default\" ng-click=addWorkflowAss() translate=\"Add Workflow\"></button></p></div></div></div>");
+$templateCache.put("views/workflow/addWrk.html","<form class=form-horizontal name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title translate=\"Add Workflow\"></h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label for=title class=\"control-label col-sm-3\" translate=Title></label><div class=col-sm-9><input class=form-control id=title name=title ng-model=doc.title required unique=WorkflowAssociation ui-message=\"\"> <span class=help-block>键入此工作流的名称。 该名称将用于向此列表的用户标识此工作流。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" translate=\"Workflow Template\"></label><div class=col-sm-9><ui-select class=form-control ng-model=doc.workflowTemplateId selector=\"{service:\'WorkflowTemplate\'}\" required ui-message=\"\"><ui-select-match>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in WorkflowTemplateSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select><span class=help-block>传送文档供审批。审批者可以批准或拒绝文档、重新分配审批任务或请求更改文档。</span></div></div></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit data-ng-disabled=\"frm.$invalid && !doc.associateData\"></button> <button type=button class=\"btn btn-default\" translate=Cancel ui-sref=main.wrkSetting({list:$stateParams.list})></button></div></form>");
+$templateCache.put("views/workflow/workflow.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{\'Workflow History\' | translate}} <small></small></h3><div ncy-breadcrumb></div></div></div><div class=\"panel panel-warning\"><div class=panel-heading><h3 class=panel-title>开始新的工作流</h3></div><div class=panel-body><p>Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div><ul class=list-group><a class=list-group-item ng-repeat=\"ass in wfAss\" ng-bind=ass.title href ng-click=initialWorkflow(ass)></a></ul></div><div class=\"panel panel-warning\"><div class=panel-heading><h3 class=panel-title>Panel Title</h3></div><div class=panel-body><p>Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div><div class=list-group><a ui-sref=main.wrkStat({workflow:log.association.title,instanceId:log.id}) class=list-group-item ng-repeat=\"log in workflowLog | orderBy:[\'-workflowState\',\'-completeAt\',\'-created\']\">{{log}} {{log.association.title}} //TODO:时间 <span ng-bind=\"log.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span ng-bind=\"log.completeAt | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span class=\"badge badge-info\" ng-bind=log.workflowState></span></a></div></div></div>");
+$templateCache.put("views/workflow/wrkStat.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{\'Workflow History\' | translate}} <small></small></h3><div ncy-breadcrumb></div></div></div><div class=\"panel panel-success\"><div class=panel-heading><h3 class=panel-title translate=\"Workflow Information\"></h3></div><div class=panel-body><div class=row><div class=col-md-6><label class=col-md-4 translate=\"Workflow Initiator\"></label><div class=col-md-8><p ng-bind=instance.initiator.username></p></div></div><div class=col-md-6><label class=col-md-4 translate=\"Workflow InitialItem\"></label><div class=col-md-8><a href title-link={title:instance.workflowItemTitle,id:instance.workflowItemId,__t:instance.workflowList}></a></div></div></div><div class=row><div class=col-md-6><label class=col-md-4 translate=\"Workflow StartDate\"></label><div class=col-md-8><p ng-bind=\"instance.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></p></div></div><div class=col-md-6><label class=col-md-4 translate=\"Workflow Status\"></label><div class=col-md-8><p ng-bind=\"instance.workflowState | translate\"></p></div></div></div><div class=row><div class=col-md-12><label class=col-md-2 translate=\"Workflow Last RunTime\"></label><div class=col-md-10><p ng-bind=\"instance.modified | date:\'yyyy-MM-dd HH:mm:ss\'\"></p></div></div></div></div></div><div class=\"panel panel-success\"><div class=panel-heading><h3 class=panel-title translate=\"Workflow Task\"></h3></div><div class=panel-body><table class=table><thead><tr><th translate=\"Task Assigned\"></th><th translate=Title></th><th translate=\"Task DueDate\"></th><th translate=\"Task Status\"></th><th translate=\"Task Outcome\"></th></tr></thead><tbody><tr ng-repeat=\"task in tasks\"><td ng-bind=task.assigned.title></td><td><a href ng-bind=task.title ng-click=viewTask(task)></a></td><td ng-bind=\"task.dueDate | date:\'yyyy-MM-dd HH:mm\'\"></td><td ng-bind=\"task.status | translate\"></td><td ng-bind=task.outcome></td></tr></tbody></table></div></div><div class=\"panel panel-info\"><div class=panel-heading><h3 class=panel-title translate=Workflow　Log></h3></div><div class=panel-body><table class=table><thead><tr><th translate=Date></th><th translate=EventType></th><th translate=Body></th></tr></thead><tbody><tr ng-repeat=\"log in instance.workflowLogs\"><td ng-bind=\"log.created | date:\'yyyy-MM-dd HH:mm\'\"></td><td ng-bind=log.type></td><td ng-bind=log.body></td></tr></tbody></table></div></div></div>");
 $templateCache.put("views/main/breadcrumb.html","<ul class=\"page-breadcrumb breadcrumb\"><li ng-repeat=\"step in steps\"><a href={{step.ncyBreadcrumbLink}} ng-bind-html=step.ncyBreadcrumbLabel></a> <i class=\"fa fa-angle-right\" ng-show=!$last></i></li></ul>");
 $templateCache.put("views/main/footer.html","<div class=footer-inner>2014 &copy; Harttech.</div><div class=footer-tools><span class=go-top><i class=\"fa fa-angle-up\"></i></span></div>");
 $templateCache.put("views/main/header.html","<div class=header-inner><a class=navbar-brand href=index.html><img src=assets/img/logo.png alt=logo class=\"img-responsive\"></a> <a href=javascript:; class=navbar-toggle data-toggle=collapse data-target=.navbar-collapse><img src=assets/img/menu-toggler.png alt=\"\"></a><ul class=\"nav navbar-nav pull-right\"><li class=dropdown id=header_notification_bar><a href=# class=dropdown-toggle data-toggle=dropdown data-hover=dropdown data-close-others=true><i class=\"fa fa-warning\"></i> <span class=badge>6</span></a><ul class=\"dropdown-menu extended notification\"><li><p>You have 14 new notifications</p></li><li><ul class=\"dropdown-menu-list scroller\" style=\"height: 250px\"><li><a href=#><span class=\"label label-icon label-success\"><i class=\"fa fa-plus\"></i></span> New user registered. <span class=time>Just now</span></a></li><li><a href=#><span class=\"label label-icon label-danger\"><i class=\"fa fa-bolt\"></i></span> Server #12 overloaded. <span class=time>15 mins</span></a></li><li><a href=#><span class=\"label label-icon label-warning\"><i class=\"fa fa-bell-o\"></i></span> Server #2 not responding. <span class=time>22 mins</span></a></li><li><a href=#><span class=\"label label-icon label-info\"><i class=\"fa fa-bullhorn\"></i></span> Application error. <span class=time>40 mins</span></a></li><li><a href=#><span class=\"label label-icon label-danger\"><i class=\"fa fa-bolt\"></i></span> Database overloaded 68%. <span class=time>2 hrs</span></a></li><li><a href=#><span class=\"label label-icon label-danger\"><i class=\"fa fa-bolt\"></i></span> 2 user IP blocked. <span class=time>5 hrs</span></a></li><li><a href=#><span class=\"label label-icon label-warning\"><i class=\"fa fa-bell-o\"></i></span> Storage Server #4 not responding. <span class=time>45 mins</span></a></li><li><a href=#><span class=\"label label-icon label-info\"><i class=\"fa fa-bullhorn\"></i></span> System Error. <span class=time>55 mins</span></a></li><li><a href=#><span class=\"label label-icon label-danger\"><i class=\"fa fa-bolt\"></i></span> Database overloaded 68%. <span class=time>2 hrs</span></a></li></ul></li><li class=external><a href=#>See all notifications <i class=m-icon-swapright></i></a></li></ul></li><li class=dropdown id=header_inbox_bar><a href=# class=dropdown-toggle data-toggle=dropdown data-hover=dropdown data-close-others=true><i class=\"fa fa-envelope\"></i> <span class=badge>5</span></a><ul class=\"dropdown-menu extended inbox\"><li><p>You have 12 new messages</p></li><li><ul class=\"dropdown-menu-list scroller\" style=\"height: 250px\"><li><a href=\"inbox.html?a=view\"><span class=photo><img src=./assets/img/avatar2.jpg alt=\"\"></span> <span class=subject><span class=from>Lisa Wong</span> <span class=time>Just Now</span></span> <span class=message>Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh...</span></a></li><li><a href=\"inbox.html?a=view\"><span class=photo><img src=./assets/img/avatar3.jpg alt=\"\"></span> <span class=subject><span class=from>Richard Doe</span> <span class=time>16 mins</span></span> <span class=message>Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh...</span></a></li><li><a href=\"inbox.html?a=view\"><span class=photo><img src=./assets/img/avatar1.jpg alt=\"\"></span> <span class=subject><span class=from>Bob Nilson</span> <span class=time>2 hrs</span></span> <span class=message>Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh...</span></a></li><li><a href=\"inbox.html?a=view\"><span class=photo><img src=./assets/img/avatar2.jpg alt=\"\"></span> <span class=subject><span class=from>Lisa Wong</span> <span class=time>40 mins</span></span> <span class=message>Vivamus sed auctor 40% nibh congue nibh...</span></a></li><li><a href=\"inbox.html?a=view\"><span class=photo><img src=./assets/img/avatar3.jpg alt=\"\"></span> <span class=subject><span class=from>Richard Doe</span> <span class=time>46 mins</span></span> <span class=message>Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh...</span></a></li></ul></li><li class=external><a href=inbox.html>See all messages <i class=m-icon-swapright></i></a></li></ul></li><li class=dropdown id=header_task_bar><a href=# class=dropdown-toggle data-toggle=dropdown data-hover=dropdown data-close-others=true><i class=\"fa fa-tasks\"></i> <span class=badge ng-bind=tasks.length></span></a><ul class=\"dropdown-menu extended tasks\"><li><p>You have {{tasks.length}} pending tasks</p></li><li><ul class=\"dropdown-menu-list scroller\"><li ng-repeat=\"task in tasks | orderBy:\'startDate\'\"><a ng-click=editTask(task) popover={{task.instance.initialItem.title}} popover-title=InitialItem popover-trigger=mouseenter><span class=task><span class=desc ng-bind=task.title></span> <span class=percent ng-bind=\"task.percent+\'%\'\"></span></span><progressbar value=task.percent></progressbar></a></li></ul></li><li class=external><a href=#>See all tasks <i class=m-icon-swapright></i></a></li></ul></li><li class=\"language dropdown\"><a class=\"dropdown-toggle btn\" data-toggle=dropdown data-hover=dropdown data-delay=1000 data-close-others=false><img alt=\"\" ng-src=\"assets/img/flags/{{language}}.png\"> <span class=username ng-bind=\"language | uppercase\"></span> <i class=\"fa fa-angle-down\"></i></a><ul class=dropdown-menu><li><a ng-click=\"changeLanguage(\'us\')\"><img alt=\"\" src=\"assets/img/flags/us.png\"> English</a></li><li><a ng-click=\"changeLanguage(\'cn\')\"><img alt=\"\" src=\"assets/img/flags/cn.png\"> Chinese</a></li></ul></li><li class=\"dropdown user\"><a href=# class=dropdown-toggle data-toggle=dropdown data-hover=dropdown data-close-others=true><img alt=\"\" src=\"assets/img/avatar1_small.jpg\"> <span class=username ng-bind=user.title></span> <i class=\"fa fa-angle-down\"></i></a><ul class=dropdown-menu><li><a ui-sref=main.profile><i class=\"fa fa-user\"></i> My Profile</a></li><li><a ui-sref=main.calendar><i class=\"fa fa-calendar\"></i> My Calendar</a></li><li><a href=inbox.html><i class=\"fa fa-envelope\"></i> My Inbox <span class=\"badge badge-danger\">3</span></a></li><li><a href=#><i class=\"fa fa-tasks\"></i> My Tasks <span class=\"badge badge-success\">7</span></a></li><li class=divider></li><li><a href=javascript:; id=trigger_fullscreen><i class=\"fa fa-arrows\"></i> Full Screen</a></li><li><a href=extra_lock.html><i class=\"fa fa-lock\"></i> Lock Screen</a></li><li><a ng-click=logOut()><i class=\"fa fa-key\"></i> Log Out</a></li></ul></li></ul></div>");
 $templateCache.put("views/main/index.html","<div class=page-header-fixed><div class=\"header navbar navbar-fixed-top\" ui-view=header></div><div class=clearfix></div><div class=page-container><div class=page-sidebar-wrapper ui-view=sidebar></div><div class=page-content-wrapper ui-view></div></div><div class=footer ui-view=footer></div></div>");
-$templateCache.put("views/main/sidebar.html","<div class=\"page-sidebar navbar-collapse collapse\"><ul class=page-sidebar-menu data-auto-scroll=true data-slide-speed=200><li class=sidebar-toggler-wrapper><div class=\"sidebar-toggler hidden-phone\"></div></li><li class=sidebar-search-wrapper><form class=sidebar-search><div class=form-container><div class=input-box><a href class=remove></a> <input placeholder=\"Search...\"> <input type=button class=submit></div></div></form></li><li class=start><a ui-sref=main.index><i class=\"fa fa-home\"></i> <span class=title>Home</span></a></li><li><a><span class=title>产品管理</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=\"main.list({list:\'Brand\'})\">品牌列表</a></li><li><a ui-sref=\"main.list({list:\'Dealer\'})\">经销商列表</a></li><li><a ui-sref=\"main.list({list:\'Manufacturer\'})\">经销商列表</a></li><li><a ui-sref=\"main.list({list:\'ProductCategory\'})\">产品分类列表</a></li><li><a ui-sref=\"main.list({list:\'Product\'})\">产品列表</a></li></ul></li><li><a ui-sref=\"main.list({list:\'Announcement\'})\"><i class=\"fa fa-folder\"></i> <span class=title translate=FOLDER>文件夹</span></a></li><li><a href><i class=\"fa fa-phone-square\"></i> <span class=title translate=CONTACTS>通讯录</span></a></li><li><a href><i class=\"fa fa-laptop\"></i> <span class=title translate=\"PERSONAL OFFICE\">个人办公</span> <span class=arrow></span></a><ul class=sub-menu><li><a href><i class=\"fa fa-folder-open\"></i> Item 1 <span class=arrow></span></a><ul class=sub-menu><li><a href><i class=\"fa fa-angle-double-right\"></i> Sample Link 1 <span class=arrow></span></a><ul class=sub-menu><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li></ul></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 2</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 3</a></li></ul></li><li><a href><i class=\"fa fa-folder-open\"></i> Item 2 <span class=arrow></span></a><ul class=sub-menu><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li></ul></li><li><a href=#><i class=\"fa fa-folder-open\"></i> Item 3</a></li></ul></li><li><a href><i class=\"fa fa-briefcase\"></i> <span class=title translate=ADMINISTRATIVE>综合行政</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=\"main.list({list:\'TravelRequest\'})\"><i class=\"fa fa-file-o\"></i> Travel Request</a></li><li><a ui-sref=\"main.list({list:\'TravelExpenseReport\'})\"><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li><li class=last><a href><i class=\"fa fa-cog\"></i> <span class=title translate=\"KNOWLEDGE MANAGEMENT\">知识管理</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=main.report-TravelExpenseReport><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li><li class=last><a href><i class=\"fa fa-files-o\"></i> <span class=title translate=REPORT>报告</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=main.report-TravelExpenseReport><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li></ul></div>");
+$templateCache.put("views/main/sidebar.html","<div class=\"page-sidebar navbar-collapse collapse\"><ul class=page-sidebar-menu data-auto-scroll=true data-slide-speed=200><li class=sidebar-toggler-wrapper><div class=\"sidebar-toggler hidden-phone\"></div></li><li class=sidebar-search-wrapper><form class=sidebar-search><div class=form-container><div class=input-box><a href class=remove></a> <input placeholder=\"Search...\"> <input type=button class=submit></div></div></form></li><li class=start><a ui-sref=main.index><i class=\"fa fa-home\"></i> <span class=title>Home</span></a></li><li><a ui-sref=main.index><i class=\"fa fa-tasks\"></i> <span class=title translate=\"MY TASK\">我的任务</span></a></li><li><a ui-sref=main.index><i class=\"fa fa-pencil-square-o\"></i> <span class=title translate=\"MY APPLICATION\">我的申请</span></a></li><li><a><i class=\"fa fa-calendar\"></i> <span class=title translate=CALENDAR>行事历</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=\"main.list({list:\'Group\'})\"><i class=\"fa fa-group\"></i> Group</a></li><li><a ui-sref=\"main.list({list:\'User\'})\"><i class=\"fa fa-user\"></i> User</a></li></ul></li><li><a ui-sref=\"main.list({list:\'Announcement\'})\"><i class=\"fa fa-folder\"></i> <span class=title translate=FOLDER>文件夹</span></a></li><li><a href><i class=\"fa fa-phone-square\"></i> <span class=title translate=CONTACTS>通讯录</span></a></li><li><a href><i class=\"fa fa-laptop\"></i> <span class=title translate=\"PERSONAL OFFICE\">个人办公</span> <span class=arrow></span></a><ul class=sub-menu><li><a href><i class=\"fa fa-folder-open\"></i> Item 1 <span class=arrow></span></a><ul class=sub-menu><li><a href><i class=\"fa fa-angle-double-right\"></i> Sample Link 1 <span class=arrow></span></a><ul class=sub-menu><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li></ul></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 2</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 3</a></li></ul></li><li><a href><i class=\"fa fa-folder-open\"></i> Item 2 <span class=arrow></span></a><ul class=sub-menu><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li><li><a href=#><i class=\"fa fa-angle-double-right\"></i> Sample Link 1</a></li></ul></li><li><a href=#><i class=\"fa fa-folder-open\"></i> Item 3</a></li></ul></li><li><a href><i class=\"fa fa-briefcase\"></i> <span class=title translate=ADMINISTRATIVE>综合行政</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=\"main.list({list:\'TravelRequest\'})\"><i class=\"fa fa-file-o\"></i> Travel Request</a></li><li><a ui-sref=\"main.list({list:\'TravelExpenseReport\'})\"><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li><li class=last><a href><i class=\"fa fa-cog\"></i> <span class=title translate=\"KNOWLEDGE MANAGEMENT\">知识管理</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=main.report-TravelExpenseReport><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li><li class=last><a href><i class=\"fa fa-files-o\"></i> <span class=title translate=REPORT>报告</span> <span class=arrow></span></a><ul class=sub-menu><li><a ui-sref=main.report-TravelExpenseReport><i class=\"fa fa-file-o\"></i> Travel Expense Report</a></li></ul></li></ul></div>");
+$templateCache.put("views/workflow-associate/ApproveWorkflow.html","<form class=form-horizontal name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title translate=ApproveWorkflow></h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-2\" translate=Approvers></label><div class=col-sm-10><table class=\"table table-bordered\"><thead><tr><th translate=\"Assign To\"></th><th translate=Order></th><th translate=Signature></th><th><a href class=\"btn btn-xs\" ng-click=\"doc.queue.push({assignTo:[],type:\'serial\',signature:null})\"><i class=\"fa fa-plus\"></i></a></th></tr></thead><tbody><tr ng-repeat=\"q in doc.queue\"><td><ui-select class=form-control multiple ng-model=q.assignTo><ui-select-match>{{$item.title}}</ui-select-match><ui-select-choices repeat=\"[item.__t,item.title,item.id].join(\'#\') as item in UserRoleSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></td><td><select class=\"form-control input-small\" ng-model=q.type required ui-message=\"\"><option value=serial translate=Serial></option><option value=parallel translate=Parallel></option></select></td><td><input class=\"form-control input-small\" name=signature id=signature ng-model=\"q.signature\"></td><td><a href class=\"btn btn-xs\" ng-click=\"doc.queue.splice($index, 1);\"><i class=\"fa fa-minus\"></i></a></td></tr></tbody></table><span class=help-block>输入用户名，以便工作流向其分配任务，并选择任务分配的顺序。您也可以添加阶段，以不同的顺序将任务分配给更多人员。 请确保指定您希望的分配方式：应一次分配一个任务（串行），还是一次分配所有任务（并行）。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label for=expand class=\"control-label col-sm-2\" translate=\"Expand Groups\"></label><div class=col-sm-10><input type=checkbox class=form-control id=expand name=expand bs-switch ng-model=\"doc.expand\"> <span class=help-block>对于输入的每个组，请向该组的每个成员分配一项任务</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-2\" translate=CC></label><div class=col-sm-10><ui-select class=form-control multiple ng-model=doc.copyTo><ui-select-match>{{$item.username}} &lt;{{$item.email}}&gt;</ui-select-match><ui-select-choices repeat=\"[item.username,item.email,item.id].join(\'#\') as item in UserSelector | filter: $select.search\"><div ng-bind-html-unsafe=\"item.id | highlight: $select.search\"></div><small>Email: {{item.email}}</small></ui-select-choices></ui-select>{{UserSelector}} <span class=help-block>此工作流启动时通知其他人员，而结束时不向其分配任务。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label for=ctApprove class=\"control-label col-sm-2\" translate=\"Enable Content Approval\"></label><div class=col-sm-10><input type=checkbox class=form-control id=ctApprove name=ctApprove bs-switch ng-model=\"doc.ctApprove\"> <span class=help-block>在此工作流完成后更新审批状态(使用此工作流控制内容审批)。</span></div></div></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit data-ng-disabled=frm.$invalid></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div>{{doc}}</form>");
 $templateCache.put("views/plugins/angular-block-ui.html","<div ng-show=\"state.blockCount > 0\" class=block-ui-overlay ng-class=\"{ \'block-ui-visible\': state.blocking }\"></div><div ng-show=state.blocking class=block-ui-message-container><div class=loading-message><img src=./assets/img/loading-spinner-grey.gif> <span>&nbsp;&nbsp;{{ state.message }}</span></div></div>");
 $templateCache.put("views/plugins/attachment.html","<div ng-show=\"uploader.isHTML5 && state!==\'View\'\" class=well nv-file-over nv-file-drop uploader=uploader>Drop files here</div><input ng-hide=\"state===\'View\'\" nv-file-select type=file uploader=uploader multiple><table class=table ng-show=\"uploader.queue.length>0 || doc.attachments.length>0\"><thead><tr><th width=50%>Name</th><th ng-show=uploader.isHTML5>Progress</th><th>Status</th><th ng-hide=\"state===\'View\'\">Actions</th></tr></thead><tbody><tr ng-repeat=\"item in uploader.queue\" ng-hide=\"state===\'View\'\"><td><strong ng-bind=item.file.name></strong></td><td ng-show=uploader.isHTML5><div class=progress style=\"margin-bottom: 0\"><div class=progress-bar role=progressbar ng-style=\"{ \'width\': item.progress + \'%\' }\"></div></div></td><td class=text-center><span ng-show=item.isSuccess><i class=\"glyphicon glyphicon-ok\"></i></span> <span ng-show=item.isCancel><i class=\"glyphicon glyphicon-ban-circle\"></i></span> <span ng-show=item.isError><i class=\"glyphicon glyphicon-remove\"></i></span></td><td nowrap><div class=btn-group><button type=button class=\"btn btn-success btn-xs\" ng-click=item.upload() ng-hide=\"item.isReady || item.isUploading || item.isSuccess\" tooltip=Upload><span class=\"glyphicon glyphicon-upload\"></span> Upload</button> <button type=button class=\"btn btn-warning btn-xs\" ng-click=item.cancel() ng-disabled=!item.isUploading tooltip=Cancel><span class=\"glyphicon glyphicon-ban-circle\"></span> Cancel</button> <button type=button class=\"btn btn-danger btn-xs\" ng-click=delete(item) tooltip=Remove><span class=\"glyphicon glyphicon-trash\"></span> Remove</button></div></td></tr><tr ng-repeat=\"item in doc.attachments\"><td><a href=\"{{attachmentConfig.url + doc.__t }}/download/{{item}}\" traget=_blank><strong ng-bind=item></strong></a></td><td ng-show=uploader.isHTML5><div class=progress style=\"margin-bottom: 0\"><div class=progress-bar role=progressbar1 style=width:100%></div></div></td><td><span><i class=\"glyphicon glyphicon-ok\"></i></span></td><td ng-hide=\"state===\'View\'\"><button type=button class=\"btn btn-danger btn-xs\" ng-click=delAttachment($index,item) title=\"Delete the file\"><span class=\"glyphicon glyphicon-trash\"></span> Remove</button></td></tr></tbody></table>");
 $templateCache.put("views/plugins/repeat-table.html","<div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><span class=caret></span></button><ul class=dropdown-menu role=menu><li><a href translate=\"Insert after this row\" ng-click=insert($index+1) ng-hide=\"rows.length>5\"></a></li><li><a href translate=\"Insert before this row\" ng-click=insert($index)></a></li><li><a href translate=\"Delete this row\" ng-click=del($index)></a></li></ul></div>");
-$templateCache.put("views/workflow/addWrk.html","<form class=form-horizontal name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title translate=\"Add Workflow\"></h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label for=title class=\"control-label col-sm-3\" translate=Title></label><div class=col-sm-9><input class=form-control id=title name=title ng-model=doc.title required unique=WorkflowAssociation ui-message=\"\"> <span class=help-block>键入此工作流的名称。 该名称将用于向此列表的用户标识此工作流。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" translate=\"Workflow Template\"></label><div class=col-sm-9><ui-select class=form-control ng-model=doc.workflowTemplateId selector=\"{service:\'WorkflowTemplate\'}\" required ui-message=\"\"><ui-select-match>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in WorkflowTemplateSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select><span class=help-block>传送文档供审批。审批者可以批准或拒绝文档、重新分配审批任务或请求更改文档。</span></div></div></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit data-ng-disabled=\"frm.$invalid && !doc.associateData\"></button> <button type=button class=\"btn btn-default\" translate=Cancel ui-sref=main.wrkSetting({list:$stateParams.list})></button></div></form>");
-$templateCache.put("views/workflow/workflow.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{\'Workflow History\' | translate}} <small></small></h3><div ncy-breadcrumb></div></div></div><div class=\"panel panel-warning\"><div class=panel-heading><h3 class=panel-title>开始新的工作流</h3></div><div class=panel-body><p>Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div><ul class=list-group><a class=list-group-item ng-repeat=\"ass in wfAss\" ng-bind=ass.title href ng-click=initialWorkflow(ass)></a></ul></div><div class=\"panel panel-warning\"><div class=panel-heading><h3 class=panel-title>Panel Title</h3></div><div class=panel-body><p>Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p></div><div class=list-group><a ui-sref=main.wrkStat({workflow:log.association.title,instanceId:log.id}) class=list-group-item ng-repeat=\"log in workflowLog | orderBy:[\'-workflowState\',\'-completeAt\',\'-created\']\">{{log}} {{log.association.title}} //TODO:时间 <span ng-bind=\"log.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span ng-bind=\"log.completeAt | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span class=\"badge badge-info\" ng-bind=log.workflowState></span></a></div></div></div>");
-$templateCache.put("views/workflow/wrkStat.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{\'Workflow History\' | translate}} <small></small></h3><div ncy-breadcrumb></div></div></div><div class=\"panel panel-success\"><div class=panel-heading><h3 class=panel-title translate=\"Workflow Information\"></h3></div><div class=panel-body><div class=row><div class=col-md-6><label class=col-md-4 translate=\"Workflow Initiator\"></label><div class=col-md-8><p ng-bind=instance.initiator.username></p></div></div><div class=col-md-6><label class=col-md-4 translate=\"Workflow InitialItem\"></label><div class=col-md-8><a href title-link={title:instance.workflowItemTitle,id:instance.workflowItemId,__t:instance.workflowList}></a></div></div></div><div class=row><div class=col-md-6><label class=col-md-4 translate=\"Workflow StartDate\"></label><div class=col-md-8><p ng-bind=\"instance.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></p></div></div><div class=col-md-6><label class=col-md-4 translate=\"Workflow Status\"></label><div class=col-md-8><p ng-bind=\"instance.workflowState | translate\"></p></div></div></div><div class=row><div class=col-md-12><label class=col-md-2 translate=\"Workflow Last RunTime\"></label><div class=col-md-10><p ng-bind=\"instance.modified | date:\'yyyy-MM-dd HH:mm:ss\'\"></p></div></div></div></div></div><div class=\"panel panel-success\"><div class=panel-heading><h3 class=panel-title translate=\"Workflow Task\"></h3></div><div class=panel-body><table class=table><thead><tr><th translate=\"Task Assigned\"></th><th translate=Title></th><th translate=\"Task DueDate\"></th><th translate=\"Task Status\"></th><th translate=\"Task Outcome\"></th></tr></thead><tbody><tr ng-repeat=\"task in tasks\"><td ng-bind=task.assigned.title></td><td><a href ng-bind=task.title ng-click=viewTask(task)></a></td><td ng-bind=\"task.dueDate | date:\'yyyy-MM-dd HH:mm\'\"></td><td ng-bind=\"task.status | translate\"></td><td ng-bind=task.outcome></td></tr></tbody></table></div></div><div class=\"panel panel-info\"><div class=panel-heading><h3 class=panel-title translate=Workflow　Log></h3></div><div class=panel-body><table class=table><thead><tr><th translate=Date></th><th translate=EventType></th><th translate=Body></th></tr></thead><tbody><tr ng-repeat=\"log in instance.workflowLogs\"><td ng-bind=\"log.created | date:\'yyyy-MM-dd HH:mm\'\"></td><td ng-bind=log.type></td><td ng-bind=log.body></td></tr></tbody></table></div></div></div>");
-$templateCache.put("views/workflow-associate/ApproveWorkflow.html","<form class=form-horizontal name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title translate=ApproveWorkflow></h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-2\" translate=Approvers></label><div class=col-sm-10><table class=\"table table-bordered\"><thead><tr><th translate=\"Assign To\"></th><th translate=Order></th><th translate=Signature></th><th><a href class=\"btn btn-xs\" ng-click=\"doc.queue.push({assignTo:[],type:\'serial\',signature:null})\"><i class=\"fa fa-plus\"></i></a></th></tr></thead><tbody><tr ng-repeat=\"q in doc.queue\"><td><ui-select class=form-control multiple ng-model=q.assignTo><ui-select-match>{{$item.title}}</ui-select-match><ui-select-choices repeat=\"[item.__t,item.title,item.id].join(\'#\') as item in UserRoleSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></td><td><select class=\"form-control input-small\" ng-model=q.type required ui-message=\"\"><option value=serial translate=Serial></option><option value=parallel translate=Parallel></option></select></td><td><input class=\"form-control input-small\" name=signature id=signature ng-model=\"q.signature\"></td><td><a href class=\"btn btn-xs\" ng-click=\"doc.queue.splice($index, 1);\"><i class=\"fa fa-minus\"></i></a></td></tr></tbody></table><span class=help-block>输入用户名，以便工作流向其分配任务，并选择任务分配的顺序。您也可以添加阶段，以不同的顺序将任务分配给更多人员。 请确保指定您希望的分配方式：应一次分配一个任务（串行），还是一次分配所有任务（并行）。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label for=expand class=\"control-label col-sm-2\" translate=\"Expand Groups\"></label><div class=col-sm-10><input type=checkbox class=form-control id=expand name=expand bs-switch ng-model=\"doc.expand\"> <span class=help-block>对于输入的每个组，请向该组的每个成员分配一项任务</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-2\" translate=CC></label><div class=col-sm-10><ui-select class=form-control multiple ng-model=doc.copyTo><ui-select-match>{{$item.username}} &lt;{{$item.email}}&gt;</ui-select-match><ui-select-choices repeat=\"[item.username,item.email,item.id].join(\'#\') as item in UserSelector | filter: $select.search\"><div ng-bind-html-unsafe=\"item.id | highlight: $select.search\"></div><small>Email: {{item.email}}</small></ui-select-choices></ui-select>{{UserSelector}} <span class=help-block>此工作流启动时通知其他人员，而结束时不向其分配任务。</span></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label for=ctApprove class=\"control-label col-sm-2\" translate=\"Enable Content Approval\"></label><div class=col-sm-10><input type=checkbox class=form-control id=ctApprove name=ctApprove bs-switch ng-model=\"doc.ctApprove\"> <span class=help-block>在此工作流完成后更新审批状态(使用此工作流控制内容审批)。</span></div></div></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit data-ng-disabled=frm.$invalid></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div>{{doc}}</form>");
+$templateCache.put("views/list/content.html","<style>.grid {\n    width: 100%;\n    height: 400px;\n  }</style><div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>{{list.displayName || list.name}} <small ng-bind=list.description></small></h3><div ncy-breadcrumb></div></div></div><div class=row ng-show=false><div class=col-md-12><form class=form-horizontal ng-submit=getPagedDate()><div class=form-body><div class=form-group><label class=\"control-label col-md-3\">id</label><div class=col-md-4><div class=input-group><input type=number class=form-control name=id ng-model=filter.where.id.gt> <span class=input-group-addon>to</span> <input type=number class=form-control ng-model=filter.where.id.lt></div></div></div><div class=form-group><label class=\"col-md-3 control-label\">Title</label><div class=col-md-4><div class=\"input-icon right\"><i class=\"glyphicon glyphicon-remove\" ng-click=\"deleteFilter(\'title\')\" ng-show=filter.where.title.like></i> <input name=title ng-model=filter.where.title.like class=form-control placeholder=title></div></div></div><div class=form-group><label class=\"control-label col-md-3\">Date Range</label><div class=col-md-4><div class=input-group><input class=form-control name=created ng-model=filter.where.created.gt datetime-picker> <span class=input-group-addon>to</span> <input class=form-control name=created ng-model=filter.where.created.lt datetime-picker></div></div></div></div><div class=input-group><input type=search placeholder=Search... class=form-control required ui-message ng-model=search><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></form></div></div><div class=row><div class=col-md-12><form class=form-inline role=form><div class=form-group><label for=exampleInputEmail2>Email address</label><input type=email class=form-control id=exampleInputEmail2 placeholder=\"Enter email\"></div><div class=form-group><label for=exampleInputPassword2>Password</label><ui-select class=form-control ng-model=q.assignTo style=\"min-width: 300px\"><ui-select-match>{{$select.selected }}</ui-select-match><ui-select-choices repeat=\"item as item in [1,3,4,5] | filter: $select.search\"><div ng-bind-html=\"item | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=input-group><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></form></div></div><div class=row><div class=col-md-4><div class=btn-group><button type=button class=\"btn btn-default\" ng-repeat=\"view in views\" ng-bind=view.title ng-click=\"currentView=view\"></button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-ellipsis-horizontal\"></i> More <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href>创建视图</a></li><li><a href>修改视图</a></li></ul></div></div></div><div class=col-md-4><div class=input-group><input type=search placeholder=Search... class=form-control required ui-message ng-model=search><div class=input-group-btn><button type=button class=\"btn green\" data-toggle=dropdown>Search <i class=\"m-icon-swapright m-icon-white\"></i></button></div></div></div><div class=col-md-4><div class=pull-right><div class=btn-group><button type=button class=\"btn btn-default\" ng-click=gridAction.add()><i class=\"fa fa-plus\"></i> New</button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-bullhorn\"></i> Alert <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href=#>创建通知</a></li><li><a href=#>管理我的通知</a></li></ul></div><button type=button class=\"btn btn-default\" ui-sref=\"main.listSetting({list: $stateParams.list})\"><i class=\"fa fa-cogs\"></i> Settings</button><div class=btn-group><button type=button class=\"btn btn-default dropdown-toggle\" data-toggle=dropdown><i class=\"fa fa-ellipsis-horizontal\"></i> More <i class=\"fa fa-angle-down\"></i></button><ul class=dropdown-menu><li><a href=#>Dropdown link</a></li><li><a href=#>Dropdown link</a></li></ul></div></div></div></div></div><div class=row><div class=col-md-12><div class=grid ui-grid=gridOptions external-scopes=gridAction ui-grid-edit ui-grid-auto-resize ui-grid-pinning ui-grid-resize-columns ui-grid-selection></div></div></div><div class=row><div class=\"col-md-5 col-sm-12\"><div class=dataTables_info>Showing <span ng-bind=(filter.page-1)*filter.limit+1></span> to <span ng-bind=\"filter.page*filter.limit > totalServerItems ? totalServerItems : filter.page*filter.limit\"></span> of <span ng-bind=totalServerItems></span> entries</div></div><div class=\"col-md-7 col-sm-12\"><pagination total-items=totalServerItems ng-model=filter.page items-per-page=filter.limit ng-change=getPagedDate()></pagination></div></div><div block-ui=gridBlock></div></div>");
+$templateCache.put("views/list/setting.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>Blank Page <small>blank page</small></h3><div ncy-breadcrumb></div></div></div><div class=row><div class=col-md-12>setting<tabset><tab heading=常规设置></tab><tab heading=视图设置></tab><tab heading=权限设置></tab><tab heading=工作流设置></tab></tabset><a ui-sref=main.wrkSetting({list:$stateParams.list}) translate=\"Workflow Setting\"></a></div></div></div>");
+$templateCache.put("views/list/wrkSetting.html","<div class=page-content><div class=row><div class=col-md-12><h3 class=page-title>Workflow Setting <small>blank page</small></h3><div ncy-breadcrumb></div></div></div><div class=row><div class=col-md-12><accordion><accordion-group heading={{ass.title}} ng-repeat=\"ass in wfAss\"><accordion-heading>{{ass.title}} <span class=\"badge badge-info\" ng-bind=ass.instances.length></span> <button type=button class=\"btn btn-info\" translate=\"Associate Data\" ng-click=setAssociateData(ass) popover=\"click here to set the associate data\" popover-trigger=mouseenter></button></accordion-heading><div class=list-group><a ui-sref=main.wrkStat({workflow:ass.title,instanceId:log.id}) class=list-group-item ng-repeat=\"instance in ass.instances | orderBy:[\'-workflowState\',\'-completeAt\',\'-created\']\">{{log}} <span ng-bind=\"instance.created | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span ng-bind=\"instance.completeAt | date:\'yyyy-MM-dd HH:mm:ss\'\"></span> <span class=\"badge badge-info\" ng-bind=instance.workflowState></span></a></div></accordion-group></accordion><p><button type=button class=\"btn btn-default\" ng-click=addWorkflowAss() translate=\"Add Workflow\"></button></p></div></div></div>");
+$templateCache.put("views/User/Edit.html","<form class=form-horizontal ng-submit=submit() novalidate><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=cancel()></button><h4 class=modal-title>User</h4></div><div class=\"modal-body padding-0\"><div class=form-body><tabset><tab heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><input class=form-control ng-model=doc.firstName ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><input class=form-control ng-model=doc.lastName ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><input class=form-control ng-model=doc.initial ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><input class=form-control ng-model=\"doc.displayName\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><input class=form-control ng-model=\"doc.description\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><input class=form-control ng-model=doc.office ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><input class=form-control ng-model=doc.telephones ng-list></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Email</label><div class=col-md-9><input class=form-control ng-model=\"doc.email\"></div></div></div></div></tab><tab heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><div class=btn-group><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status disabled></div></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><input class=form-control ng-model=doc.company ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><input class=form-control ng-model=doc.department ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><input class=form-control name=.job&quot; ng-model=doc.job ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><ui-select class=form-control ng-model=doc.managerId selector=\"{service:\'User\',filter:{fields:[\'id\',\'username\']}}\"><ui-select-match allow-clear=true>{{$select.selected.username}}</ui-select-match><ui-select-choices repeat=\"item.id as item in UserSelector | filter: $select.search\"><div ng-bind-html=\"item.username | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><dic class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></tab></tabset></div></div><div class=modal-footer><button type=button class=\"btn default\" data-dismiss=modal ng-click=cancel()>Cancel</button> <button type=submit class=\"btn blue\">Submit</button></div></form>");
+$templateCache.put("views/User/New.html","<form class=form-horizontal ng-submit=$dismiss()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>User</h4></div><div class=modal-body><tabset><tab heading=General><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=firstName>First Name</label><div class=col-sm-9><input class=form-control id=firstName name=firstName ng-model=doc.firstName ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=lastName>Last Name</label><div class=col-sm-9><input class=form-control id=lastName ng-model=doc.lastName ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=initial>Initial</label><div class=col-sm-9><input class=form-control id=initial ng-model=doc.initial ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=displayName>DisplayName</label><div class=col-sm-9><input class=form-control id=displayName ng-model=\"doc.displayName\"></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=description>Description</label><div class=col-sm-9><input class=form-control id=description ng-model=\"doc.description\"></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=office>Office</label><div class=col-sm-9><input class=form-control id=office ng-model=doc.office ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=telephones>Telephones</label><div class=col-sm-9><input class=form-control id=telephones ng-model=doc.telephones ng-list></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=email>Email</label><div class=col-sm-9><input class=form-control id=email ng-model=doc.email required ui-message></div></div></div></div></tab><tab heading=Account><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=username>Login Name</label><div class=col-sm-9><input class=form-control id=username unique=User ng-model=doc.username ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Status</label><div class=col-sm-9><div class=btn-group><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status></div></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=company>Company</label><div class=col-sm-9><input class=form-control id=company ng-model=doc.company ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=department>Department</label><div class=col-sm-9><input class=form-control id=department ng-model=doc.department ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=job>Job</label><div class=col-sm-9><input class=form-control id=job ng-model=doc.job ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Manager</label><div class=col-sm-9><ui-select class=form-control ng-model=doc.managerId selector=\"{service:\'User\',filter:{fields:[\'id\',\'username\']}}\"><ui-select-match allow-clear=true>{{$select.selected.username}}</ui-select-match><ui-select-choices repeat=\"item.id as item in UserSelector | filter: $select.search\"><div ng-bind-html=\"item.username | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Director Reports</label><div class=col-sm-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><dic class=col-sm-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></tab></tabset></div><div class=modal-footer><button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss()>Cancel</button> <button type=submit class=\"btn btn-primary\" ng-click=submit()>Submit</button></div></form>");
+$templateCache.put("views/User/View.html","<form class=form-horizontal ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>User</h4></div><div class=\"modal-body padding-0\"><div class=form-body><tabset><tab heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.firstName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.lastName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><p class=form-control-static ng-bind=doc.initial></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><p class=form-control-static ng-bind=doc.displayName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><p class=form-control-static ng-bind=doc.description></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><p class=form-control-static ng-bind=doc.office></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><p class=form-control-static ng-bind=\"doc.telephones.join(\',\')\"></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Email</label><div class=col-md-9><p class=form-control-static ng-bind=doc.email></p></div></div></div></div></tab><tab heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.username></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status disabled></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><p class=form-control-static ng-bind=doc.company></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><p class=form-control-static ng-bind=doc.department></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><p class=form-control-static ng-bind=doc.job></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><p class=form-control-static ng-bind=doc.manager.title></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><div class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></div></div></tab></tabset></div></div></form>");
+$templateCache.put("views/User/acc.html","<accordion close-others=true><accordion-group heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><input class=form-control ng-model=doc.general.firstName required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><input class=form-control ng-model=doc.general.lastName required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><input class=form-control ng-model=doc.general.initial required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.displayName\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.description\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><input class=form-control ng-model=doc.general.office required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><input class=form-control ng-model=doc.general.telephones ng-list></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Email</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.email\"></div></div></div></div></accordion-group><accordion-group heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><input class=form-control ng-unique=User ng-model=doc.title required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><div class=btn-group><label class=\"btn btn-success\" ng-model=doc.status btn-radio=\"\'NORMAL\'\">Normal</label><label class=\"btn btn-success\" ng-model=doc.status btn-radio=\"\'LOCK\'\">LOCK</label></div></div></div></div></div></accordion-group><accordion-group heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><input class=form-control ng-model=doc.organization.company required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><input class=form-control ng-model=doc.organization.department required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><input class=form-control ng-model=doc.organization.job required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><select class=form-control name=doc.organization.manager id=doc.organization.manager ng-model=doc.organization.manager ui-select2 required ui-message><option value=\"\"></option><option ng-repeat=\"user in UserSelector\" value=\"{{user._id }}\" ng-bind=user.title></option></select></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></accordion-group><accordion-group heading=MemberOf><div class=row><dic class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></accordion-group></accordion>");
 $templateCache.put("views/Post/Edit.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
 $templateCache.put("views/Post/New.html","<form class=form-horizontal role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Post</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=title>Title</label><div class=col-sm-9><input class=form-control id=title name=title ng-model=doc.title required></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=status>Status</label><div class=col-sm-9><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label for=select class=\"col-sm-3 control-label\">Select</label><div class=col-sm-9><select class=form-control id=select name=select ui-select2 ng-model=doc.select2><option value=one>First</option><option value=two>Second</option><option value=three>Third</option></select></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=remark>Remark</label><div class=col-sm-9><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">附件</label><div class=col-sm-9 ng-attachment></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=control-label>富文本1</label><div ng-model=doc.fulltext text-angular=\"\"></div></div></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\">Submit</button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss()>Cancel</button></div></form>");
 $templateCache.put("views/Post/View.html","<form class=form-horizontal role=form name=taskForm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=cancel()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=form-group><label class=\"col-sm-2 control-label\">Title</label><div class=col-sm-10><p class=form-control-static ng-bind=doc.title></p></div></div><div class=form-group><label class=\"col-sm-2 control-label\">附件</label><div class=col-sm-10 ng-attachment=View></div></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/User/Edit.html","<form class=form-horizontal ng-submit=submit() novalidate><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=cancel()></button><h4 class=modal-title>User</h4></div><div class=\"modal-body padding-0\"><div class=form-body><tabset><tab heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><div class=btn-group><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status disabled></div></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">ForceRestPwd</label><div class=col-md-9><div class=btn-group><input type=checkbox class=form-control id=forceRestPwd name=forceRestPwd bs-switch ng-model=doc.forceRestPwd disabled></div></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=email>Email</label><div class=col-sm-9><input class=form-control id=email ng-model=doc.email required ui-message></div></div></div></div></tab><tab heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><input class=form-control ng-model=doc.firstName ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><input class=form-control ng-model=doc.lastName ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><input class=form-control ng-model=doc.initial ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><input class=form-control ng-model=\"doc.displayName\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><input class=form-control ng-model=\"doc.description\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><input class=form-control ng-model=doc.office ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><input class=form-control ng-model=doc.telephones ng-list></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><input class=form-control ng-model=doc.company ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><input class=form-control ng-model=doc.department ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><input class=form-control name=.job&quot; ng-model=doc.job ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><ui-select class=form-control ng-model=doc.managerId selector=\"{service:\'User\',filter:{fields:[\'id\',\'username\']}}\"><ui-select-match allow-clear=true>{{$select.selected.username}}</ui-select-match><ui-select-choices repeat=\"item.id as item in UserSelector | filter: $select.search\"><div ng-bind-html=\"item.username | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><dic class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></tab></tabset></div></div><div class=modal-footer><button type=button class=\"btn default\" data-dismiss=modal ng-click=cancel()>Cancel</button> <button type=submit class=\"btn blue\">Submit</button></div></form>");
-$templateCache.put("views/User/New.html","<form class=form-horizontal ng-submit=$dismiss()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>User</h4></div><div class=modal-body><tabset><tab heading=Account><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=username>Login Name</label><div class=col-sm-9><input class=form-control id=username unique=User ng-model=doc.username required ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=username>Password</label><div class=col-sm-9><input class=form-control id=password ng-model=doc.password required ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Status</label><div class=col-sm-9><div class=btn-group><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status></div></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">ForceRestPwd</label><div class=col-sm-9><div class=btn-group><input type=checkbox class=form-control id=forceRestPwd name=forceRestPwd bs-switch ng-model=doc.forceRestPwd></div></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=email>Email</label><div class=col-sm-9><input class=form-control id=email ng-model=doc.email required ui-message></div></div></div></div></tab><tab heading=General><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=firstName>First Name</label><div class=col-sm-9><input class=form-control id=firstName name=firstName ng-model=doc.firstName ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=lastName>Last Name</label><div class=col-sm-9><input class=form-control id=lastName ng-model=doc.lastName ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=initial>Initial</label><div class=col-sm-9><input class=form-control id=initial ng-model=doc.initial ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=displayName>DisplayName</label><div class=col-sm-9><input class=form-control id=displayName ng-model=\"doc.displayName\"></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=description>Description</label><div class=col-sm-9><input class=form-control id=description ng-model=\"doc.description\"></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=office>Office</label><div class=col-sm-9><input class=form-control id=office ng-model=doc.office ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=telephones>Telephones</label><div class=col-sm-9><input class=form-control id=telephones ng-model=doc.telephones ng-list></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=company>Company</label><div class=col-sm-9><input class=form-control id=company ng-model=doc.company ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=department>Department</label><div class=col-sm-9><input class=form-control id=department ng-model=doc.department ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=job>Job</label><div class=col-sm-9><input class=form-control id=job ng-model=doc.job ui-message></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Manager</label><div class=col-sm-9><ui-select class=form-control ng-model=doc.managerId selector=\"{service:\'User\',filter:{fields:[\'id\',\'username\']}}\"><ui-select-match allow-clear=true>{{$select.selected.username}}</ui-select-match><ui-select-choices repeat=\"item.id as item in UserSelector | filter: $select.search\"><div ng-bind-html=\"item.username | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\">Director Reports</label><div class=col-sm-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><dic class=col-sm-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></tab></tabset></div><div class=modal-footer><button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss()>Cancel</button> <button type=submit class=\"btn btn-primary\" ng-click=submit()>Submit</button></div></form>");
-$templateCache.put("views/User/View.html","<form class=form-horizontal ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>User</h4></div><div class=\"modal-body padding-0\"><div class=form-body><tabset><tab heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.username></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><input type=checkbox class=form-control id=status name=status bs-switch ng-model=doc.status disabled></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">ForceRestPwd</label><div class=col-md-9><input type=checkbox class=form-control id=forceRestPwd name=forceRestPwd bs-switch ng-model=doc.forceRestPwd disabled></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"control-label col-sm-3\" for=email>Email</label><div class=col-sm-9 ng-bind=doc.email></div></div></div></div></tab><tab heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.firstName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><p class=form-control-static ng-bind=doc.lastName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><p class=form-control-static ng-bind=doc.initial></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><p class=form-control-static ng-bind=doc.displayName></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><p class=form-control-static ng-bind=doc.description></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><p class=form-control-static ng-bind=doc.office></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><p class=form-control-static ng-bind=\"doc.telephones.join(\',\')\"></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Email</label><div class=col-md-9><p class=form-control-static ng-bind=doc.email></p></div></div></div></div></tab><tab heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><p class=form-control-static ng-bind=doc.company></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><p class=form-control-static ng-bind=doc.department></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><p class=form-control-static ng-bind=doc.job></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><p class=form-control-static ng-bind=doc.manager.title></p></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></tab><tab heading=MemberOf><div class=row><div class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></div></div></tab></tabset></div></div></form>");
-$templateCache.put("views/User/acc.html","<accordion close-others=true><accordion-group heading=General><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">First Name</label><div class=col-md-9><input class=form-control ng-model=doc.general.firstName required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Last Name</label><div class=col-md-9><input class=form-control ng-model=doc.general.lastName required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Initial</label><div class=col-md-9><input class=form-control ng-model=doc.general.initial required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">DisplayName</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.displayName\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Description</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.description\"></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Office</label><div class=col-md-9><input class=form-control ng-model=doc.general.office required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Telephones</label><div class=col-md-9><input class=form-control ng-model=doc.general.telephones ng-list></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Email</label><div class=col-md-9><input class=form-control ng-model=\"doc.general.email\"></div></div></div></div></accordion-group><accordion-group heading=Account><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Login Name</label><div class=col-md-9><input class=form-control ng-unique=User ng-model=doc.title required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Status</label><div class=col-md-9><div class=btn-group><label class=\"btn btn-success\" ng-model=doc.status btn-radio=\"\'NORMAL\'\">Normal</label><label class=\"btn btn-success\" ng-model=doc.status btn-radio=\"\'LOCK\'\">LOCK</label></div></div></div></div></div></accordion-group><accordion-group heading=Organization><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Company</label><div class=col-md-9><input class=form-control ng-model=doc.organization.company required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Department</label><div class=col-md-9><input class=form-control ng-model=doc.organization.department required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Job</label><div class=col-md-9><input class=form-control ng-model=doc.organization.job required ui-message></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Manager</label><div class=col-md-9><select class=form-control name=doc.organization.manager id=doc.organization.manager ng-model=doc.organization.manager ui-select2 required ui-message><option value=\"\"></option><option ng-repeat=\"user in UserSelector\" value=\"{{user._id }}\" ng-bind=user.title></option></select></div></div></div></div><div class=row><div class=col-md-12><div class=form-group><label class=\"control-label col-md-3\">Director Reports</label><div class=col-md-9><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>LoginName</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"item in reporters\"><td ng-bind=item.title></td><td ng-bind=item.description></td></tr></tbody></table></div></div></div></div></div></accordion-group><accordion-group heading=MemberOf><div class=row><dic class=col-md-12><div class=\"table-responsive flip-scroll\"><table class=\"table table-striped table-bordered table-condensed table-hover flip-content\"><thead><tr><th>Title</th><th>Description</th></tr></thead><tbody><tr ng-repeat=\"group in groups\"><td ng-bind=group.title></td><td ng-bind=group.description></td></tr></tbody></table></div></dic></div></accordion-group></accordion>");
-$templateCache.put("views/product/Brand/Edit.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>品牌</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>品牌名称</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Brand/New.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>品牌</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>品牌名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Brand/View.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>品牌</h4></div><div class=modal-body><div class=form-group><label class=control-label>品牌名称：</label><p class=form-control-static ng-bind=doc.title></p></div><div class=form-group><label class=control-label>备注</label><p class=form-control-static ng-bind=doc.remark></p></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/product/Manufacturer/Edit.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>制造商</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>制造商名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Manufacturer/New.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>制造商</h4></div><div class=modal-body><div class=\"form-group col-md-12\"><label class=control-label for=title>制造商名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=\"form-group col-md-12\"><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Manufacturer/View.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>制造</h4></div><div class=modal-body><div class=form-group><label class=control-label>制造商：</label><p class=form-control-static ng-bind=doc.title></p></div><div class=form-group><label class=control-label>备注：</label><p class=form-control-static ng-bind=doc.remark></p></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/product/Product/Edit.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>产品</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>Title</label><input class=form-control id=title name=title ng-model=doc.title ui-message></div><div class=form-group><label class=control-label for=shortDesc>简述</label><input class=form-control id=shortDesc name=shortDesc ng-model=doc.shortDesc ui-message></div><div class=form-group><label class=control-label for=code>编码</label><input class=form-control id=code name=code ng-model=doc.code ui-message></div><div class=form-group><label class=control-label for=recommend>推荐</label><input type=checkbox class=form-control id=recommend name=recommend bs-switch ng-model=doc.recommend></div><div class=form-group><label class=control-label for=priority>排序</label><input type=number class=form-control id=priority name=priority ng-model=doc.priority ui-message></div><div class=form-group><label class=control-label for=meat_title>meat title</label><input class=form-control id=meat_title name=meat_title ng-model=doc.meat_title ui-message></div><div class=form-group><label class=control-label for=meat_key>meat keywords</label><input class=form-control id=meat_key name=meat_key ng-model=doc.meat_key ui-message></div><div class=form-group><label class=control-label for=meat_description>meat description</label><input class=form-control id=meat_description name=meat_description ng-model=doc.meat_description ui-message></div><div class=form-group><label class=control-label for=urlSuffix>URL后缀</label><input class=form-control id=urlSuffix name=urlSuffix ng-model=doc.urlSuffix ui-message></div><div class=form-group><label class=control-label for=link>外部链接</label><input class=form-control id=link name=link ng-model=doc.link ui-message></div><div class=form-group><label class=control-label for=keywords>关键字</label><input class=form-control id=keywords name=keywords ng-list ng-model=doc.keywords ui-message></div><div class=form-group><label class=control-label>类别</label><ui-select class=form-control id=categoryId name=categoryId ng-model=doc.categoryId selector=\"{service:\'ProductCategory\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in ProductCategorySelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=form-group><label class=control-label>品牌</label><ui-select class=form-control id=brandId name=brandId ng-model=doc.brandId selector=\"{service:\'Brand\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in BrandSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=form-group><label class=control-label>生产商</label><ui-select class=form-control id=manufacturerId name=manufacturerId ng-model=doc.manufacturerId selector=\"{service:\'Manufacturer\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in ManufacturerSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Product/New.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>产品</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>产品名称</label><input class=form-control id=title name=title ng-model=doc.title ui-message></div><div class=form-group><label class=control-label for=shortDesc>简述</label><input class=form-control id=shortDesc name=shortDesc ng-model=doc.shortDesc ui-message></div><div class=form-group><label class=control-label for=code>编码</label><input class=form-control id=code name=code ng-model=doc.code ui-message></div><div class=form-group><label class=control-label for=recommend>推荐</label><input type=checkbox class=form-control id=recommend name=recommend bs-switch ng-model=doc.recommend></div><div class=form-group><label class=control-label for=priority>排序</label><input type=number class=form-control id=priority name=priority ng-model=doc.priority ui-message></div><div class=form-group><label class=control-label for=meat_title>meat title</label><input class=form-control id=meat_title name=meat_title ng-model=doc.meat_title ui-message></div><div class=form-group><label class=control-label for=meat_key>meat keywords</label><input class=form-control id=meat_key name=meat_key ng-model=doc.meat_key ui-message></div><div class=form-group><label class=control-label for=meat_description>meat description</label><input class=form-control id=meat_description name=meat_description ng-model=doc.meat_description ui-message></div><div class=form-group><label class=control-label for=urlSuffix>URL后缀</label><input class=form-control id=urlSuffix name=urlSuffix ng-model=doc.urlSuffix ui-message></div><div class=form-group><label class=control-label for=link>外部链接</label><input class=form-control id=link name=link ng-model=doc.link ui-message></div><div class=form-group><label class=control-label for=keywords>关键字</label><input class=form-control ng-list id=keywords name=keywords ng-model=doc.keywords ui-message></div><div class=form-group><label class=control-label>类别</label><ui-select class=form-control id=categoryId name=categoryId ng-model=doc.categoryId selector=\"{service:\'ProductCategory\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in ProductCategorySelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=form-group><label class=control-label>品牌</label><ui-select class=form-control id=brandId name=brandId ng-model=doc.brandId selector=\"{service:\'Brand\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in BrandSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div><div class=form-group><label class=control-label>生产商</label><ui-select class=form-control id=manufacturerId name=manufacturerId ng-model=doc.manufacturerId selector=\"{service:\'Manufacturer\',filter:{fields:[\'title\',\'id\']}}\" ui-message><ui-select-match allow-clear=true>{{$select.selected.title}}</ui-select-match><ui-select-choices repeat=\"item.id as item in ManufacturerSelector | filter: $select.search\"><div ng-bind-html=\"item.title | highlight: $select.search\"></div></ui-select-choices></ui-select></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/Product/View.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>产品</h4></div><div class=modal-body><div class=form-group><label class=control-label>Title</label><p class=form-control-static ng-bind=doc.title></p></div><div class=form-group><label class=control-label>简述</label><p class=form-control-static ng-bind=doc.shortDesc></p></div><div class=form-group><label class=control-label>编码</label><p class=form-control-static ng-bind=doc.code></p></div><div class=form-group><label class=control-label>推荐</label><p class=form-control-static ng-bind=doc.recommend></p></div><div class=form-group><label class=control-label>排序</label><p class=form-control-static ng-bind=doc.priority></p></div><div class=form-group><label class=control-label>meat title</label><p class=form-control-static ng-bind=doc.meat_title></p></div><div class=form-group><label class=control-label>meat keywords</label><p class=form-control-static ng-bind=doc.meat_key></p></div><div class=form-group><label class=control-label>meat description</label><p class=form-control-static ng-bind=doc.meat_description></p></div><div class=form-group><label class=control-label>URL后缀</label><p class=form-control-static ng-bind=doc.urlSuffix></p></div><div class=form-group><label class=control-label>外部链接</label><p class=form-control-static ng-bind=doc.link></p></div><div class=form-group><label class=control-label>关键字</label><p class=form-control-static ng-bind=doc.keywords></p></div><div class=form-group><label class=control-label>类别</label><p class=form-control-static ng-bind=doc.category.title></p></div><div class=form-group><label class=control-label>品牌</label><p class=form-control-static ng-bind=doc.brand.title></p></div><div class=form-group><label class=control-label>生产商</label><p class=form-control-static ng-bind=doc.manufacturer.title></p></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/product/ProductCategory/Edit.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>类别</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/ProductCategory/New.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>类别</h4></div><div class=modal-body><div class=row><div class=form-group><label class=control-label for=title>名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/ProductCategory/View.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>类别</h4></div><div class=modal-body><div class=form-group><label class=control-label>名称：</label><p class=form-control-static ng-bind=doc.title></p></div><div class=form-group><label class=control-label>备注：</label><p class=form-control-static ng-bind=doc.remark></p></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/product/dealer/Edit.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>经销商</h4></div><div class=modal-body><div class=form-group><label class=control-label for=title>经销商名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=form-group><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/dealer/New.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>经销商</h4></div><div class=modal-body><div class=\"form-group col-md-12\"><label class=control-label for=title>经销商名称：</label><input class=form-control id=title ng-model=doc.title required ui-message></div><div class=\"form-group col-md-12\"><label class=control-label for=remark>备注：</label><textarea class=form-control name=remark id=remark cols=30 rows=3 ng-model=doc.remark></textarea></div></div><div class=modal-footer><button type=submit class=\"btn btn-primary\" translate=Submit></button> <button type=button class=\"btn btn-default\" data-dismiss=modal ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/product/dealer/View.html","<form role=form name=frm ng-submit=submit()><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>经销商</h4></div><div class=modal-body><div class=form-group><label class=control-label>经销商名称：</label><p class=form-control-static ng-bind=doc.title></p></div><div class=form-group><label class=control-label>备注：</label><p class=form-control-static ng-bind=doc.remark></p></div></div><div class=modal-footer></div></form>");
-$templateCache.put("views/AssignTask/Edit.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Title></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-primary\" ng-click=approve() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=reject() translate=Reject></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button> <button type=button class=\"btn btn-info\" ng-click=requestChange() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=reAssignTask() translate=\"ReAssign Task\"></button></div></form>");
-$templateCache.put("views/AssignTask/New.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/AssignTask/View.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
 $templateCache.put("views/WorkflowApproveTask/Edit.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Title></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-primary\" ng-click=approve() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=reject() translate=Reject></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button> <button type=button class=\"btn btn-info\" ng-click=requestChange() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=reAssignTask() translate=\"ReAssign Task\"></button></div></form>");
 $templateCache.put("views/WorkflowApproveTask/New.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
-$templateCache.put("views/WorkflowApproveTask/View.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");}]);
+$templateCache.put("views/WorkflowApproveTask/View.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
+$templateCache.put("views/AssignTask/Edit.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Title></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-primary\" ng-click=approve() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=reject() translate=Reject></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button> <button type=button class=\"btn btn-info\" ng-click=requestChange() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=reAssignTask() translate=\"ReAssign Task\"></button></div></form>");
+$templateCache.put("views/AssignTask/New.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");
+$templateCache.put("views/AssignTask/View.html","<form class=form-horizontal role=form name=frm><div class=modal-header><button type=button class=close data-dismiss=modal aria-hidden=true ng-click=$dismiss()></button><h4 class=modal-title>Task</h4></div><div class=modal-body><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\">Title</label><div class=col-sm-9><p class=form-control-static ng-bind=doc.title></p></div></div></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=Status></label><div class=col-sm-9><p class=form-control-static ng-bind=\"doc.status | translate\"></p></div></div></div></div><div class=row><div class=col-sm-12></div></div><div class=row><div class=col-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Requested By\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=form-group><label class=\"col-sm-3 control-label\" translate=\"Consolidated Comments\"></label><div class=col-sm-9><p class=form-control-static ng-bind=doc.requester></p></div></div></div></div><div class=row><div class=clo-sm-12><div class=\"row form-group\"><label class=\"col-sm-3 control-label\" translate=Comments></label><div class=col-sm-9><textarea class=form-control name=\"\" cols=30 rows=5 ng-model=doc.remark></textarea></div></div></div></div></div><div class=modal-footer><button type=button class=\"btn btn-success\" ng-click=submit() data-ng-disabled=frm.$invalid translate=Approve></button> <button type=button class=\"btn btn-danger\" ng-click=$dismiss() translate=Reject></button> <button type=button class=\"btn btn-info\" ng-click=cancel() translate=\"Request Change\"></button> <button type=button class=\"btn btn-warning\" ng-click=cancel() translate=\"ReAssign Task\"></button> <button type=button class=\"btn btn-default\" ng-click=$dismiss() translate=Cancel></button></div></form>");}]);
 angular.module('cmp', [
   'cmp.tpl',
   'lbServices',
@@ -19768,7 +20070,7 @@ angular.module('cmp', [
 ]).run(['$rootScope', '$modal', '$state', '$stateParams', 'localStorageService', '$translate',
   function ($rootScope, $modal, $state, $stateParams, localStorageService, $translate) {
     if (!localStorageService.get('lang')) {
-      localStorageService.set('lang', 'cn');
+      localStorageService.set('lang', 'us');
     }
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
@@ -19791,7 +20093,7 @@ angular.module('cmp')
     function ($scope, $state, $http, User, $rootScope, toastr, $location, localStorageService) {
       $scope.credentials = {
         username: 'nemo',
-        password: 'harttech'
+        password: '123456'
       };
       $scope.submit = function () {
         User.login($scope.credentials).$promise
@@ -20359,12 +20661,12 @@ angular.module('cmp')
   }])
   .controller('UserNewCtrl', ['$scope', '$modalInstance', 'User', 'toastr', 'doc',
     function ($scope, $modalInstance, User, toastr, doc) {
-      $scope.doc =_.defaults({status:true,forceRestPwd:false},doc);
+      $scope.doc = doc;
+      $scope.doc.password='888888';
       $scope.submit=function(){
         User.save($scope.doc).$promise
           .then(function(res){
-            $modalInstance.close();
-            toastr.success('保存成功');
+            $modalInstance.close()
           })
           .then(null,function(res){
           })
@@ -20385,10 +20687,7 @@ angular.module('cmp')
     }])
   .controller('UserViewCtrl', ['$scope', '$modalInstance', 'User', 'id',
     function ($scope, $modalInstance, User, id) {
-      $scope.doc = User.findOne({filter:{
-        where:{id:id},
-        include:[ {relation:'manager',scope:{fields:['username']}} ]
-      }});
+      $scope.doc = User.findById({id: id});
     }]);
 
 /**
@@ -20662,6 +20961,7 @@ angular.module('cmp')
       //      toastr.error('Permission Denied');
       //    }
       //  });
+
       //设置默认gridOptions
       $scope.gridOptions = {
         useExternalSorting: true,
@@ -20669,6 +20969,7 @@ angular.module('cmp')
         multiSelect: false,
         data: 'data',
         columnDefs: [],
+        orderByColumnDefs:false,
         excludeProperties: ['id', '__t', '__v', '_attachments', '_lk_remove', '_lk_update', '_lk_workflow', 'moderationComments', 'remark', 'instanceId']
       };
       //grid相关的操作
@@ -20703,22 +21004,23 @@ angular.module('cmp')
       }
       var actionMenu = ListUtil.getActionMenu(util ? util.menu : []);
 
-      List.debugColDef({modelName: $stateParams.list}).$promise.then(function (result) {
-        $scope.gridOptions.columnDefs = result;
-        $scope.gridOptions.columnDefs.splice(1, 0, actionMenu);
-      });
+      //List.debugColDef({modelName: $stateParams.list}).$promise.then(function (result) {
+      //  $scope.gridOptions.columnDefs = result;
+      //  $scope.gridOptions.columnDefs.splice(1, 0, actionMenu);
+      //});
 
       //获取list信息
       $scope.list = List.findOne({
         filter: {
-          where: {title: $stateParams.list},
+          where: {id: $stateParams.list},
           include: ['views']
         }
       }).$promise.then(function (result) {
           $scope.list = result;
           $scope.views = result.views;
           $scope.currentView = $scope.views[0];
-
+          $scope.currentView.columns.splice(1, 0, actionMenu);
+          $scope.gridOptions.columnDefs = $scope.currentView.columns;
           $scope.getPagedDate();
         });
 
@@ -20760,13 +21062,6 @@ angular.module('cmp')
         });
       };
 
-      $scope.deleteFilter = function (filter) {
-        //delete $scope.filter.where.title;
-        console.log('delete $scope.filter.where.' + filter);
-        eval('delete $scope.filter.where.' + filter);
-      };
-
-
     }])
   .controller('ListSettingCtrl', ['$scope', '$injector', '$state', '$stateParams', '$q', 'List', 'ACL', 'ListUtil', 'toastr', 'blockUI', 'localStorageService',
     function ($scope, $injector, $state, $stateParams, $q, List, ACL, ListUtil, toastr, blockUI, localStorageService) {
@@ -20778,368 +21073,6 @@ angular.module('cmp')
         }
       })
     }]);
-
-/**
- * Created by Lannister on 2014/12/29.
- */
-angular.module('cmp')
-  .factory('BrandUtil', [function () {
-    return {
-      include: [
-        {
-          relation: 'owner',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation: 'modifier',
-          scope: {
-            fields: ['username', 'email']
-          }
-        }
-      ],
-      menu: [],
-      fn: {}
-    }
-  }])
-  .controller('BrandNewCtrl', ['$scope', '$modalInstance', 'Brand', 'toastr', 'doc',
-    function ($scope, $modalInstance, Brand, toastr, doc) {
-      $scope.doc = doc;
-      $scope.submit = function () {
-        Brand.create($scope.doc).$promise
-          .then(function (result) {
-            toastr.success('success');
-            $modalInstance.close(result);
-          }, function (reason) {
-
-          })
-      };
-    }])
-  .controller('BrandEditCtrl', ['$scope', '$modalInstance', 'Brand', 'toastr', 'doc', 'Person',
-    function ($scope, $modalInstance, Brand, toastr, doc, Person) {
-      $scope.doc = Brand.findById({id: doc.id});
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes()
-          .then(function (result) {
-            toastr.success('修改成功');
-            $modalInstance.close(result);
-          })
-      }
-    }])
-  .controller('BrandViewCtrl', ['$scope', '$modalInstance', 'Brand', 'doc',
-    function ($scope, $modalInstance, Brand, doc) {
-      console.log(doc);
-      $scope.doc = Brand.findById({id: doc.id});
-    }]);
-
-/**
- * Created by Lannister on 2014/12/30.
- */
-angular.module('cmp')
-  .factory('DealerUtil', [function () {
-    return {
-      include: [
-        {
-          relation: 'owner',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation: 'modifier',
-          scope: {
-            fields: ['username', 'email']
-          }
-        }
-      ],
-      menu: [],
-      fn: {}
-    }
-  }])
-  .controller('DealerNewCtrl', ['$scope', '$modalInstance', 'Dealer', 'toastr', 'doc',
-    function ($scope, $modalInstance, Dealer, toastr, doc) {
-      $scope.doc = doc;
-      $scope.submit = function () {
-        Dealer.create($scope.doc).$promise
-          .then(function (result) {
-            toastr.success('success');
-            $modalInstance.close(result);
-          }, function (reason) {
-
-          })
-      };
-    }])
-  .controller('DealerEditCtrl', ['$scope', '$modalInstance', 'Dealer', 'toastr', 'doc', 'Person',
-    function ($scope, $modalInstance, Dealer, toastr, doc, Person) {
-      $scope.doc = Dealer.findById({id: doc.id});
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes()
-          .then(function (result) {
-            toastr.success('修改成功');
-            $modalInstance.close(result);
-          })
-      }
-    }])
-  .controller('DealerViewCtrl', ['$scope', '$modalInstance', 'Dealer', 'doc',
-    function ($scope, $modalInstance, Dealer, doc) {
-      console.log(doc);
-      $scope.doc = Dealer.findById({id: doc.id});
-    }]);
-
-/**
- * Created by Lannister on 2014/12/30.
- */
-angular.module('cmp')
-  .factory('ManufacturerUtil', [function () {
-    return {
-      include: [
-        {
-          relation: 'owner',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation: 'modifier',
-          scope: {
-            fields: ['username', 'email']
-          }
-        }
-      ],
-      menu: [],
-      fn: {}
-    }
-  }])
-  .controller('ManufacturerNewCtrl', ['$scope', '$modalInstance', 'Manufacturer', 'toastr', 'doc',
-    function ($scope, $modalInstance, Manufacturer, toastr, doc) {
-      $scope.doc = doc;
-      $scope.submit = function () {
-        Manufacturer.create($scope.doc).$promise
-          .then(function (result) {
-            toastr.success('success');
-            $modalInstance.close(result);
-          }, function (reason) {
-
-          })
-      };
-    }])
-  .controller('ManufacturerEditCtrl', ['$scope', '$modalInstance', 'Manufacturer', 'toastr', 'doc', 'Person',
-    function ($scope, $modalInstance, Manufacturer, toastr, doc, Person) {
-      $scope.doc = Manufacturer.findById({id: doc.id});
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes()
-          .then(function (result) {
-            toastr.success('修改成功');
-            $modalInstance.close(result);
-          })
-      }
-    }])
-  .controller('ManufacturerViewCtrl', ['$scope', '$modalInstance', 'Manufacturer', 'doc',
-    function ($scope, $modalInstance, Manufacturer, doc) {
-      console.log(doc);
-      $scope.doc = Manufacturer.findById({id: doc.id});
-    }]);
-
-/**
- * Created by Lannister on 2014/12/30.
- */
-angular.module('cmp')
-  .factory('ProductCategoryUtil', [function () {
-    return {
-      include: [
-        {
-          relation: 'owner',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation: 'modifier',
-          scope: {
-            fields: ['username', 'email']
-          }
-        }
-      ],
-      menu: [],
-      fn: {}
-    }
-  }])
-  .controller('ProductCategoryNewCtrl', ['$scope', '$modalInstance', 'ProductCategory', 'toastr', 'doc', '$timeout',
-    function ($scope, $modalInstance, ProductCategory, toastr, doc, $timeout) {
-      $scope.doc = doc;
-      $scope.submit = function () {
-        ProductCategory.create($scope.doc).$promise
-          .then(function (result) {
-            toastr.success('success');
-            $modalInstance.close(result);
-          }, function (reason) {
-
-          })
-      };
-    }])
-  .controller('ProductCategoryEditCtrl', ['$scope', '$modalInstance', 'ProductCategory', 'toastr', 'doc', 'Person',
-    function ($scope, $modalInstance, ProductCategory, toastr, doc, Person) {
-      $scope.doc = ProductCategory.findById({id: doc.id});
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes()
-          .then(function (result) {
-            toastr.success('修改成功');
-            $modalInstance.close(result);
-          })
-      }
-    }])
-  .controller('ProductCategoryViewCtrl', ['$scope', '$modalInstance', 'ProductCategory', 'doc',
-    function ($scope, $modalInstance, ProductCategory, doc) {
-      console.log(doc);
-      $scope.doc = ProductCategory.findById({id: doc.id});
-    }]);
-
-/**
- * Created by Lannister on 2014/12/30.
- */
-angular.module('cmp')
-  .factory('ProductUtil', [function () {
-    return {
-      include: [
-        {
-          relation: 'owner',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation: 'modifier',
-          scope: {
-            fields: ['username', 'email']
-          }
-        },
-        {
-          relation:'category',
-          $scope:{
-            fields:['title']
-          }
-        },
-        {
-          relation:'brand',
-          $scope:{
-            fields:['title']
-          }
-        },
-        {
-          relation:'manufacturer',
-          $scope:{
-            fields:['title']
-          }
-        }
-      ],
-      menu: [],
-      fn: {}
-    }
-  }])
-  .controller('ProductNewCtrl', ['$scope', '$modalInstance', 'Product', 'toastr', 'doc',
-    function ($scope, $modalInstance, Product, toastr, doc) {
-      $scope.doc = doc;
-      $scope.submit = function () {
-        Product.create($scope.doc).$promise
-          .then(function (result) {
-            toastr.success('success');
-            $modalInstance.close(result);
-          }, function (reason) {
-
-          })
-      };
-    }])
-  .controller('ProductEditCtrl', ['$scope', '$modalInstance', 'Product', 'toastr', 'doc', 'Person',
-    function ($scope, $modalInstance, Product, toastr, doc, Person) {
-      $scope.doc = Product.findById({id: doc.id});
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes()
-          .then(function (result) {
-            toastr.success('修改成功');
-            $modalInstance.close(result);
-          })
-      }
-    }])
-  .controller('ProductViewCtrl', ['$scope', '$modalInstance', 'Product', 'doc',
-    function ($scope, $modalInstance, Product, doc) {
-      console.log(doc);
-      $scope.doc = Product.findOne({filter:{
-        where:{id:doc.id},
-        include:[
-          {
-            relation:'category',
-            $scope:{
-              fields:['title']
-            }
-          },
-          {
-            relation:'brand',
-            $scope:{
-              fields:['title']
-            }
-          },
-          {
-            relation:'manufacturer',
-            $scope:{
-              fields:['title']
-            }
-          }
-        ]
-      }});
-    }]);
-
-/**
- * Created by 烬云 on 2014/11/1.
- */
-angular.module('cmp')
-  .factory('ListUtil', ['$modal', function ($modal) {
-    var listUtil = {};
-    listUtil.action = function (action, entity) {
-      return $modal.open({
-        templateUrl: 'views/' + entity.__t + '/' + action + '.html',
-        resolve: {
-          id: function () {
-            return entity.id || null;
-          },
-          doc: function () {
-            return _.defaults({}, entity);
-          }
-        },
-        size: 'lg',
-        backdrop: 'static',
-        controller: entity.__t + action + 'Ctrl'
-      });
-    };
-    listUtil.coreActionMenu = {
-      view: '<li role="presentation"><a href role="menuitem" ng-click="getExternalScopes().view(row.entity)"><i class="fa fa-eye"></i>View</a></li>',
-      edit: '<li role="presentation"><a href role="menuitem" ng-click="getExternalScopes().edit(row.entity)"><i class="fa fa-pencil"></i>Edit</a></li>',
-      del: '<li role="presentation"><a href role="menuitem" ng-click="getExternalScopes().del(row.entity)"><i class="fa fa-trash-o"></i>Delete</a></li>',
-      workflow: '<li role="presentation"><a ui-sref="main.workflow({list:row.entity.__t,id:row.entity.id,title:row.entity.title})" role="menuitem" ><i class="fa fa-check-square-o"></i>Workflow</a></li>'
-    };
-    listUtil.getActionMenu = function (menu) {
-      console.log(menu);
-      return {
-        name: 'action',
-        displayName: '',
-        enableCellEdit: false,
-        enableFiltering: false,
-        width: 50,
-        enableSorting: false,
-        enableColumnMenu: false,
-        cellTemplate: '<span class="dropdown" dropdown>' +
-        '<a href class="dropdown-toggle" dropdown-toggle><i class="fa fa-ellipsis-h"></i></a>' +
-        '<ul class="dropdown-menu">' +
-        listUtil.coreActionMenu.view +
-        listUtil.coreActionMenu.edit +
-        listUtil.coreActionMenu.del +
-        listUtil.coreActionMenu.workflow +
-        menu.join('') +
-        '</ul></span>'
-      }
-    };
-    return listUtil;
-  }]);
 
 /**
  * Created by 烬云 on 2014/11/6.
@@ -21318,30 +21251,6 @@ angular.module('cmp')
     }]);
 
 /**
- * Created by Administrator on 2014/12/10.
- */
-angular.module('cmp')
-  .controller('ApproveWorkflowAssCtrl', ['$scope', 'User', 'Role', 'toastr', '$modalInstance', 'associateData',
-    function ($scope, User, Role, toastr, $modalInstance, associateData) {
-      $scope.doc = {copyTo: []};
-      Role.selector().$promise.then(function (result) {
-        $scope.UserRoleSelector = result;
-        return User.find({
-          filter: {
-            fields: ['id', 'username', 'email']
-          }
-        }).$promise
-      }).then(function (result) {
-        $scope.UserSelector = result;
-        $scope.doc = associateData || $scope.doc;
-        $scope.doc.queue = $scope.doc.queue || [{assignTo: [], type: 'serial'}];
-      });
-      $scope.submit = function () {
-        $modalInstance.close($scope.doc);
-      };
-    }]);
-
-/**
  * Created by 烬云 on 2014/12/14.
  */
 
@@ -21426,3 +21335,102 @@ angular.module('cmp')
     ]
   }
 }])
+
+/**
+ * Created by Administrator on 2014/12/10.
+ */
+angular.module('cmp')
+  .controller('ApproveWorkflowAssCtrl', ['$scope', 'User', 'Role', 'toastr', '$modalInstance', 'associateData',
+    function ($scope, User, Role, toastr, $modalInstance, associateData) {
+      $scope.doc = {copyTo: []};
+      Role.selector().$promise.then(function (result) {
+        $scope.UserRoleSelector = result;
+        return User.find({
+          filter: {
+            fields: ['id', 'username', 'email']
+          }
+        }).$promise
+      }).then(function (result) {
+        $scope.UserSelector = result;
+        $scope.doc = associateData || $scope.doc;
+        $scope.doc.queue = $scope.doc.queue || [{assignTo: [], type: 'serial'}];
+      });
+      $scope.submit = function () {
+        $modalInstance.close($scope.doc);
+      };
+    }]);
+
+/**
+ * Created by 烬云 on 2014/11/1.
+ */
+angular.module('cmp')
+  .factory('ListUtil', ['$modal', function ($modal) {
+    var listUtil = {};
+    listUtil.action = function (action, entity) {
+      return $modal.open({
+        templateUrl: 'views/' + entity.__t + '/' + action + '.html',
+        resolve: {
+          id: function () {
+            return entity.id || null;
+          },
+          doc: function () {
+            return _.defaults({}, entity);
+          }
+        },
+        //size: 'lg',
+        backdrop: 'static',
+        controller: entity.__t + action + 'Ctrl'
+      });
+    };
+    listUtil.coreActionMenu = {
+      view: '<li role="presentation"><a href role="menuitem" ng-click="col.grid.appScope.gridAction.view(row.entity)"><i class="fa fa-eye"></i>View</a></li>',
+      edit: '<li role="presentation"><a href role="menuitem" ng-click="col.grid.appScope.gridAction.edit(row.entity)"><i class="fa fa-pencil"></i>Edit</a></li>',
+      del: '<li role="presentation"><a href role="menuitem" ng-click="col.grid.appScope.gridAction.del(row.entity)"><i class="fa fa-trash-o"></i>Delete</a></li>',
+      workflow: '<li role="presentation"><a ui-sref="main.workflow({list:row.entity.__t,id:row.entity.id,title:row.entity.title})" role="menuitem" ><i class="fa fa-check-square-o"></i>Workflow</a></li>'
+    };
+    listUtil.getActionMenu = function (menu) {
+      return {
+        field: 'action',
+        name: 'action',
+        displayName: '',
+        enableCellEdit: false,
+        enableFiltering: false,
+        width: 50,
+        enableSorting: false,
+        enableColumnMenu: false,
+        cellTemplate: '<span class="dropdown" dropdown>' +
+        '<a href class="dropdown-toggle" dropdown-toggle><i class="fa fa-ellipsis-h"></i></a>' +
+        '<ul class="dropdown-menu">' +
+        listUtil.coreActionMenu.view +
+        listUtil.coreActionMenu.edit +
+        listUtil.coreActionMenu.del +
+        listUtil.coreActionMenu.workflow +
+        menu.join('') +
+        '</ul></span>'
+      }
+    };
+
+    //$scope.buildAction = function () {
+    //  if ($scope.addOn) $scope.actionMenu.push($scope.addOn);
+    //  var cellTemplate = '<div class="dropdown">' +
+    //    '<a data-toggle="dropdown" class="none" ng-click="col.grid.appScope.setPermission(row.entity)"><div class="operate-icon"></div></a>' +
+    //    '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">' + $filter('buildAction')($scope.actionMenu) +
+    //    '</ul>' +
+    //    '</div>';
+    //
+    //  return {
+    //    field: 'action',
+    //    "displayName": '操作',
+    //    "cellClass": "align-center",
+    //    "groupable": false,
+    //    "pinnable": false,
+    //    enableColumnResizing: false,
+    //    enableSorting: false,
+    //    searchable: false,
+    //    "minWidth": "50",
+    //    "width": "50",
+    //    "cellTemplate": cellTemplate
+    //  };
+    //}
+    return listUtil;
+  }]);

@@ -31,13 +31,14 @@
     "core:ownerId",
     "core:modified",
     "core:modifierId",
+    "core:status",
     "Post:tags",
     "core:remark"
   ],
   "properties": {
     "tags": {
       "type": "string",
-      "required": true,
+      "required": false,
       "description": "标签"
     }
   },

@@ -2,6 +2,11 @@
   "name": "ColumnDef",
   "base": "PersistedModel",
   "properties": {
+    "id":{
+      "type": "string",
+      "required": true,
+      "id":true
+    },
     "name": {
       "type": "string",
       "required": true
@@ -21,7 +26,7 @@
     }
   },
   "mixins":{
-    "Core":true
+    "Core":{"title":false,"uuid":false,"__t":false}
   },
   "validations": [],
   "relations": {},

@@ -12,42 +12,42 @@
     ]
   },
   "User": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "AccessToken": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Role": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "RoleMapping": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "ACL": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Email": {
     "dataSource": "mailDS"
   },
   "Item": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "List": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "ColumnDef": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "View": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Attachment": {
@@ -55,47 +55,47 @@
     "public": true
   },
   "ModerationComment": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Task": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "WorkflowTemplate": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "WorkflowAssociation": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "WorkflowInstance": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "WorkflowTask": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "ApproveTask": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": false
   },
   "WorkflowLog": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Post": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Person": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "Alert": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "DocumentLibrary": {
@@ -103,15 +103,15 @@
     "public": true
   },
   "General": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "TravelRequest": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   },
   "ExpensesClaimRequest": {
-    "dataSource": "dev",
+    "dataSource": "local",
     "public": true
   }
 }

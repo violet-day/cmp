@@ -9,9 +9,16 @@ module.exports = function (Model, option) {
       return new Date();
     }
   });
-  Model.defineProperty('modified', {type: Date});
+  Model.defineProperty('modified', {type: Date,default:function(){
+    return new Date();
+  }});
   Model.observe('before save', function (ctx, next) {
-    ctx.instance.modified = new Date();
+
+    if(ctx.data){
+      ctx.data.modified=new Date();
+    }else if(ctx){
+
+    }
     next();
   });
 };

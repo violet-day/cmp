@@ -9,7 +9,11 @@
     }
   },
   "mixins": {
-    "Core": true,
+    "Core": {
+      "title": false,
+      "uuid": false,
+      "__t": false
+    },
     "TimeStamp": true
   },
   "validations": [],

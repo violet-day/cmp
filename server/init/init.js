@@ -3,21 +3,19 @@
  */
 
 var Q = require('q'),
-  co = require('co'),
   _ = require('lodash'),
   userMap = require('./../meta/user'),
   roleMap = require('./../meta/role'),
   aclMap = require('./../meta/acl'),
   app = require('./../server');
 
-module.exports = co.wrap(function *() {
-  yield [
-    Q.ninvoke(app.models.User, 'deleteAll'),
-    Q.ninvoke(app.models.Role, 'deleteAll'),
-    Q.ninvoke(app.models.RoleMapping, 'deleteAll'),
-    Q.ninvoke(app.models.ACL, 'deleteAll'),
-    Q.ninvoke(app.models.General, 'deleteAll')
-  ];
+module.exports = Q.spawn(function *() {
+  yield Q.all([
+    app.models.User.deleteAll(),
+    app.models.Role.deleteAll(),
+    app.models.RoleMapping.deleteAll(),
+    app.models.ACL.deleteAll()
+  ]);
   console.log('rest done');
   var users = yield userMap.map(function (u) {
     return Q.ninvoke(app.models.User, 'create', _.defaults({managerId: 0}, u));

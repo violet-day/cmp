@@ -1,13 +1,13 @@
 [
   {
-    "title": "project:assignTo",
+    "id": "project:assignTo",
     "name": "assignTo",
     "type": "string",
     "displayName": "AssignTo",
     "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"row.entity.assignTo\"></a></div>"
   },
   {
-    "title": "project:startDate",
+    "id": "project:startDate",
     "name": "startDate",
     "displayName": "StartDate",
     "type": "date",

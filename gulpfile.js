@@ -9,7 +9,7 @@ var concat = require('gulp-concat'),
   jshint = require("gulp-jshint"),
   rename = require('gulp-rename'),
   htmlmin = require('gulp-htmlmin'),
-  mocha = require('gulp-mocha-co'),
+  mocha = require('gulp-mocha'),
   blanket = require('gulp-blanket-mocha'),
   supervisor = require('gulp-supervisor'),
   templateCache = require('gulp-angular-templatecache'),
@@ -42,7 +42,7 @@ gulp.task('js', function () {
 
 gulp.task('sdk', function () {
   return gulp.src('./server/server.js')
-    .pipe(loopbackAngular())
+    .pipe(loopbackAngular({apiUrl:'http://127.0.0.1:3000/api'}))
     .pipe(gulp.dest('./src'));
 });
 
@@ -91,7 +91,7 @@ gulp.task('hint', function () {
 });
 
 gulp.task('test', function () {
-  return gulp.src('./test.js')
+  return gulp.src('./server/test/**/*.js')
     .pipe(mocha({
       globals: {
         app: require('./server/server')
@@ -112,12 +112,12 @@ gulp.task('server', function () {
 
 gulp.task('updateDB', function (cb) {
   var app = require('./server/server');
-  app.datasources.dev.autoupdate(cb);
+  app.datasources.local.autoupdate(cb);
 });
 
 gulp.task('restDB', function (cb) {
   var app = require('./server/server');
-  app.datasources.dev.automigrate(cb);
+  app.datasources.local.automigrate(cb);
 });
 
 gulp.task('publish', [], function () {
@@ -131,6 +131,7 @@ gulp.task('init', function () {
 gulp.task('dev', function (cb) {
   connect.server({
     root: ['public'],
+    port: 8888,
     livereload: true
   });
   gulpSequence('sdk', 'tpl', 'js', function () {

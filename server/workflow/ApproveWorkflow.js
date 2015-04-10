@@ -2,7 +2,6 @@
  * Created by 烬云 on 2014/9/4.
  */
 var Q = require('q'),
-  co = require('co'),
   _ = require('lodash'),
   debug = require('debug')('workflow:ApproveWorkflow');
 
