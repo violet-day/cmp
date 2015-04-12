@@ -74,21 +74,21 @@ module.exports = function (WorkflowInstance) {
    * 从数据库中取消持久化，并且传入任务
    * @param task
    */
-  //WorkflowInstance.prototype.wakeUp = function (task) {
-  //  var self = this;
-  //  state(self, wfs[self.workflowTemplateId]);
-  //  var currentState = self.state(self.internalState);
-  //  debug('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
-  //  if (currentState) {
-  //    if (currentState.hasMethod(task.changedMethod)) {
-  //      self.state(self.internalState).call(task.changedMethod, task);
-  //    } else {
-  //      yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'}));
-  //    }
-  //  } else {
-  //    yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'}));
-  //  }
-  //};
+  WorkflowInstance.prototype.wakeUp = function (task) {
+    //var self = this;
+    //state(self, wfs[self.workflowTemplateId]);
+    //var currentState = self.state(self.internalState);
+    //debug('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
+    //if (currentState) {
+    //  if (currentState.hasMethod(task.changedMethod)) {
+    //    self.state(self.internalState).call(task.changedMethod, task);
+    //  } else {
+    //    yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'}));
+    //  }
+    //} else {
+    //  yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'}));
+    //}
+  };
 //<editor-fold desc="InitialItem">
   /**
    * 得到流程启动项目
@@ -104,10 +104,7 @@ module.exports = function (WorkflowInstance) {
    * @param data
    * @returns {Promise}
    */
-  WorkflowInstance.prototype.updateInitialItem = function (data) {
-    var self = this;
-    return Q.ninvoke(WorkflowInstance.app.models[self.workflowList], 'update', {id: self.workflowItemId}, data);
-  };
+  WorkflowInstance.prototype.updateInitialItem = WorkflowInstance.app.models[self.workflowList].updateAttributes;
 
   /**
    * @description 设置工作流锁

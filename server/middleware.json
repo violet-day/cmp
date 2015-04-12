@@ -6,6 +6,8 @@
     "compression": {}
   },
   "auth": {
+    "./middleware/oauth": {
+    }
   },
   "parse": {
   },

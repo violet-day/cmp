@@ -3,11 +3,13 @@
  */
 var Q = require('q'),
   _ = require('lodash'),
+  extend = require('util')._extend,
+  seed = require('./WorkflowSeed'),
   debug = require('debug')('workflow:ApproveWorkflow');
 
-module.exports = {
+module.exports = extend({
   Initial: {
-    enter: function (transition) {
+    enter: function () {
       var owner = this;
       //TODO:发送邮件至抄送人
       owner.state().go('LoopApprove', {
@@ -20,24 +22,23 @@ module.exports = {
   LoopApprove: {
     enter: function () {
       var owner = this;
-      co(function *() {
-        owner.associatedData.index = owner.associatedData.index || 0;
-        var queue = owner.associatedData.queue[owner.associatedData.index];
-        if(owner.associatedData.expand){//是否展开组
-          //TODO
-        }
-        yield Q.all(queue.assignTo.map(function (assignTo) {
-          return owner.assignTask({
-            title: '请审批' + owner.workflowItemTitle,
-            assignTo: assignTo,
-            __t: 'WorkflowApproveTask',
-            changedMethod: 'WorkflowApproveTaskChanged'
-          });
-        }));
-        yield owner.sleep();
-      }).catch(function (err) {
-        Q.ninvoke(owner.logs, 'create', ({body: err.stack, type: 'Error'}));
-      });
+      Q.async(function *() {
+        //owner.associatedData.index = owner.associatedData.index || 0;
+        //var queue = owner.associatedData.queue[owner.associatedData.index];
+        //if (owner.associatedData.expand) {//是否展开组
+        //  //TODO
+        //}
+        //yield Q.all(queue.assignTo.map(function (assignTo) {
+        //  return owner.assignTask({
+        //    title: '请审批' + owner.workflowItemTitle,
+        //    assignTo: assignTo,
+        //    __t: 'WorkflowApproveTask',
+        //    changedMethod: 'WorkflowApproveTaskChanged'
+        //  });
+        //}));
+        //yield owner.sleep();
+        throw new Error('111');
+      })().catch(owner.state().method('errorHandler'));
     },
     WorkflowApproveTaskChanged: function (task) {
       var owner = this;
@@ -61,8 +62,19 @@ module.exports = {
       }
     }
   },
+  Approve: {
+    enter: function () {
+
+    }
+  },
+  Reject: {},
+  RequestChange: {
+    enter: function () {
+
+    }
+  },
   Final: {
-    enter: function (transition) {
+    enter: function () {
       var owner = this;
       owner.updateInitialItem({'lock.update': true, 'lock.remove': true, 'lock.workflow': true})
         .then(function () {
@@ -73,4 +85,4 @@ module.exports = {
         })
     }
   }
-};
+}, seed);
