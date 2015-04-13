@@ -43,10 +43,16 @@
     "completeAt": {
       "type": "date",
       "description": "完成时间"
+    },
+    "stateExpression":{
+      "type":"text",
+      "description": "状态表达式"
     }
   },
   "mixins": {
-    "Core": true,
+    "Core": {
+      "title":false
+    },
     "TimeStamp": true
   },
   "validations": [],

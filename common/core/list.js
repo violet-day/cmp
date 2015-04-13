@@ -44,9 +44,8 @@ module.exports = function (List) {
         ),
         Q.all(
           definition.settings.wfAss.map(function (ass) {
-            ass.workflowTemplateId = _.find(wfMap, {title: ass.workflow}).id;
+            ass.workflowTemplateId =ass.workflow;
             ass.listId = list.id;
-            console.log(ass);
             return app.models.WorkflowAssociation.create(ass);
           })
         )

@@ -4,10 +4,12 @@
 var state = require('state'),
   Q = require('q'),
   _ = require('lodash'),
-  debug = require('debug')('workflow:WorkflowInstance'),
+  vm = require('vm'),
+  logger = require('log4js').getLogger('WorkflowInstance'),
   wfs = require('../../server/workflow');
 
 module.exports = function (WorkflowInstance) {
+
   /**
    * 启动工作流
    * @param {any} initiator 流程启动者
@@ -26,21 +28,23 @@ module.exports = function (WorkflowInstance) {
       var app = WorkflowInstance.app;
       initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
       if (initialItem.lk_workflow) {
-        debug('%s#%d initialItem has been locked', initialItem.__t, initialItem.id);
+        logger.info('initialItem: %s.%d has been locked', initialItem.__t, initialItem.id);
         var err = new Error('Workflow Locked');
         err.statusCode = 400;
         throw err;
       }
+      var wft = yield app.models.WorkflowTemplate.findById(association.workflowTemplateId);
       var instance = yield WorkflowInstance.create({
         initiatorId: initiator,
         workflowList: initialItem.__t,
         workflowItemId: initialItem.id,
         workflowItemTitle: initialItem.title,
         workflowTemplateId: association.workflowTemplateId,
+        stateExpression: wft.stateExpression,
         workflowAssociationId: association.id,
         associatedData: association.associatedData
       });
-      debug('%s#%d created success', instance.__t, instance.id);
+      logger.info('initialItem %s.%d created success', instance.__t, instance.id);
       yield initialItem.updateAttributes({
         instanceId: instance.id,
         status: 'Pending',
@@ -49,15 +53,35 @@ module.exports = function (WorkflowInstance) {
         //lk_update: true,
         lk_remove: true
       });
-      debug('%s#%s updateAttributes success', initialItem.__t, initialItem.id);
-      //if (initialItem.workflowPrepartion[association.workflow.name]) {
-      //  yield initialItem.workflowPrepartion[association.workflow.name](instance);
-      //}
-      var stateExpression = wfs[association.workflowTemplate.title];
+      logger.info('%s.%s updateAttributes success', initialItem.__t, initialItem.id);
+      var stateExpression = yield instance._stateExpression();
       state(instance, stateExpression);
       instance.state().go('Initial');
       return instance;
     })().nodeify(cb);
+  };
+
+  WorkflowInstance.prototype._stateExpression = function () {
+    var self = this;
+    try {
+      var initSandbox = {
+        console: console,
+        require: require,
+        setTimeout: setTimeout,
+        clearTimeout: clearTimeout,
+        setInterval: setInterval,
+        clearInterval: clearInterval,
+        global: global,
+        process: process,
+        module: module,
+        app: self.constructor.app
+      };
+      var context = vm.createContext(initSandbox);
+      var stateExpression = vm.runInContext(self.stateExpression, context);
+      return Q(stateExpression);
+    } catch (err) {
+      return Q.reject(err);
+    }
   };
 
   /**
@@ -65,9 +89,10 @@ module.exports = function (WorkflowInstance) {
    */
   WorkflowInstance.prototype.sleep = function () {
     var self = this;
-    debug('sleep %d with state name %s', self.id, self.state().name);
+    logger.info('id:%d sleep with state [%s]', self.id, self.state().name);
     self.internalState = self.state().name;
     self.isWake = false;
+    //self.emit('sleep:' + self.state().name);
     return self.save();
   };
   /**
@@ -78,7 +103,7 @@ module.exports = function (WorkflowInstance) {
     //var self = this;
     //state(self, wfs[self.workflowTemplateId]);
     //var currentState = self.state(self.internalState);
-    //debug('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
+    //logger.info('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
     //if (currentState) {
     //  if (currentState.hasMethod(task.changedMethod)) {
     //    self.state(self.internalState).call(task.changedMethod, task);
@@ -104,7 +129,9 @@ module.exports = function (WorkflowInstance) {
    * @param data
    * @returns {Promise}
    */
-  WorkflowInstance.prototype.updateInitialItem = WorkflowInstance.app.models[self.workflowList].updateAttributes;
+  WorkflowInstance.prototype.updateInitialItem = function () {
+    return WorkflowInstance.app.models[self.workflowList].updateAttributes.apply(null, arguments);
+  };
 
   /**
    * @description 设置工作流锁
@@ -122,17 +149,17 @@ module.exports = function (WorkflowInstance) {
    * @param task
    * @returns {*}
    */
-  WorkflowInstance.prototype.assignTask = function (task) {
+  WorkflowInstance.prototype.assignTask = Q.async(function *(task) {
     var self = this;
-    var createdTask = Q.ninvoke(WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'], 'create', _.defaults({
+    var createdTask = yield WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'].create(_.defaults({
       startDate: new Date(),
       creator: self.initiator,
       workflowAssociationId: self.workflowAssociationId,
       instanceId: self.id
     }, task));
-    //yield Q.ninvoke(self.logs, 'create', ({type: 'Task Created', body: task.title}));
-    //return Q(createdTask);
-  }
+    yield self.logs.create({type: 'Task Created', body: task.title});
+    return Q(createdTask);
+  });
   /**
    * 将当前工作流实例中还没有完成的任务标记为废弃
    * @returns {*|Promise|Array|{index: number, input: string}}
@@ -318,12 +345,12 @@ module.exports = function (WorkflowInstance) {
 
   WorkflowInstance.prototype.resolveTasks = function () {
     var instance = this;
-    //return Q.npost(Task, 'resolveChild', [])
-    //  .then(function (subModels) {
-    //    return Q.all(subModels.map(function (subMode) {
-    //      return Q.npost(app.models[subMode], 'find', {where: {workflowInstanceId: instance.id}})
-    //    }))
-    //  })
+    return Q.npost(Task, 'resolveChild', [])
+      .then(function (subModels) {
+        return Q.all(subModels.map(function (subMode) {
+          return Q.npost(app.models[subMode], 'find', {where: {workflowInstanceId: instance.id}})
+        }))
+      })
   };
 
   //remoteMethod

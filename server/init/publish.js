@@ -7,7 +7,7 @@ var Q = require('q'),
   workflowMap = require('../workflow'),
   app = require('./../server');
 
-module.exports = Q.spawn(function *() {
+module.exports = Q.async(function *() {
   yield [
     app.models.ColumnDef.deleteAll(),
     app.models.List.deleteAll(),
@@ -16,16 +16,13 @@ module.exports = Q.spawn(function *() {
     app.models.WorkflowAssociation.deleteAll()
   ];
   console.log('rest done');
-  yield [
-    app.models.ColumnDef.create(colMap),
-    app.models.WorkflowTemplate.create( _.keys(workflowMap).map(function (wf) {
-      return {
-        id: wf,
-        title: wf
-      }
-    }))
-  ];
-  console.log('create ColumnDef && Workflow done');
+  yield app.models.ColumnDef.create(colMap);
+
+  console.log('create ColumnDef done');
+
+  yield app.models.WorkflowTemplate.create(workflowMap);
+
+  console.log('create Workflow done');
 
   yield _.values(app.models).map(function (model) {
     return app.models.List.publish(model);

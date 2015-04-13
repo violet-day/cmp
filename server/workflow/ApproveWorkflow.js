@@ -4,7 +4,7 @@
 var Q = require('q'),
   _ = require('lodash'),
   extend = require('util')._extend,
-  seed = require('./WorkflowSeed'),
+  seed = require(process.cwd() + '/server/workflow/WorkflowSeed'),
   debug = require('debug')('workflow:ApproveWorkflow');
 
 module.exports = extend({
@@ -23,21 +23,20 @@ module.exports = extend({
     enter: function () {
       var owner = this;
       Q.async(function *() {
-        //owner.associatedData.index = owner.associatedData.index || 0;
-        //var queue = owner.associatedData.queue[owner.associatedData.index];
-        //if (owner.associatedData.expand) {//是否展开组
-        //  //TODO
-        //}
-        //yield Q.all(queue.assignTo.map(function (assignTo) {
-        //  return owner.assignTask({
-        //    title: '请审批' + owner.workflowItemTitle,
-        //    assignTo: assignTo,
-        //    __t: 'WorkflowApproveTask',
-        //    changedMethod: 'WorkflowApproveTaskChanged'
-        //  });
-        //}));
-        //yield owner.sleep();
-        throw new Error('111');
+        owner.associatedData.index = owner.associatedData.index || 0;
+        var queue = owner.associatedData.queue[owner.associatedData.index];
+        if (owner.associatedData.expand) {//是否展开组
+          //TODO
+        }
+        yield Q.all(queue.assignTo.map(function (assignTo) {
+          return owner.assignTask({
+            title: '请审批' + owner.workflowItemTitle,
+            assignTo: assignTo,
+            __t: 'WorkflowApproveTask',
+            changedMethod: 'WorkflowApproveTaskChanged'
+          });
+        }));
+        yield owner.sleep();
       })().catch(owner.state().method('errorHandler'));
     },
     WorkflowApproveTaskChanged: function (task) {
@@ -46,7 +45,7 @@ module.exports = extend({
         var queue = owner.associatedData.queue[owner.associatedData.index],
           isLast = owner.associatedData.index == owner.associatedData.queue.length - 1;
         if (queue.type === 'parallel') {
-          if (task.outcome === 'Rejected') {//如果有拒绝，结束流程
+          if (task.outcome === 'Rejected') {//如果有拒绝
             owner.state().go('Reject');
           } else {
             if (isLast) {//审批最后阶段已经完成
@@ -67,7 +66,9 @@ module.exports = extend({
 
     }
   },
-  Reject: {},
+  Reject: {
+
+  },
   RequestChange: {
     enter: function () {
 
@@ -76,6 +77,7 @@ module.exports = extend({
   Final: {
     enter: function () {
       var owner = this;
+
       owner.updateInitialItem({'lock.update': true, 'lock.remove': true, 'lock.workflow': true})
         .then(function () {
           owner.workflowState = 'FINISHED';
