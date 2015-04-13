@@ -109,5 +109,9 @@
   "ExpensesClaimRequest": {
     "dataSource": "local",
     "public": true
+  },
+  "RestaurantActivity": {
+    "dataSource": "db",
+    "public": true
   }
 }

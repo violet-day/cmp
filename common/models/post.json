@@ -1,7 +1,7 @@
 {
   "name": "Post",
-  "base": "Item",
   "description": "笔记",
+  "base": "Item",
   "views": [],
   "wfAss": [
     {

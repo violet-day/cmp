@@ -3,15 +3,17 @@
   "base": "Item",
   "properties": {
     "address": {
-      "street": {
-        "type": "string",
-        "required": false,
-        "description": "street"
-      },
-      "line": {
-        "type": "string",
-        "required": false,
-        "description": "line"
+      "type": {
+        "street": {
+          "type": "string",
+          "required": false,
+          "description": "street"
+        },
+        "line": {
+          "type": "string",
+          "required": false,
+          "description": "line"
+        }
       }
     }
   },
@@ -24,10 +26,10 @@
   },
   "acls": [
     {
+      "accessType": "*",
       "principalType": "ROLE",
       "principalId": "$owner",
-      "permission": "ALLOW",
-      "accessType": "*"
+      "permission": "ALLOW"
     }
   ],
   "methods": []
