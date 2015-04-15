@@ -40,11 +40,11 @@ module.exports = function (WorkflowInstance) {
         workflowItemId: initialItem.id,
         workflowItemTitle: initialItem.title,
         workflowTemplateId: association.workflowTemplateId,
-        stateExpression: wft.stateExpression,
+        script: wft.script,
         workflowAssociationId: association.id,
         associatedData: association.associatedData
       });
-      logger.info('initialItem %s.%d created success', instance.__t, instance.id);
+      logger.info('%s.%d created success', instance.__t, instance.id);
       yield initialItem.updateAttributes({
         instanceId: instance.id,
         status: 'Pending',
@@ -54,14 +54,14 @@ module.exports = function (WorkflowInstance) {
         lk_remove: true
       });
       logger.info('%s.%s updateAttributes success', initialItem.__t, initialItem.id);
-      var stateExpression = yield instance._stateExpression();
+      var stateExpression = yield instance.stateExpression();
       state(instance, stateExpression);
       instance.state().go('Initial');
       return instance;
     })().nodeify(cb);
   };
 
-  WorkflowInstance.prototype._stateExpression = function () {
+  WorkflowInstance.prototype.stateExpression = function () {
     var self = this;
     try {
       var initSandbox = {
@@ -74,10 +74,11 @@ module.exports = function (WorkflowInstance) {
         global: global,
         process: process,
         module: module,
-        app: self.constructor.app
+        app: self.constructor.app,
+        instance: self
       };
       var context = vm.createContext(initSandbox);
-      var stateExpression = vm.runInContext(self.stateExpression, context);
+      var stateExpression = vm.runInContext(self.script, context);
       return Q(stateExpression);
     } catch (err) {
       return Q.reject(err);
@@ -89,39 +90,41 @@ module.exports = function (WorkflowInstance) {
    */
   WorkflowInstance.prototype.sleep = function () {
     var self = this;
-    logger.info('id:%d sleep with state [%s]', self.id, self.state().name);
+    logger.info('id:%d sleep with state:%s', self.id, self.state().name);
     self.internalState = self.state().name;
     self.isWake = false;
-    //self.emit('sleep:' + self.state().name);
     return self.save();
   };
   /**
    * 从数据库中取消持久化，并且传入任务
    * @param task
    */
-  WorkflowInstance.prototype.wakeUp = function (task) {
-    //var self = this;
-    //state(self, wfs[self.workflowTemplateId]);
-    //var currentState = self.state(self.internalState);
-    //logger.info('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id,task.changedMethod);
-    //if (currentState) {
-    //  if (currentState.hasMethod(task.changedMethod)) {
-    //    self.state(self.internalState).call(task.changedMethod, task);
-    //  } else {
-    //    yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'}));
-    //  }
-    //} else {
-    //  yield Q.ninvoke(self.logs, 'create', ({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'}));
-    //}
-  };
+  WorkflowInstance.prototype.wakeUp = Q.async(function *(task) {
+    var self = this;
+    var stateExpression = yield instance.stateExpression();
+    state(instance, stateExpression);
+    var currentState = self.state(self.script);
+    logger.info('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id, task.changedMethod);
+    if (currentState) {
+      if (currentState.hasMethod(task.changedMethod)) {
+        self.state(self.internalState).call(task.changedMethod, task);
+      } else {
+        logger.error('id:%s,state:%s,method:%s not found');
+        yield self.logs.create({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'});
+      }
+    } else {
+      logger.error('id:%s,state:%s not fount', self.id, self.internalState);
+      yield self.logs.create({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'});
+    }
+  })();
 //<editor-fold desc="InitialItem">
   /**
    * 得到流程启动项目
    * @returns {Promise}
    */
-  WorkflowInstance.prototype.initialItem = function (filter) {
+  WorkflowInstance.prototype.getInitialItem = function (filter) {
     var self = this;
-    return Q.ninvoke(WorkflowInstance.app.models[self.workflowList], 'findOne', _.defaults({id: self.workflowItemId}, filter || {}));
+    return WorkflowInstance.app.models[self.workflowList].findOne(_.defaults({id: self.workflowItemId}, filter || {}));
   };
 
   /**
@@ -129,8 +132,12 @@ module.exports = function (WorkflowInstance) {
    * @param data
    * @returns {Promise}
    */
-  WorkflowInstance.prototype.updateInitialItem = function () {
-    return WorkflowInstance.app.models[self.workflowList].updateAttributes.apply(null, arguments);
+  WorkflowInstance.prototype.updateInitialItem = function (data) {
+    var self = this;
+    return self.getInitialItem()
+      .then(function (item) {
+        return item.updateAttributes(data);
+      });
   };
 
   /**
@@ -366,10 +373,17 @@ module.exports = function (WorkflowInstance) {
         description: '流程启动者'
       },
       {
-        arg: 'initialItem', type: 'object', required: true, description: '流程启动项'
+        arg: 'initialItem', type: 'object', required: true,
+        description: [
+          '流程启动项',
+          'initialItem.id',
+          'initialItem.__t',
+          'initialItem.title'
+        ]
       },
       {
-        arg: 'association', type: 'object', required: true, description: '工作流关联'
+        arg: 'association', type: 'object', required: true,
+        description: ['工作流关联']
       }
     ],
     returns: {arg: 'instance', type: 'object', root: true}

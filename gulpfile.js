@@ -42,9 +42,9 @@ gulp.task('js', function () {
 
 gulp.task('sdk', function () {
   return gulp.src('./server/server.js')
-    .pipe(loopbackAngular({apiUrl:'http://127.0.0.1:3000/api'}))
+    .pipe(loopbackAngular({apiUrl: 'http://127.0.0.1:3000/api'}))
     //.pipe(gulp.dest('./src'))
-    .pipe(gulp.dest('/Users/Nemo/Workspace/javis'));
+    .pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
 });
 
 gulp.task('tpl', function () {
@@ -122,11 +122,11 @@ gulp.task('restDB', function (cb) {
 });
 
 gulp.task('publish', [], function () {
-  return require('./server/init/publish')();
+  return require('./server/init/publish')
 });
 
 gulp.task('init', function () {
-  return require('./server/init/init')();
+  return require('./server/init/init')()
 });
 
 gulp.task('dev', function (cb) {

@@ -7,12 +7,12 @@
       "generated": false,
       "id": true
     },
-    "stateExpression": {
+    "script": {
       "type": "text",
-      "required":true
+      "required": true
     }
   },
-  "mixins":{
+  "mixins": {
     "TimeStamp": true
   },
   "validations": [],

@@ -47,7 +47,7 @@ module.exports = extend({
         if (queue.type === 'parallel') {
           if (task.outcome === 'Rejected') {//如果有拒绝
             owner.state().go('Reject');
-          } else {
+          } else if (task.outcome === 'Approved') {
             if (isLast) {//审批最后阶段已经完成
               owner.state().go('Approved');
             } else {//循环审批没有结束，索引递增，并再次进入该状态
@@ -63,12 +63,10 @@ module.exports = extend({
   },
   Approve: {
     enter: function () {
-
+      //todo
     }
   },
-  Reject: {
-
-  },
+  Reject: {},
   RequestChange: {
     enter: function () {
 

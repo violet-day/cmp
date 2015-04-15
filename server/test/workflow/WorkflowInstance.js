@@ -8,34 +8,32 @@ var app = require('../../server'),
 
 describe('WorkflowInstance', function () {
 
-  beforeEach(function () {
-    //app.models.WorkflowInstance.deleteAll();
+  var initialItem, lockedItem, list, wrkAss, wft;
+
+  beforeEach(function (done) {
+    Q(app.models.Post.deleteAll())
+      .then(function () {
+        return Q.all([
+          app.models.Post.create({title: 'a post', tags: [1, 2]}),
+          app.models.Post.create({title: 'b post', tags: [1, 2, 3], lk_workflow: true}),
+          app.models.List.findOne({id: 'Post'}),
+          app.models.WorkflowTemplate.findOne({id: 'ApproveWorkflow'}),
+          app.models.WorkflowAssociation.findOne({listId: 'Post', workflowTemplateId: 'ApproveWorkflow'})
+        ])
+      }).spread(function (post, lockedPost, model, workflowTemplate, ass) {
+        initialItem = post;
+        lockedItem = lockedPost;
+        list = model;
+        wft = workflowTemplate;
+        wrkAss = ass;
+        done();
+      }, function (err) {
+        done(err)
+      });
   });
+
   //todo:测试
   describe('#initialWorkflow', function () {
-    var initialItem, lockedItem, list, wrkAss, wft;
-
-    before(function (done) {
-      Q(app.models.Post.deleteAll())
-        .then(function () {
-          return Q.all([
-            app.models.Post.create({title: 'a post', tags: [1, 2]}),
-            app.models.Post.create({title: 'b post', tags: [1, 2, 3], lk_workflow: true}),
-            app.models.List.findOne({id: 'Post'}),
-            app.models.WorkflowTemplate.findOne({id: 'ApproveWorkflow'}),
-            app.models.WorkflowAssociation.findOne({listId: 'Post', workflowTemplateId: 'ApproveWorkflow'})
-          ])
-        }).spread(function (post, lockedPost, model, workflowTemplate, ass) {
-          initialItem = post;
-          lockedItem = lockedPost;
-          list = model;
-          wft = workflowTemplate;
-          wrkAss = ass;
-          done();
-        }, function (err) {
-          done(err)
-        });
-    });
 
     it('should throw workflow lock error', function (done) {
       app.models.WorkflowInstance.initialWorkflow(1, lockedItem, wrkAss)
@@ -45,6 +43,7 @@ describe('WorkflowInstance', function () {
           done();
         })
     });
+
     it('should update initialItem', function (done) {
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (wrkInst) {
@@ -63,7 +62,6 @@ describe('WorkflowInstance', function () {
         })
     });
 
-
     after(function (done) {
       app.models.WorkflowInstance.find()
         .then(function (wfInts) {
@@ -72,8 +70,39 @@ describe('WorkflowInstance', function () {
     })
   });
 
-  describe('#', function () {
-    //sleep
+  describe('#getInitialItem', function () {
+    it('should resolve initialItem', function (done) {
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (wrkInst) {
+          return wrkInst.getInitialItem();
+        })
+        .then(function (item) {
+          item.id.should.equal(initialItem.id);
+          item.title.should.equal(initialItem.title);
+          done();
+        })
+        .catch(function (err) {
+          should.not.exist(err);
+          done();
+        })
+    });
+  });
+
+  describe('#updateInitialItem', function () {
+    it('should update initialItem', function (done) {
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (wrkInst) {
+          return wrkInst.updateInitialItem({title:'new post'});
+        })
+        .then(function (item) {
+          item.title.should.equal('new post');
+          done();
+        })
+        .catch(function (err) {
+          should.not.exist(err);
+          done();
+        })
+    });
   });
 
   describe.skip('multi create', function () {
