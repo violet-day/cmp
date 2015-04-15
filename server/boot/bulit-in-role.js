@@ -2,7 +2,8 @@
  * Created by Administrator on 2014/12/11.
  */
 var Q = require('q'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  loopback = require('loopback');
 
 module.exports = function (app) {
   var Role = app.models.Role;
@@ -137,5 +138,19 @@ module.exports = function (app) {
       }
     ],
     returns: {arg: 'selector', type: 'array', root: true}
+  });
+
+  Role.registerResolver('$admin', function (role, context, cb) {
+    var ctx = loopback.getCurrentContext();
+    var currentUser = ctx.get('currentUser');
+    if (currentUser) {
+      if (currentUser.roles.indexOf('$admin') === -1) {
+        cb(null, false)
+      } else {
+        cb(null, true);
+      }
+    } else {
+      cb(null, false);
+    }
   });
 };

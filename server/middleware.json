@@ -7,11 +7,13 @@
   },
   "auth": {
     "cookie-parser":{},
+    "loopback#context":{},
     "./middleware/oauth":{}
   },
   "parse": {
   },
   "routes": {
+
   },
   "files": {
     "loopback#static": {

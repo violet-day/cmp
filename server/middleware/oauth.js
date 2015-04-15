@@ -4,6 +4,8 @@
 
 var bulelake = require('bluelake-node-client');
 var sessionService = new bulelake('http://172.16.10.25:8888', 'sessionService');
+var loopback = require('loopback');
+var logger = require('log4js').getLogger('middleware:oauth');
 
 module.exports = function () {
   return function oauth(req, res, next) {
@@ -11,10 +13,12 @@ module.exports = function () {
       return next();
     }
 
-    var err = new Error('asdfs');
-    err.status = 11111;
-    next(err);
-
+    logger.debug('process oauth middleware');
+    var loopbackContext = loopback.getCurrentContext();
+    if (loopbackContext) {
+      loopbackContext.set('currentUser', {username: 'nemo', id: 1, roles: ['$admin']});
+    }
+    return next();
     var sso_token = req.headers['sso_token'],
       http_access_token = req.headers['http_access_token'];
 
