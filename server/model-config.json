@@ -78,6 +78,10 @@
     "dataSource": "local",
     "public": true
   },
+  "ApproveTask": {
+    "dataSource": "local",
+    "public": true
+  },
   "WorkflowLog": {
     "dataSource": "local",
     "public": true

@@ -85,7 +85,7 @@ describe('WorkflowInstance', function () {
     it('should update initialItem', function (done) {
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (wrkInst) {
-          return wrkInst.updateInitialItem({title:'new post'});
+          return wrkInst.updateInitialItem({title: 'new post'});
         })
         .then(function (item) {
           item.title.should.equal('new post');
@@ -95,6 +95,42 @@ describe('WorkflowInstance', function () {
           should.not.exist(err);
           done();
         })
+    });
+  });
+
+  describe.only('#resolveTask', function () {
+    it('should resolve task order by created', function (done) {
+      var wrkInst, now = new Date();
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (inst) {
+          wrkInst = inst;
+          return Q.all([
+            app.models.ApproveTask.create({
+              title: 'approve task',
+              assignTo: 'u2',
+              instanceId: wrkInst.id,
+              created: '2013-1-1'
+            }),
+            app.models.WorkflowTask.create({
+              title: 'workflow task',
+              assignTo: 'u1',
+              instanceId: wrkInst.id,
+              created: '2013-1-2'
+            })
+          ])
+        })
+        .then(function () {
+          return wrkInst.resolveTask();
+        })
+        .then(function (result) {
+          result.length.should.equal(2);
+          done();
+        })
+        .catch(function (err) {
+          should.not.exist(err);
+          done(err);
+        })
+
     });
   });
 

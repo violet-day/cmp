@@ -35,10 +35,7 @@ module.exports = function (WorkflowInstance) {
   WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, callback) {
     return Q.async(function *() {
       assert(initiator, 'initiator is required');
-
       assert(association, 'association is required');
-      assert(association.id, 'association.id is required');
-      assert(association.workflowTemplateId, 'association.workflowTemplateId is required');
 
       var app = WorkflowInstance.app;
       initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
@@ -54,6 +51,7 @@ module.exports = function (WorkflowInstance) {
         where: {id: association.id},
         include: ['workflowTemplate']
       });
+
       assert(association, 'association is required');
       var wft = association.workflowTemplate();
       assert(wft, 'workflow template is not exist');
@@ -173,6 +171,28 @@ module.exports = function (WorkflowInstance) {
       .then(function (item) {
         return item.updateAttributes(data);
       });
+  };
+  /**
+   * 获取当前工作流实例的所有任务
+   *
+   * @param {object} filter 过滤条件
+   * @param {string} base 基础工作流类型，默认WorkflowTask
+   * @return {array}
+   */
+  WorkflowInstance.prototype.resolveTask = function (filter, base) {
+    var self = this;
+    filter = filter || {};
+    filter = _.defaults({where: {instanceId: self.id}}, filter);
+    base = base || 'WorkflowTask';
+    return Q.all(WorkflowInstance.app.models().filter(function (model) {
+      return model.base.definition.name == base || model.definition.name == base;
+    }).map(function (model) {
+      return model.find(filter);
+    })).then(function (taskArrs) {
+      return taskArrs.reduce(function (memo, tks) {
+        return memo.concat(tks);
+      }, []);
+    })
   };
 
   /**
