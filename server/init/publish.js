@@ -4,7 +4,6 @@
 var Q = require('q'),
   _ = require('lodash'),
   colMap = require('../columns'),
-  co = require('co'),
   workflowMap = require('../workflow'),
   app = require('./../server');
 
@@ -18,9 +17,7 @@ Q.async(function *() {
   ];
   console.log('rest done');
 
-  yield Q.all(colMap.map(function (col) {
-    return app.models.ColumnDef.create(col)
-  }));
+  yield app.models.ColumnDef.create(colMap);
   console.log('create ColumnDef done');
 
   yield Q.all(workflowMap.map(function (wft) {

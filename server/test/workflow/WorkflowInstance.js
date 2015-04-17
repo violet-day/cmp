@@ -44,7 +44,7 @@ describe('WorkflowInstance', function () {
         })
     });
 
-    it('should update initialItem', function (done) {
+    it('should update initialItem locks', function (done) {
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (wrkInst) {
           app.models.Post.findById(initialItem.id).then(function (updatedItem) {
@@ -61,13 +61,6 @@ describe('WorkflowInstance', function () {
           done();
         })
     });
-
-    after(function (done) {
-      app.models.WorkflowInstance.find()
-        .then(function (wfInts) {
-          done()
-        })
-    })
   });
 
   describe('#getInitialItem', function () {

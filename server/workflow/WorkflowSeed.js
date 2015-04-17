@@ -5,7 +5,7 @@ var state = require('state');
 
 module.exports = {
   errorHandler: state.bind(function (err) {
-    console.error(err);
-    //this.logs.create({body: err.stack, type: 'Error'});
-  })
+    console.trace(err);
+    this.logs.create({body: err.stack, type: 'Error'});
+  }),
 };

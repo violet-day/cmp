@@ -9,6 +9,7 @@ var state = require('state'),
   Q = require('q'),
   _ = require('lodash'),
   vm = require('vm'),
+  assert = require('assert'),
   logger = require('log4js').getLogger('WorkflowInstance');
 
 /**
@@ -28,19 +29,34 @@ module.exports = function (WorkflowInstance) {
    * @param {object} association  工作流关联
    * @param {any} association.id 工作流关联id
    * @param {object}  association.associatedData  工作流关联数据
+   * @param {function}  callback
    * @return {promise}
    */
   WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, callback) {
     return Q.async(function *() {
+      assert(initiator, 'initiator is required');
+
+      assert(association, 'association is required');
+      assert(association.id, 'association.id is required');
+      assert(association.workflowTemplateId, 'association.workflowTemplateId is required');
+
       var app = WorkflowInstance.app;
       initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
+      assert(initialItem, 'initialItem is required');
+
       if (initialItem.lk_workflow) {
         logger.info('initialItem: %s.%d has been locked', initialItem.__t, initialItem.id);
         var err = new Error('Workflow Locked');
         err.statusCode = 400;
         throw err;
       }
-      var wft = yield app.models.WorkflowTemplate.findById(association.workflowTemplateId);
+      association = yield app.models.WorkflowAssociation.findOne({
+        where: {id: association.id},
+        include: ['workflowTemplate']
+      });
+      assert(association, 'association is required');
+      var wft = association.workflowTemplate();
+      assert(wft, 'workflow template is not exist');
       var instance = yield WorkflowInstance.create({
         initiatorId: initiator,
         workflowList: initialItem.__t,
@@ -60,7 +76,7 @@ module.exports = function (WorkflowInstance) {
         //lk_update: true,
         lk_remove: true
       });
-      logger.info('%s.%s updateAttributes success', initialItem.__t, initialItem.id);
+      logger.info('id:%s,%s.%s updateAttributes success', instance.id, initialItem.__t, initialItem.id);
       var stateExpression = yield instance.stateExpression();
       state(instance, stateExpression);
       instance.state().go('Initial');
@@ -120,7 +136,8 @@ module.exports = function (WorkflowInstance) {
     var stateExpression = yield instance.stateExpression();
     state(instance, stateExpression);
     var currentState = self.state(self.script);
-    logger.info('%d wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id, task.changedMethod);
+
+    logger.info('%s wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id, task.changedMethod);
     if (currentState) {
       if (currentState.hasMethod(task.changedMethod)) {
         self.state(self.internalState).call(task.changedMethod, task);
@@ -305,7 +322,6 @@ module.exports = function (WorkflowInstance) {
         return self.save();
       });
   };
-
 
 
   WorkflowInstance.prototype.resolveTasks = function () {

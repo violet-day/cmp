@@ -5,7 +5,8 @@ var Q = require('q'),
   _ = require('lodash'),
   extend = require('util')._extend,
   seed = require(process.cwd() + '/server/workflow/WorkflowSeed'),
-  debug = require('debug')('workflow:ApproveWorkflow');
+  debug = require('debug')('workflow:ApproveWorkflow'),
+  logger = require('log4js').getLogger('WorkflowInstance');
 
 module.exports = extend({
   Initial: {
