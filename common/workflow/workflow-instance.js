@@ -177,7 +177,7 @@ module.exports = function (WorkflowInstance) {
    *
    * @param {object} filter 过滤条件
    * @param {string} base 基础工作流类型，默认WorkflowTask
-   * @return {array}
+   * @return {promise}  工作流任务数组
    */
   WorkflowInstance.prototype.resolveTask = function (filter, base) {
     var self = this;
