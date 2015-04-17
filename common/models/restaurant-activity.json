@@ -38,13 +38,13 @@
     {
       "principalType": "ROLE",
       "principalId": "$everyone",
-      "permission": "DENY"
+      "permission": "ALLOW"
     },
     {
       "principalType": "ROLE",
       "principalId": "$admin",
       "accessType": "WRITE",
-      "permission": "DENY"
+      "permission": "ALLOW"
     }
   ],
   "methods": []

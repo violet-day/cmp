@@ -1,0 +1,41 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "source": {
+    "include":[
+      "./common/workflow"
+    ],
+    "includePattern": ".+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [],
+  "opts": {
+    "template": "node_modules/jaguarjs-jsdoc",
+    "encoding": "utf8",
+    "destination": "./documentation/",
+    "recurse": true
+  },
+  "templates": {
+    "applicationName": "spec",
+    "disqus": "",
+    "default": {
+      "outputSourceFiles" : true
+    },
+    "googleAnalytics": "",
+    "openGraph": {
+      "title": "",
+      "type": "website",
+      "image": "",
+      "site_name": "",
+      "url": ""
+    },
+    "meta": {
+      "title": "",
+      "description": "",
+      "keyword": ""
+    },
+    "linenums": true
+  }
+}

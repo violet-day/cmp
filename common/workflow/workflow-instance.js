@@ -1,29 +1,36 @@
 /**
  * Created by 烬云 on 2014/10/26.
  */
+
+/*!
+ * Module dependencies
+ */
 var state = require('state'),
   Q = require('q'),
   _ = require('lodash'),
   vm = require('vm'),
-  logger = require('log4js').getLogger('WorkflowInstance'),
-  wfs = require('../../server/workflow');
+  logger = require('log4js').getLogger('WorkflowInstance');
 
+/**
+ * @class WorkflowInstance
+ * @inherits  {Item}
+ */
 module.exports = function (WorkflowInstance) {
 
   /**
-   * 启动工作流
+   * 启动工作流，返回创建的workflow-instance
+   *
    * @param {any} initiator 流程启动者
    * @param {object} initialItem 流程启动项
-   *  @property {string}  initialItem.__t 流程启动项对应的模型
-   *  @property {any}  initialItem.id  流程启动项目id
-   *  @property {string}  initialItem.title  流程启动项目标题
-   * @param {object} association
-   *  @property {any} association.id 工作流关联id
-   *  @property {object}  association.associatedData  工作流关联数据
-   * @param cb
-   * @returns {promise}
+   * @param {string}  initialItem.__t 流程启动项对应的模型
+   * @param {any}  initialItem.id  流程启动项目id
+   * @param {string}  initialItem.title  流程启动项目标题
+   * @param {object} association  工作流关联
+   * @param {any} association.id 工作流关联id
+   * @param {object}  association.associatedData  工作流关联数据
+   * @return {promise}
    */
-  WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, cb) {
+  WorkflowInstance.initialWorkflow = function (initiator, initialItem, association, callback) {
     return Q.async(function *() {
       var app = WorkflowInstance.app;
       initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
@@ -58,9 +65,13 @@ module.exports = function (WorkflowInstance) {
       state(instance, stateExpression);
       instance.state().go('Initial');
       return instance;
-    })().nodeify(cb);
+    })().nodeify(callback);
   };
-
+  /**
+   * 返回当前工作流实例的状态表达式
+   *
+   * @returns {promise}
+   */
   WorkflowInstance.prototype.stateExpression = function () {
     var self = this;
     try {
@@ -87,6 +98,8 @@ module.exports = function (WorkflowInstance) {
 
   /**
    * 钝化至数据库
+   *
+   * @returns {promise}
    */
   WorkflowInstance.prototype.sleep = function () {
     var self = this;
@@ -95,9 +108,12 @@ module.exports = function (WorkflowInstance) {
     self.isWake = false;
     return self.save();
   };
+
   /**
    * 从数据库中取消持久化，并且传入任务
-   * @param task
+   * @function
+   * @param {object} task  任务
+   * @returns {promise}
    */
   WorkflowInstance.prototype.wakeUp = Q.async(function *(task) {
     var self = this;
@@ -117,10 +133,11 @@ module.exports = function (WorkflowInstance) {
       yield self.logs.create({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'});
     }
   })();
-//<editor-fold desc="InitialItem">
+
   /**
    * 得到流程启动项目
-   * @returns {Promise}
+   *
+   * @returns {promise}
    */
   WorkflowInstance.prototype.getInitialItem = function (filter) {
     var self = this;
@@ -129,8 +146,9 @@ module.exports = function (WorkflowInstance) {
 
   /**
    * 更新流程启动项目
-   * @param data
-   * @returns {Promise}
+   *
+   * @param {object} data  更新的k-v
+   * @returns {promise}
    */
   WorkflowInstance.prototype.updateInitialItem = function (data) {
     var self = this;
@@ -141,20 +159,20 @@ module.exports = function (WorkflowInstance) {
   };
 
   /**
-   * @description 设置工作流锁
+   * 设置工作流锁
+   * @ignore
    * @param toggle
-   * @returns {Promise}
+   * @returns {promise}
    */
   WorkflowInstance.prototype.toggleWorkflowLock = function (toggle) {
 
   };
-//</editor-fold>
 
-//<editor-fold desc="Task">
   /**
    * 分配任务
-   * @param task
-   * @returns {*}
+   * @function
+   * @param {object} task
+   * @returns {promise}
    */
   WorkflowInstance.prototype.assignTask = Q.async(function *(task) {
     var self = this;
@@ -165,11 +183,12 @@ module.exports = function (WorkflowInstance) {
       instanceId: self.id
     }, task));
     yield self.logs.create({type: 'Task Created', body: task.title});
-    return Q(createdTask);
-  });
+    return createdTask;
+  })();
   /**
    * 将当前工作流实例中还没有完成的任务标记为废弃
-   * @returns {*|Promise|Array|{index: number, input: string}}
+   * @ignore
+   * @returns {*|promise|Array|{index: number, input: string}}
    */
   WorkflowInstance.prototype.disuseTask = function () {
     return mongoose.model('Task').update({
@@ -184,7 +203,8 @@ module.exports = function (WorkflowInstance) {
   };
   /**
    * 删除工作流实例关联的任务
-   * @returns {*|Promise|Array|{index: number, input: string}}
+   * @ignore
+   * @returns {*|promise|Array|{index: number, input: string}}
    */
   WorkflowInstance.prototype.dropTask = function () {
     var self = this;
@@ -192,14 +212,12 @@ module.exports = function (WorkflowInstance) {
       instance: self._id
     }).exec();
   };
-//</editor-fold>
 
-
-//<editor-fold desc="审批">
   /**
    * 设置审批状态
+   * @ignore
    * @param status
-   * @returns {Promise}
+   * @returns {promise}
    */
   WorkflowInstance.prototype.setModerationStatus = function (status) {
     var self = this;
@@ -208,8 +226,9 @@ module.exports = function (WorkflowInstance) {
   };
   /**
    * 添加批注
+   * @ignore
    * @param task
-   * @returns {Promise}
+   * @returns {promise}
    */
   WorkflowInstance.prototype.pushModerationComment = function (task) {
     var self = this;
@@ -229,6 +248,7 @@ module.exports = function (WorkflowInstance) {
 
   /**
    * 结束工作流
+   * @ignore
    */
   WorkflowInstance.prototype.finishWorkflow = function () {
     var self = this;
@@ -240,9 +260,10 @@ module.exports = function (WorkflowInstance) {
     });
   };
   /**
+   * @ignore
    * @description 取消工作流;更新工作流实例状态;删除相关联的任务;取消流程启动项的工作流锁定
    * @param _id
-   * @returns {Promise|*}
+   * @returns {promise|*}
    */
   WorkflowInstance.cancelWorkflow = function (_id) {
     var instance;
@@ -259,18 +280,11 @@ module.exports = function (WorkflowInstance) {
     });
   };
 
+
   /**
    * 取消工作流
-   * TODO:待确定
-   */
-  WorkflowInstance.cancelWorkflow1 = function () {
-    var self = this;
-    state(self, self.stateExpression());
-    self.state().go('Cancel');
-  };
-  /**
-   * 取消工作流
-   * @returns {Promise|*}
+   * @ignore
+   * @returns {promise|*}
    */
   WorkflowInstance.prototype.preCancelWorkflow = function () {
     var self = this;
@@ -292,63 +306,7 @@ module.exports = function (WorkflowInstance) {
       });
   };
 
-  WorkflowInstance.prototype.notifyInitiator = function (result) {
-    var self = this;
-    mongoose.model('User')
-      .findById(self.initiator)
-      .select('title general')
-      .exec()
-      .then(function (user) {
-        fs.readFile('./mail/workflowNotify.html', function (err, html) {
-          if (err)return console.log(err);
-          var content = _.template(html.toString())({
-            initialItem: self.initialItem,
-            initiator: user,
-            url: 'http://' + config.domain + '/#/WrkStat/' + self._id,
-            result: result
-          });
-          var mailOptions = {
-            from: config.mail.from,
-            to: user.general.email,
-            subject: 'Workflow Notify',
-            html: content // html body
-          };
-          mailer(mailOptions);
-        });
-      })
-      .then(null, function (err) {
-        console.log(err);
-      })
-  };
-  /**
-   * 通知用户
-   * @param group
-   * @param content
-   */
-  WorkflowInstance.prototype.notify = function (group, content) {
-    return mongoose.model('Group')
-      .findOne({title: group})
-      .populate('users', 'title general')
-      .exec()
-      .then(function (g) {
-        g.users.forEach(function (u) {
-          fs.readFile('./mail/notify.html', function (err, html) {
-            if (err)return console.log(err);
-            var body = _.template(html.toString())({
-              user: u.title,
-              content: content
-            });
-            var mailOptions = {
-              from: config.mail.from,
-              to: u.general.email,
-              subject: 'System Notify',
-              html: body // html body
-            };
-            mailer(mailOptions);
-          });
-        })
-      })
-  };
+
 
   WorkflowInstance.prototype.resolveTasks = function () {
     var instance = this;

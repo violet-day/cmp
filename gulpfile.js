@@ -21,6 +21,7 @@ var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var connect = require('gulp-connect');
 var gulpSequence = require('gulp-sequence');
+var jsdoc = require("gulp-jsdoc");
 
 var argv = require('minimist')(process.argv.slice(2));
 
@@ -148,6 +149,11 @@ gulp.task('doc', ['sdk'], function () {
       //scripts:['./src/service.js']
     }))
     .pipe(gulp.dest('./docs'));
+});
+
+gulp.task('jsdoc', function () {
+  gulp.src("./common/workflow/workflow-instance.js")
+    .pipe(jsdoc('./documentation'));
 });
 
 /**

@@ -11,7 +11,7 @@ describe('WorkflowInstance', function () {
   var initialItem, lockedItem, list, wrkAss, wft;
 
   beforeEach(function (done) {
-    Q(app.models.Post.deleteAll())
+    Q(app.models.Post.remove())
       .then(function () {
         return Q.all([
           app.models.Post.create({title: 'a post', tags: [1, 2]}),
