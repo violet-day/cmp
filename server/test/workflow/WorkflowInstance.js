@@ -32,7 +32,6 @@ describe('WorkflowInstance', function () {
       });
   });
 
-  //todo:测试
   describe('#initialWorkflow', function () {
 
     it('should throw workflow lock error', function (done) {
@@ -98,9 +97,9 @@ describe('WorkflowInstance', function () {
     });
   });
 
-  describe.only('#resolveTask', function () {
+  describe('#resolveTask', function () {
     it('should resolve task order by created', function (done) {
-      var wrkInst, now = new Date();
+      var wrkInst;
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (inst) {
           wrkInst = inst;
@@ -134,6 +133,100 @@ describe('WorkflowInstance', function () {
     });
   });
 
+  describe('#closeTask', function () {
+    it('should only close pending and progressing task', function (done) {
+      var wrkInst;
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (inst) {
+          wrkInst = inst;
+          return Q.all([
+            app.models.WorkflowTask.create({
+              title: 'task 1',
+              assignTo: 'u1',
+              instanceId: wrkInst.id,
+              status: 'Pending'
+            }),
+            app.models.WorkflowTask.create({
+              title: 'task 2',
+              assignTo: 'u2',
+              instanceId: wrkInst.id,
+              status: 'Progressing'
+            }),
+            app.models.WorkflowTask.create({
+              title: 'task 3',
+              assignTo: 'u2',
+              instanceId: wrkInst.id,
+              status: 'Completed'
+            })
+          ])
+        })
+        .then(function () {
+          return wrkInst.closeTask();
+        })
+        .then(function (tasks) {
+          tasks.length.should.equal(2);
+          tasks.forEach(function (task) {
+            task.status.should.equal('Closed');
+          });
+          done();
+        })
+        .catch(function (err) {
+          should.not.exist(err);
+          done(err);
+        });
+    });
+  });
+
+  describe('#cancel', function () {
+    it('should throw 400 error', function (done) {
+      var wrkInst;
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (inst) {
+          wrkInst = inst;
+          return wrkInst.updateAttributes({workflowState: 'Finished'})
+        })
+        .then(function () {
+          return wrkInst.cancel();
+        })
+        .catch(function (err) {
+          should.exist(err);
+          err.statusCode.should.equal(400);
+          done();
+        });
+    });
+
+    it('should update initial item and instance workflow state', function (done) {
+      var wrkInst;
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (inst) {
+          wrkInst = inst;
+          return wrkInst.cancel();
+        })
+        .then(function (reloadedInst) {
+          reloadedInst.workflowState.should.equal('Cancel');
+          reloadedInst.internalState.should.equal('Cancel');
+          return Q.all([
+            wrkInst.getInitialItem(),
+            wrkInst.resolveTask()
+          ])
+        })
+        .spread(function (initialItem,tasks) {
+          initialItem.lk_workflow.should.be.false;
+          tasks.should.matchEach(function (tk) {
+            ['Completed','Closed'].should.containEql(tk.status)
+          });
+          done();
+        })
+        .catch(function (err) {
+          should.not.exist(err);
+          done();
+        });
+    });
+  });
+
+  afterEach(function (done) {
+    done();
+  });
   describe.skip('multi create', function () {
     it('', function (done) {
       app.models.Post.deleteAll()

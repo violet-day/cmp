@@ -133,7 +133,7 @@ module.exports = function (WorkflowInstance) {
     var self = this;
     var stateExpression = yield instance.stateExpression();
     state(instance, stateExpression);
-    var currentState = self.state(self.script);
+    var currentState = self.state(self.internalState);
 
     logger.info('%s wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id, task.changedMethod);
     if (currentState) {
@@ -182,7 +182,7 @@ module.exports = function (WorkflowInstance) {
   WorkflowInstance.prototype.resolveTask = function (filter, base) {
     var self = this;
     filter = filter || {};
-    filter = _.defaults({where: {instanceId: self.id}}, filter);
+    filter = _.merge({where: {instanceId: self.id}}, filter);
     base = base || 'WorkflowTask';
     return Q.all(WorkflowInstance.app.models().filter(function (model) {
       return model.base.definition.name == base || model.definition.name == base;
@@ -193,16 +193,6 @@ module.exports = function (WorkflowInstance) {
         return memo.concat(tks);
       }, []);
     })
-  };
-
-  /**
-   * 设置工作流锁
-   * @ignore
-   * @param toggle
-   * @returns {promise}
-   */
-  WorkflowInstance.prototype.toggleWorkflowLock = function (toggle) {
-
   };
 
   /**
@@ -222,136 +212,60 @@ module.exports = function (WorkflowInstance) {
     yield self.logs.create({type: 'Task Created', body: task.title});
     return createdTask;
   })();
+
   /**
-   * 将当前工作流实例中还没有完成的任务标记为废弃
-   * @ignore
-   * @returns {*|promise|Array|{index: number, input: string}}
+   * 将当前工作流实例中还没有完成的任务标记为关闭
+   * @returns {promise}
    */
-  WorkflowInstance.prototype.disuseTask = function () {
-    return mongoose.model('Task').update({
-      instance: _id,
-      status: {$ne: 'TASK_COMPLETED'}
-    }, {
-      $set: {
-        'status': 'TASK_DISUSED',
-        'lock.update': true
+  WorkflowInstance.prototype.closeTask = function () {
+    var self = this;
+    return self.resolveTask({
+      where: {
+        status: {inq: ['Pending', 'Progressing']}
       }
-    }, {multi: true}).exec();
-  };
-  /**
-   * 删除工作流实例关联的任务
-   * @ignore
-   * @returns {*|promise|Array|{index: number, input: string}}
-   */
-  WorkflowInstance.prototype.dropTask = function () {
-    var self = this;
-    return mongoose.model('Task').remove({
-      instance: self._id
-    }).exec();
-  };
-
-  /**
-   * 设置审批状态
-   * @ignore
-   * @param status
-   * @returns {promise}
-   */
-  WorkflowInstance.prototype.setModerationStatus = function (status) {
-    var self = this;
-    self.notifyInitiator(status);
-    return mongoose.model(self.initialItem.model).findByIdAndUpdate(self.initialItem._id, {'moderation.status': status}).exec();
-  };
-  /**
-   * 添加批注
-   * @ignore
-   * @param task
-   * @returns {promise}
-   */
-  WorkflowInstance.prototype.pushModerationComment = function (task) {
-    var self = this;
-    if (task.lastModifier && task.remark) {
-      return mongoose.model(self.initialItem.model).findByIdAndUpdate(self.initialItem._id, {
-        $push: {
-          'moderation.log': {
-            user: task.lastModifier,
-            body: task.remark || ''
-          }
-        }
-      }).exec();
-    }
-  };
-//</editor-fold>
-
-
-  /**
-   * 结束工作流
-   * @ignore
-   */
-  WorkflowInstance.prototype.finishWorkflow = function () {
-    var self = this;
-    return self.toggleWorkflowLock(false).then(function () {
-      self.workflowState = 'FINISHED';
-      self.internalState = 'Final';
-      self.completeAt = new Date();
-      self.save();
+    }).then(function (tasks) {
+      return Q.all(tasks.map(function (task) {
+        return task.updateAttributes({status: 'Closed'});
+      }));
     });
   };
-  /**
-   * @ignore
-   * @description 取消工作流;更新工作流实例状态;删除相关联的任务;取消流程启动项的工作流锁定
-   * @param _id
-   * @returns {promise|*}
-   */
-  WorkflowInstance.cancelWorkflow = function (_id) {
-    var instance;
-    return mongoose.model('Instance').findByIdAndUpdate(_id, {
-      workflowState: 'CANCELED',
-      completeAt: new Date()
-    }).exec().then(function (i) {
-      instance = i;
-      state(instance, instance.stateExpression());
-      instance.state().go('Cancel');
-      return instance.dropTask();
-    }).then(function () {
-      return instance.toggleWorkflowLock(false)
-    });
-  };
-
 
   /**
    * 取消工作流
-   * @ignore
+   * 更新工作流实例状态
+   * 更新相关联的任务
+   * 取消流程启动项的工作流锁定
+   *
+   * @param callback
    * @returns {promise|*}
    */
-  WorkflowInstance.prototype.preCancelWorkflow = function () {
+  WorkflowInstance.prototype.cancel = function (callback) {
     var self = this;
-    //将与当前工作流实例相关的任务中还没有完成的任务标记为已废弃
-    return mongoose.model('Task').update({
-      instance: self._id,
-      status: {$ne: 'TASK_COMPLETED'}
-    }, {
-      $set: {
-        'status': 'TASK_DISUSED',
-        'lock.update': true
+    logger.info('id:%s,pre cancel,workflowState:%s', self.id, self.workflowState);
+    return Q.async(function *() {
+      if (['Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
+        var error = new Error('workflow has been ' + self.workflowState);
+        error.statusCode = 400;
+        throw error;
       }
-    }, {multi: true}).exec()
-      .then(function () {
-        self.workflowState = 'CANCELED';
-        self.internalState = 'Cancel';
-        self.completeAt = new Date();
-        return self.save();
+      var expression = yield self.stateExpression();
+      state(self, expression);
+      var cancelState = self.state('Cancel');
+      if (cancelState) {
+        self.state().go('Cancel');
+      } else {
+        logger.warn('id:%s has not implement cancel state', self.id);
+      }
+      yield self.updateInitialItem({lk_workflow: false});
+      logger.info('%s.%s lk_workflow has been set to false', self.workflowList, self.workflowItemId);
+      yield self.closeTask();
+      logger.info('id:%s has close tasks', self.id);
+      return yield self.updateAttributes({
+        workflowState: 'Cancel',
+        internalState: 'Cancel',
+        completeAt: new Date()
       });
-  };
-
-
-  WorkflowInstance.prototype.resolveTasks = function () {
-    var instance = this;
-    return Q.npost(Task, 'resolveChild', [])
-      .then(function (subModels) {
-        return Q.all(subModels.map(function (subMode) {
-          return Q.npost(app.models[subMode], 'find', {where: {workflowInstanceId: instance.id}})
-        }))
-      })
+    })().nodeify(callback);
   };
 
   //remoteMethod
