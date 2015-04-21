@@ -1,13 +1,4 @@
 {
-  "dev": {
-    "host": "221.224.215.171",
-    "port": 4206,
-    "database": "cmp",
-    "username": "nemo",
-    "password": "Harttech",
-    "name": "dev",
-    "connector": "mysql"
-  },
   "local": {
     "host": "127.0.0.1",
     "port": 3306,
@@ -20,12 +11,6 @@
   "db": {
     "name": "db",
     "connector": "memory"
-  },
-  "document": {
-    "name": "document",
-    "connector": "loopback-component-storage",
-    "provider": "filesystem",
-    "root": "./document"
   },
   "mailDS": {
     "name": "mailDS",
@@ -45,6 +30,12 @@
         }
       }
     ]
+  },
+  "document": {
+    "name": "document",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./document"
   },
   "attachment": {
     "name": "attachment",

@@ -33,3 +33,4 @@ watch ./src/**/*.js及./views/**/*.html
 * form-group单列情况下比列为3:9
 * 注意label标签的for属性
 
+# jsdoc -c server/doc.json

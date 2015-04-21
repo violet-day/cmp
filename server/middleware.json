@@ -6,15 +6,12 @@
     "compression": {}
   },
   "auth": {
-    "cookie-parser":{},
-    "loopback#context":{},
-    "./middleware/oauth":{}
+    "cookie-parser": {},
+    "loopback#context": {},
+    "./middleware/oauth": {}
   },
-  "parse": {
-  },
-  "routes": {
-
-  },
+  "parse": {},
+  "routes": {},
   "files": {
     "loopback#static": {
       "params": "$!../public"

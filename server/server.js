@@ -15,7 +15,9 @@ app.start = function () {
     console.log('Web server listening at: %s', app.get('url'));
   });
 };
+
 // start the server if `$ node server.js`
 if (require.main === module) {
   app.start();
 }
+

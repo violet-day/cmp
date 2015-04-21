@@ -237,14 +237,14 @@ module.exports = function (WorkflowInstance) {
    * 取消流程启动项的工作流锁定
    *
    * @param callback
-   * @returns {promise|*}
+   * @returns {promise}
    */
   WorkflowInstance.prototype.cancel = function (callback) {
     var self = this;
     logger.info('id:%s,pre cancel,workflowState:%s', self.id, self.workflowState);
     return Q.async(function *() {
       if (['Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
-        var error = new Error('workflow has been ' + self.workflowState);
+        var error = new Error('WorkflowInstance has been ' + self.workflowState);
         error.statusCode = 400;
         throw error;
       }
@@ -294,6 +294,12 @@ module.exports = function (WorkflowInstance) {
         description: ['工作流关联']
       }
     ],
+    returns: {arg: 'instance', type: 'object', root: true}
+  });
+
+  WorkflowInstance.remoteMethod('cancel', {
+    description: '终止进行中或发生错误的工作流',
+    isStatic: false,
     returns: {arg: 'instance', type: 'object', root: true}
   });
 };
