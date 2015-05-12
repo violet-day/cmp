@@ -6,6 +6,8 @@ var app = module.exports = loopback();
 
 require('./mixin');
 
+require('loopback-ds-readonly-mixin')(app);
+
 boot(app, __dirname);
 
 app.start = function () {
