@@ -74,6 +74,31 @@
       "model": "WorkflowLog"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "Admin",
+      "permission": "DENY",
+      "accessType":"ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "Admin",
+      "permission": "DENY",
+      "accessType":"ALLOW"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "cancel",
+      "accessType":"EXECUTE"
+    }
+  ],
   "methods": []
 }
