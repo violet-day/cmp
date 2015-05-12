@@ -9,31 +9,31 @@ var logger = require('log4js').getLogger('middleware:oauth');
 
 module.exports = function () {
   return function oauth(req, res, next) {
-    if (req.method === 'OPTIONS') {
+    if (req.method === 'OPTIONS' || !/^\/api/.test(req.url)) {
       return next();
     }
 
-    logger.debug('process oauth middleware');
+    logger.debug('process oauth middleware:%s',req.url);
     var loopbackContext = loopback.getCurrentContext();
     if (loopbackContext) {
       loopbackContext.set('currentUser', {username: 'nemo', id: 1, roles: ['$admin']});
     }
-    return next();
-    var sso_token = req.headers['sso_token'],
-      http_access_token = req.headers['http_access_token'];
-
-    if (sso_token) {
-      sessionService.rpcInvoke('checkToken', {access_token: http_access_token})
-        .then(function (result) {
-          console.log(result);
-          next();
-        })
-        .catch(function (err) {
-          err.statusCode = 400;
-          next(err);
-        });
-    } else {
-      next();
-    }
+    next();
+    //var sso_token = req.headers['sso_token'],
+    //  http_access_token = req.headers['http_access_token'];
+    //
+    //if (sso_token) {
+    //  sessionService.rpcInvoke('checkToken', {access_token: http_access_token})
+    //    .then(function (result) {
+    //      console.log(result);
+    //      next();
+    //    })
+    //    .catch(function (err) {
+    //      err.statusCode = 400;
+    //      next(err);
+    //    });
+    //} else {
+    //  next();
+    //}
   }
 };

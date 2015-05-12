@@ -44,8 +44,8 @@ gulp.task('js', function () {
 gulp.task('sdk', function () {
   return gulp.src('./server/server.js')
     .pipe(loopbackAngular({apiUrl: 'http://127.0.0.1:3000/api'}))
-    //.pipe(gulp.dest('./src'))
-    .pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
+    .pipe(gulp.dest('./src'))
+    //.pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
 });
 
 gulp.task('tpl', function () {
