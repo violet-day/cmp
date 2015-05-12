@@ -22,18 +22,31 @@ var rev = require('gulp-rev');
 var connect = require('gulp-connect');
 var gulpSequence = require('gulp-sequence');
 var jsdoc = require("gulp-jsdoc");
+var browserify = require('gulp-browserify');
+
 
 var argv = require('minimist')(process.argv.slice(2));
 
-gulp.task('default', ['sdk', 'js', 'dev'], function () {
+gulp.task('default', ['sdk', 'js', 'dev']);
+var dist = './public/assets/scripts/cmp';
+//gulp.task('js', function () {
+//  gulp.src([
+//    'src/server.js', 'src/partials.js', 'src/app.js', 'src/**/*.js'
+//  ]).pipe(concat('cmp.js'))
+//    .pipe(gulp.dest(dist))
+//    .pipe(uglify())
+//    .pipe(rename({extname: '.min.js'}))
+//    .pipe(gulp.dest(dist))
+//    .pipe(connect.reload());
+//});
 
-});
-
-gulp.task('js', function () {
-  var dist = './public/assets/scripts/cmp';
-  gulp.src([
-    'src/server.js', 'src/partials.js', 'src/app.js', 'src/**/*.js'
-  ]).pipe(concat('cmp.js'))
+gulp.task('js', function() {
+  gulp.src('src/app.js')
+    .pipe(browserify({
+      insertGlobals : true,
+      debug : !gulp.env.production,
+      transform:['browserify-ngannotate']
+    }))
     .pipe(gulp.dest(dist))
     .pipe(uglify())
     .pipe(rename({extname: '.min.js'}))
@@ -44,7 +57,7 @@ gulp.task('js', function () {
 gulp.task('sdk', function () {
   return gulp.src('./server/server.js')
     .pipe(loopbackAngular({apiUrl: 'http://127.0.0.1:3000/api'}))
-    .pipe(gulp.dest('./src'))
+    .pipe(gulp.dest(dist))
     //.pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
 });
 
@@ -73,7 +86,7 @@ gulp.task('tpl', function () {
           .replace('demo', '')
       }
     }))
-    .pipe(gulp.dest('src'));
+    .pipe(gulp.dest(dist));
 });
 
 gulp.task('build', function () {

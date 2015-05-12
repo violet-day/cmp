@@ -13,7 +13,7 @@ module.exports = function () {
       return next();
     }
 
-    logger.debug('process oauth middleware:%s',req.url);
+    logger.debug('process oauth middleware:%s', req.url);
     var loopbackContext = loopback.getCurrentContext();
     if (loopbackContext) {
       loopbackContext.set('currentUser', {username: 'nemo', id: 1, roles: ['$admin']});

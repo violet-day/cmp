@@ -276,7 +276,7 @@ module.exports = function (WorkflowInstance) {
       {
         arg: 'initiator', type: 'number', required: true,
         http: function (ctx) {
-          return ctx.req.accessToken.userId;
+          return 1//ctx.req.accessToken.userId;
         },
         description: '流程启动者'
       },
@@ -287,16 +287,16 @@ module.exports = function (WorkflowInstance) {
           'initialItem.id',
           'initialItem.__t',
           'initialItem.title'
-        ]
+        ].join('\r\n')
       },
       {
         arg: 'association', type: 'object', required: true,
-        description: ['工作流关联']
+        description: ['工作流关联'].join('\r\n')
       }
     ],
     returns: {arg: 'instance', type: 'object', root: true}
   });
-
+  //
   WorkflowInstance.remoteMethod('cancel', {
     description: '终止进行中或发生错误的工作流',
     isStatic: false,
