@@ -4,7 +4,7 @@
 /*@ngInject*/
 module.exports = function ($rootScope, $modal, $state, $stateParams, localStorageService, $translate) {
   if (!localStorageService.get('lang')) {
-    localStorageService.set('lang', 'us');
+    localStorageService.set('lang', 'cn');
   }
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;

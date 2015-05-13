@@ -1,7 +1,8 @@
 /**
  * Created by Administrator on 2014/12/11.
  */
-angular.module('cmp')
+module.exports = 'cmp.workflowApproveTask';
+angular.module('cmp.workflowApproveTask',[])
   .controller('WorkflowApproveTaskNewCtrl', ['$scope', function ($scope) {
 
   }])

@@ -2,6 +2,9 @@
   "name": "WorkflowTask",
   "base": "Task",
   "properties": {
+    "approval":{
+      "type":"string"
+    },
     "changedMethod": {
       "type": "string",
       "description": "发生变化时的方法"

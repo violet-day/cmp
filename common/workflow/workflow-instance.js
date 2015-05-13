@@ -268,6 +268,13 @@ module.exports = function (WorkflowInstance) {
     })().nodeify(callback);
   };
 
+  WorkflowInstance.prototype.finish = Q.async(function *(lock) {
+    lock = _.defaults({lk_workflow: true}, lock)
+    var inst = this;
+    yield inst.updateInitialItem(lock);
+    yield inst.updateAttributes({workflowState:'Complted'})
+  })();
+
   //remoteMethod
 
   WorkflowInstance.remoteMethod('initialWorkflow', {

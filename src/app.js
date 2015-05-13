@@ -28,6 +28,7 @@ angular.module('cmp', [
 
   require('./list'),
   require('./workflow'),
+  require('./workflow-task'),
   require('./demo')
   //'cmp.list'
 ]).config(require('./config')).run(require('./run'))

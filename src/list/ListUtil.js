@@ -27,6 +27,7 @@ module.exports = function ($modal) {
     workflow: '<li role="presentation"><a ui-sref="main.workflow({list:row.entity.__t,id:row.entity.id,title:row.entity.title})" role="menuitem" ><i class="fa fa-check-square-o"></i>Workflow</a></li>'
   };
   listUtil.getActionMenu = function (menu) {
+    menu = menu || [];
     return {
       field: 'action',
       name: 'action',

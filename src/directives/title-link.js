@@ -10,13 +10,11 @@ module.exports=function ($filter, ListUtil) {
         if (typeof entity === 'string') {
           entity = $filter('source')(entity);
         }
-        if (entity.id && entity.__t && entity.title) {
-          if (entity) {
-            element.text(entity.title)
-              .on('click', function () {
-                return ListUtil.action('View', entity);
-              });
-          }
+        if (entity && entity.id && entity.__t && entity.title) {
+          element.text(entity.title)
+            .on('click', function () {
+              return ListUtil.action('View', entity);
+            });
         }
       }, true);
     }

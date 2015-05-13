@@ -8,7 +8,7 @@ var Q = require('q'),
   debug = require('debug')('workflow:ApproveWorkflow'),
   logger = require('log4js').getLogger('WorkflowInstance');
 
-module.exports = extend({
+module.exports = _.extend(seed, {
   Initial: {
     enter: function () {
       var owner = this;
@@ -33,14 +33,14 @@ module.exports = extend({
           return owner.assignTask({
             title: '请审批' + owner.workflowItemTitle,
             assignTo: assignTo,
-            __t: 'WorkflowApproveTask',
-            changedMethod: 'WorkflowApproveTaskChanged'
+            __t: 'WorkflowTask',
+            changedMethod: 'WorkflowTaskChanged'
           });
         }));
         yield owner.sleep();
       })().catch(owner.state().method('errorHandler'));
     },
-    WorkflowApproveTaskChanged: function (task) {
+    WorkflowTaskChanged: function (task) {
       var owner = this;
       if (task.percent === 100 || task.status === 'Completed') {//任务完成
         var queue = owner.associatedData.queue[owner.associatedData.index],
@@ -64,26 +64,43 @@ module.exports = extend({
   },
   Approve: {
     enter: function () {
-      //todo
+      var owner = this;
+      Q.async(function *() {
+        logger.log('id:%s has been approved');
+        //todo
+        owner.state().go('Final');
+      })().catch(owner.state().method('errorHandler'));
     }
   },
-  Reject: {},
+  Reject: {
+    enter: function () {
+      var owner = this;
+      Q.async(function *() {
+        logger.log('id:%s has been rejected');
+        //todo
+        owner.state().go('Final');
+      })().catch(owner.state().method('errorHandler'));
+    }
+  },
   RequestChange: {
     enter: function () {
-
+      var owner = this;
+      Q.async(function *() {
+        logger.debug('enter request change');
+        //todo:create task for initiator
+        yield owner.sleep();
+      })().catch(owner.state().method('errorHandler'));
     }
   },
   Final: {
     enter: function () {
       var owner = this;
-
-      owner.updateInitialItem({'lock.update': true, 'lock.remove': true, 'lock.workflow': true})
-        .then(function () {
-          owner.workflowState = 'FINISHED';
-          owner.internalState = 'Final';
-          owner.completeAt = new Date();
-          owner.save();
-        })
+      Q.async(function *() {
+        //todo流程结束
+        yield owner.updateInitialItem({lk_update: true});
+        yield owner.updateAttributes({workflowState: 'Completed'});
+        yield owner.sleep();
+      })().catch(owner.state().method('errorHandler'));
     }
   }
-}, seed);
+});

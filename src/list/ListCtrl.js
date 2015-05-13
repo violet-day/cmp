@@ -2,11 +2,9 @@
  * Created by 烬云 on 2014/11/1.
  */
 /*@ngInject*/
-module.exports=function ($scope, $injector, $state, $stateParams, $q, List, ACL, ListUtil, toastr, blockUI, localStorageService, list) {
+module.exports = function ($scope, $injector, $state, $stateParams, $q, List, ACL, ListUtil, toastr, blockUI, localStorageService, list) {
   console.log(list);
 
-  //检查权限
-  console.log(ACL);
   //ACL.checkPermission({
   //  model: $stateParams.list,
   //  principalType: 'USER',
@@ -54,9 +52,11 @@ module.exports=function ($scope, $injector, $state, $stateParams, $q, List, ACL,
     }
   };
 
-  var service = $injector.get($stateParams.list);
+  var service = $injector.get($stateParams.list),
+    util;
   if ($injector.has($stateParams.list + 'Util')) {
-    var util = $injector.get($stateParams.list + 'Util');
+    util = $injector.get($stateParams.list + 'Util');
+    console.log(util);
     $scope.gridAction = angular.extend($scope.gridAction, util.fn || {});
   }
   var actionMenu = ListUtil.getActionMenu(util ? util.menu : []);
@@ -85,7 +85,6 @@ module.exports=function ($scope, $injector, $state, $stateParams, $q, List, ACL,
     $scope.filter.offset = ($scope.filter.page - 1) * $scope.filter.limit;
     var gridBlock = blockUI.instances.get('gridBlock');
     gridBlock.start();
-    console.log($scope.filter);
     $q.all([
       service.find({filter: $scope.filter}).$promise,
       service.count({where: $scope.filter.where}).$promise
