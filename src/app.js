@@ -21,19 +21,16 @@ angular.module('cmp', [
   'angularFileUpload',
   'frapontillo.bootstrap-switch',
 
-  'ui.grid',
-  'ui.grid.edit',
-  'ui.grid.moveColumns',
-  'ui.grid.autoResize',
-  'ui.grid.pinning',
-  'ui.grid.resizeColumns',
-  'ui.grid.selection',
-
   'textAngular',
+
+  require('./filter'),
+  require('./directives'),
+
   require('./list'),
-  require('./workflow')
+  require('./workflow'),
+  require('./demo')
   //'cmp.list'
 ]).config(require('./config')).run(require('./run'))
-  .controller('MainCtrl',require('./controllers/MainCtrl').MainCtrl)
-  .controller('SideBarCtrl',require('./controllers/MainCtrl').SideBarCtrl)
-  .controller('HeaderCtrl',require('./controllers/MainCtrl').HeaderCtrl)
+  .controller('MainCtrl', require('./controllers/MainCtrl').MainCtrl)
+  .controller('SideBarCtrl', require('./controllers/MainCtrl').SideBarCtrl)
+  .controller('HeaderCtrl', require('./controllers/MainCtrl').HeaderCtrl)

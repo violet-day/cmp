@@ -25,7 +25,7 @@ module.exports = function (List) {
         if (!col)console.error(title + ' not found');
         return col;
       });
-      return yield [
+      yield [
         app.models.View.create(definition.settings.views.concat([
             {
               title: 'AllItems',
@@ -50,6 +50,7 @@ module.exports = function (List) {
           })
         )
       ];
+      console.log('publish %s done',definition.name);
     })();
   };
 

@@ -3,7 +3,7 @@
     "id": "core:title",
     "name": "title",
     "type": "string",
-    "displayName": "id",
+    "displayName": "title",
     "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"row.entity\"></a></div>",
     "formControl": "<input type=\"text\" class=\"form-control\" id=\"title\" name=\"title\" ng-model=\"doc.title\" ui-message/>",
     "minWidth":160

@@ -1,7 +1,7 @@
 /**
  * Created by 烬云 on 14-4-12.
  */
-
+/*@ngInject*/
 exports.MainCtrl=  function ($scope, $state, localStorageService) {
   //登出
   $scope.singOut = function () {
@@ -9,6 +9,7 @@ exports.MainCtrl=  function ($scope, $state, localStorageService) {
     $state.go('login');
   };
 }
+/*@ngInject*/
 exports.SideBarCtrl= function ($scope, $state) {
   var sidebarWidth = 225;
   var sidebarCollapsedWidth = 35;
@@ -386,7 +387,7 @@ exports.SideBarCtrl= function ($scope, $state) {
   handleSidebarMenu(); // handles main menu
   handleSidebarToggler(); // handles sidebar hide/show
 };
-
+/*@ngInject*/
 exports.HeaderCtrl=  function ($scope, Task, $modal, $translate, $state) {
   $scope.editTask = function (task) {
     $modal.open({
