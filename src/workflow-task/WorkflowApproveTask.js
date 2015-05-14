@@ -2,7 +2,7 @@
  * Created by Administrator on 2014/12/11.
  */
 module.exports = 'cmp.workflowApproveTask';
-angular.module('cmp.workflowApproveTask',[])
+angular.module('cmp.workflowApproveTask', [])
   .controller('WorkflowApproveTaskNewCtrl', ['$scope', function ($scope) {
 
   }])
@@ -10,37 +10,40 @@ angular.module('cmp.workflowApproveTask',[])
     function ($scope, $modalInstance, $modal, WorkflowTask, toastr, doc) {
       $scope.doc = WorkflowTask.findOne({filter: {where: {id: doc.id}}});
 
-      $scope.approve = function (outcome) {
-        $scope.doc.status = 'Completed';
-        $scope.doc.outcome = 'Approved';
-        $scope.submit();
+      $scope.approve = function () {
+        $scope.doc.$prototype$approve().then(function () {
+          $modalInstance.close('Approve');
+        });
       };
       $scope.reject = function () {
-        $scope.doc.status = 'Completed';
-        $scope.doc.outcome = 'Rejected';
-        $scope.submit();
+        $scope.doc.$prototype$reject().then(function () {
+          $modalInstance.close('Reject');
+        });
       };
       $scope.reAssignTask = function () {
         $modal.open({
-          templateUrl: 'views/workflow-task/AssignTask/New.html',
+          templateUrl: 'views/ReAssignTask/New.html',
           controller: 'ReassignTaskCtrl'
         }).result.then(function (result) {
-            $scope.doc.status = 'Completed';
-            $scope.doc.outcome = 'ReAssign';
-            $scope.doc.extendProp = result;
+            WorkflowTask.prototype$reAssignTask({
+              id: $scope.doc.id,
+              task: result
+            }).$promise.then(function () {
+                toastr.success('任务已经重新分配');
+                $modalInstance.close('ReAssign');
+              }, function (reason) {
+                toastr.error(reason.data.error.message)
+              });
           });
       };
+
       $scope.requestChange = function () {
-        $scope.doc.status = 'Completed';
-        $scope.doc.outcome = 'RequestChange';
+        $scope.doc.$prototype$requestChange().then(function () {
+          $modalInstance.close('RequestChange');
+        });
       };
 
-      $scope.submit = function () {
-        $scope.doc.$prototype$updateAttributes().then(function (result) {
-          toastr.success('submit success');
-          $modalInstance.close(result);
-        })
-      }
+
     }])
   .controller('WorkflowApproveTaskViewCtrl', ['$scope', '$modalInstance', function ($scope) {
 

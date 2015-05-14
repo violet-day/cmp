@@ -25,9 +25,9 @@ Q.async(function *() {
   }));
   console.log('create Workflow template done');
 
-  yield _.values(app.models).map(function (model) {
+  yield Q.all(_.values(app.models).map(function (model) {
     return app.models.List.publish(model);
-  });
+  }))
   console.log('publish list done');
 })().catch(function (err) {
   console.error(err);

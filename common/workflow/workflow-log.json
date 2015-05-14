@@ -20,7 +20,12 @@
     "TimeStamp": true
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "workflowInstance":{
+      "type": "belongsTo",
+      "model": "WorkflowInstance"
+    }
+  },
   "acls": [],
   "methods": []
 }

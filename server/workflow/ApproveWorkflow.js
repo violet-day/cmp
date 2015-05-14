@@ -3,100 +3,135 @@
  */
 var Q = require('q'),
   _ = require('lodash'),
-  extend = require('util')._extend,
   seed = require(process.cwd() + '/server/workflow/WorkflowSeed'),
   debug = require('debug')('workflow:ApproveWorkflow'),
   logger = require('log4js').getLogger('WorkflowInstance');
 
 module.exports = _.extend(seed, {
   Initial: {
-    enter: function () {
+    enter: function (transition) {
       var owner = this;
-      //TODO:发送邮件至抄送人
-      owner.state().go('LoopApprove', {
-        success: function () {
-          owner.workflowState = 'Progressing';
-        }
-      });
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
+      Q.async(function *() {
+        //TODO:发送邮件至抄送人
+        owner.state().go('LoopApprove', {
+          success: function () {
+            owner.workflowState = 'Progressing';
+          }
+        });
+      })().catch(owner.state().method('errorHandler'));
     }
   },
   LoopApprove: {
-    enter: function () {
+    enter: function (transition) {
       var owner = this;
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
       Q.async(function *() {
         owner.associatedData.index = owner.associatedData.index || 0;
         var queue = owner.associatedData.queue[owner.associatedData.index];
+        logger.info('id:%s,index:%s,queue:%j', owner.id, owner.associatedData.index, queue);
         if (owner.associatedData.expand) {//是否展开组
           //TODO
         }
-        yield Q.all(queue.assignTo.map(function (assignTo) {
-          return owner.assignTask({
-            title: '请审批' + owner.workflowItemTitle,
-            assignTo: assignTo,
-            __t: 'WorkflowTask',
-            changedMethod: 'WorkflowTaskChanged'
-          });
-        }));
+        yield owner.assignTask({
+          title: '请审批' + owner.workflowItemTitle,
+          assignTo: queue.assignTo,
+          __t: 'WorkflowApproveTask',
+          changedMethod: 'WorkflowApproveTaskChanged'
+        });
+        yield owner.sleep();
+      })().catch(owner.state().method('errorHandler').bind(owner));
+    },
+    WorkflowApproveTaskChanged: function (task) {
+      var owner = this;
+      Q.async(function *() {
+        if (task.percent === 100 || task.status === 'Completed') {//任务完成
+          var queue = owner.associatedData.queue[owner.associatedData.index],
+            isLast = owner.associatedData.index === owner.associatedData.queue.length - 1;
+          //if (queue.type === 'parallel') {
+          //
+          //} else if (queue.type === 'serial') {
+          //
+          //}
+          switch (task.outcome) {
+            case 'Reject':
+              owner.state().go('Rejected');
+              break;
+            case 'Approve':
+              if (isLast) {//审批最后阶段已经完成
+                owner.state().go('Approved');
+              } else {//循环审批没有结束，索引递增，并再次进入该状态
+                owner.associatedData.index++;
+                owner.state().go('LoopApprove');
+              }
+              break;
+            case 'ReAssign':
+              logger.info('id:%s,%s.%s,extendProp:%j', owner.id, task.__t, task.id, task.extendProp);
+              owner.associatedData.queue.push({assignTo: task.extendProp.assignTo});
+              owner.associatedData.index++;
+              yield owner.workflowLogs.create({body: '任务重新分配'});
+              break;
+            case 'RequestChange':
+              yield owner.assignTask({
+                title: '请求更改',
+                assignTo: owner.initiatorId,
+                body: task.comment,
+                __t: 'WorkflowTask',
+                changedMethod: 'WorkflowTaskChanged'
+              });
+              owner.state().go('RequestChange');
+              break;
+            default:
+              logger.error('id:%s,%s.%s,outcome:%s not bingo', owner.id, task.__t, task.id, task.outcome);
+              break;
+          }
+        }
+      })().catch(owner.state().method('errorHandler'));
+    }
+  },
+  Approved: {
+    enter: function (transition) {
+      var owner = this;
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
+      Q.async(function *() {
+        var updatedItem = yield owner.updateInitialItem({status: 'Approved'});
+        logger.info('id:%s,%s.%s,status:%s', owner.id, updatedItem.__t, updatedItem.id, updatedItem.status);
+        owner.state().go('Final');
+      })().catch(owner.state().method('errorHandler'));
+    }
+  },
+  Rejected: {
+    enter: function (transition) {
+      var owner = this;
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
+      Q.async(function *() {
+        var updatedItem = yield owner.updateInitialItem({status: 'Rejected'});
+        logger.info('id:%s,%s.%s,status:%s', owner.id, updatedItem.__t, updatedItem.id, updatedItem.status);
+        owner.state().go('Final');
+      })().catch(owner.state().method('errorHandler'));
+    }
+  },
+  RequestChange: {
+    enter: function (transition) {
+      var owner = this;
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
+      Q.async(function *() {
         yield owner.sleep();
       })().catch(owner.state().method('errorHandler'));
     },
     WorkflowTaskChanged: function (task) {
       var owner = this;
       if (task.percent === 100 || task.status === 'Completed') {//任务完成
-        var queue = owner.associatedData.queue[owner.associatedData.index],
-          isLast = owner.associatedData.index == owner.associatedData.queue.length - 1;
-        if (queue.type === 'parallel') {
-          if (task.outcome === 'Rejected') {//如果有拒绝
-            owner.state().go('Reject');
-          } else if (task.outcome === 'Approved') {
-            if (isLast) {//审批最后阶段已经完成
-              owner.state().go('Approved');
-            } else {//循环审批没有结束，索引递增，并再次进入该状态
-              owner.associatedData.index++;
-              owner.state().go('LoopApprove');
-            }
-          }
-        } else if (queue.type === 'serial') {
-
-        }
+        owner.state().go('LoopApprove');
       }
     }
   },
-  Approve: {
-    enter: function () {
-      var owner = this;
-      Q.async(function *() {
-        logger.log('id:%s has been approved');
-        //todo
-        owner.state().go('Final');
-      })().catch(owner.state().method('errorHandler'));
-    }
-  },
-  Reject: {
-    enter: function () {
-      var owner = this;
-      Q.async(function *() {
-        logger.log('id:%s has been rejected');
-        //todo
-        owner.state().go('Final');
-      })().catch(owner.state().method('errorHandler'));
-    }
-  },
-  RequestChange: {
-    enter: function () {
-      var owner = this;
-      Q.async(function *() {
-        logger.debug('enter request change');
-        //todo:create task for initiator
-        yield owner.sleep();
-      })().catch(owner.state().method('errorHandler'));
-    }
-  },
   Final: {
-    enter: function () {
+    enter: function (transition) {
       var owner = this;
+      logger.info('id:%s,enter:%s', owner.id, transition.target.name);
       Q.async(function *() {
-        //todo流程结束
+        //todo:流程结束
         yield owner.updateInitialItem({lk_update: true});
         yield owner.updateAttributes({workflowState: 'Completed'});
         yield owner.sleep();

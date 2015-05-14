@@ -28,7 +28,7 @@
     </div>
     <!-- List group -->
     <ul class="list-group">
-      <a class="list-group-item" ng-repeat="ass in wfAss" ng-bind="ass.title" href
+      <a class="list-group-item" ng-repeat="ass in wfAss" ng-bind="ass.id" href
          ng-click="initialWorkflow(ass)"> </a>
     </ul>
   </div>
@@ -43,10 +43,10 @@
     </div>
     <!-- List group -->
     <div class="list-group">
-      <a ui-sref="main.wrkStat({workflow:log.workflowAssociation.title,instanceId:log.id})" class="list-group-item"
+      <a ui-sref="main.wrkStat({workflow:log.workflowAssociationId,instanceId:log.id})" class="list-group-item"
          ng-repeat="log in workflowLog | orderBy:['-workflowState','-completeAt','-created']">
-        {{log}}
-        {{log.workflowAssociation.title}}
+        {{log.id}}
+        {{log.workflowAssociation.id}}
 
         //TODO:时间
         <span ng-bind="log.created | date:'yyyy-MM-dd HH:mm:ss'"></span>

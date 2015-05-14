@@ -2,6 +2,11 @@
   "name": "WorkflowAssociation",
   "base": "PersistedModel",
   "properties": {
+    "id": {
+      "type": "string",
+      "generated": false,
+      "id": true
+    },
     "autoStart": {
       "type": "boolean",
       "default": false,

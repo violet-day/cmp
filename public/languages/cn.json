@@ -6,6 +6,7 @@
   "Pending":"未启动",
   "Progressing":"进行中",
   "Completed":"已完成",
+  "Canceled":"已取消",
   "Closed":"已关闭",
   "Cancel": "取消",
   "Approve":"批准",

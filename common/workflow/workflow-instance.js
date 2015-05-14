@@ -18,6 +18,8 @@ var state = require('state'),
  */
 module.exports = function (WorkflowInstance) {
 
+  WorkflowInstance.validatesInclusionOf('workflowState', {in: ['Initial', 'Progressing', 'Completed', 'Canceled', 'Terminated']});
+
   /**
    * 启动工作流，返回创建的workflow-instance
    *
@@ -40,7 +42,6 @@ module.exports = function (WorkflowInstance) {
       var app = WorkflowInstance.app;
       initialItem = yield app.models[initialItem.__t].findById(initialItem.id);
       assert(initialItem, 'initialItem is required');
-
       if (initialItem.lk_workflow) {
         logger.info('initialItem: %s.%d has been locked', initialItem.__t, initialItem.id);
         var err = new Error('Workflow Locked');
@@ -66,7 +67,7 @@ module.exports = function (WorkflowInstance) {
         associatedData: association.associatedData
       });
       logger.info('%s.%d created success', instance.__t, instance.id);
-      yield initialItem.updateAttributes({
+      var updatedItem = yield initialItem.updateAttributes({
         instanceId: instance.id,
         status: 'Pending',
         lk_workflow: true,
@@ -74,7 +75,7 @@ module.exports = function (WorkflowInstance) {
         //lk_update: true,
         lk_remove: true
       });
-      logger.info('id:%s,%s.%s updateAttributes success', instance.id, initialItem.__t, initialItem.id);
+      logger.info('id:%s,%s.%s,status:%s,lk_workflow:%s', instance.id, updatedItem.__t, updatedItem.id, updatedItem.status, updatedItem.lk_workflow);
       var stateExpression = yield instance.stateExpression();
       state(instance, stateExpression);
       instance.state().go('Initial');
@@ -129,25 +130,27 @@ module.exports = function (WorkflowInstance) {
    * @param {object} task  任务
    * @returns {promise}
    */
-  WorkflowInstance.prototype.wakeUp = Q.async(function *(task) {
+  WorkflowInstance.prototype.wakeUp = function (task) {
     var self = this;
-    var stateExpression = yield instance.stateExpression();
-    state(instance, stateExpression);
-    var currentState = self.state(self.internalState);
+    return Q.async(function *() {
+      var stateExpression = yield self.stateExpression();
+      state(self, stateExpression);
+      var currentState = self.state(self.internalState);
 
-    logger.info('%s wake up in %s with task#%d pre call %s', self.id, self.internalState, task.id, task.changedMethod);
-    if (currentState) {
-      if (currentState.hasMethod(task.changedMethod)) {
-        self.state(self.internalState).call(task.changedMethod, task);
+      logger.info('id:%s wake up,internalState:%s,task.%s,changedMethod:%s', self.id, self.internalState, task.id, task.changedMethod);
+      if (currentState) {
+        if (currentState.hasMethod(task.changedMethod)) {
+          self.state(self.internalState).call(task.changedMethod, task);
+        } else {
+          logger.error('id:%s,internalState:%s,task.%s,changedMethod:%s not found', self.id, self.internalState, task.id, task.changedMethod);
+          yield self.workflowLogs.create({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'});
+        }
       } else {
-        logger.error('id:%s,state:%s,method:%s not found');
-        yield self.logs.create({type: 'Error', body: 'Method ' + task.changedMethod + ' Not Found'});
+        logger.error('id:%s,internalState:%s not found', self.id, self.internalState);
+        yield self.workflowLogs.create({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'});
       }
-    } else {
-      logger.error('id:%s,state:%s not fount', self.id, self.internalState);
-      yield self.logs.create({type: 'Error', body: 'State ' + task.changedMethod + ' Not Found'});
-    }
-  })();
+    })();
+  };
 
   /**
    * 得到流程启动项目
@@ -167,6 +170,7 @@ module.exports = function (WorkflowInstance) {
    */
   WorkflowInstance.prototype.updateInitialItem = function (data) {
     var self = this;
+    //return WorkflowInstance.app.models[self.workflowList].update({id: self.workflowItemId}},data);
     return self.getInitialItem()
       .then(function (item) {
         return item.updateAttributes(data);
@@ -180,6 +184,7 @@ module.exports = function (WorkflowInstance) {
    * @return {promise}  工作流任务数组
    */
   WorkflowInstance.prototype.resolveTask = function (filter, base) {
+    console.log(arguments);
     var self = this;
     filter = filter || {};
     filter = _.merge({where: {instanceId: self.id}}, filter);
@@ -201,17 +206,19 @@ module.exports = function (WorkflowInstance) {
    * @param {object} task
    * @returns {promise}
    */
-  WorkflowInstance.prototype.assignTask = Q.async(function *(task) {
+  WorkflowInstance.prototype.assignTask = function (task) {
     var self = this;
-    var createdTask = yield WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'].create(_.defaults({
-      startDate: new Date(),
-      creator: self.initiator,
-      workflowAssociationId: self.workflowAssociationId,
-      instanceId: self.id
-    }, task));
-    yield self.logs.create({type: 'Task Created', body: task.title});
-    return createdTask;
-  })();
+    return Q.async(function *() {
+      var createdTask = yield WorkflowInstance.app.models[task.modelTo || 'WorkflowTask'].create(_.defaults({
+        startDate: new Date(),
+        creator: self.initiator,
+        workflowAssociationId: self.workflowAssociationId,
+        instanceId: self.id
+      }, task));
+      yield self.workflowLogs.create({type: 'Task Created', body: task.title});
+      return createdTask;
+    })();
+  };
 
   /**
    * 将当前工作流实例中还没有完成的任务标记为关闭
@@ -243,7 +250,7 @@ module.exports = function (WorkflowInstance) {
     var self = this;
     logger.info('id:%s,pre cancel,workflowState:%s', self.id, self.workflowState);
     return Q.async(function *() {
-      if (['Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
+      if (['Initial', 'Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
         var error = new Error('WorkflowInstance has been ' + self.workflowState);
         error.statusCode = 400;
         throw error;
@@ -256,12 +263,12 @@ module.exports = function (WorkflowInstance) {
       } else {
         logger.warn('id:%s has not implement cancel state', self.id);
       }
-      yield self.updateInitialItem({lk_workflow: false});
-      logger.info('%s.%s lk_workflow has been set to false', self.workflowList, self.workflowItemId);
+      var canceledItem = yield self.updateInitialItem({lk_workflow: false});
+      logger.info('%s.%s,lk_workflow:%s', self.workflowList, self.workflowItemId, canceledItem.lk_workflow);
       yield self.closeTask();
       logger.info('id:%s has close tasks', self.id);
       return yield self.updateAttributes({
-        workflowState: 'Cancel',
+        workflowState: 'Canceled',
         internalState: 'Cancel',
         completeAt: new Date()
       });
@@ -272,7 +279,7 @@ module.exports = function (WorkflowInstance) {
     lock = _.defaults({lk_workflow: true}, lock)
     var inst = this;
     yield inst.updateInitialItem(lock);
-    yield inst.updateAttributes({workflowState:'Complted'})
+    yield inst.updateAttributes({workflowState: 'Complted'})
   })();
 
   //remoteMethod
@@ -303,10 +310,23 @@ module.exports = function (WorkflowInstance) {
     ],
     returns: {arg: 'instance', type: 'object', root: true}
   });
-  //
+
+  WorkflowInstance.remoteMethod('resolveTask', {
+    description: '查找工作流相关的任务',
+    isStatic: false,
+    accepts: [
+      {arg: 'filter', type: 'object', description: '过滤条件', default: {}},
+      {arg: 'base', type: 'string', default: 'WorkflowTask'}
+    ],
+    http: {verb: 'get'},
+    returns: {arg: 'tasks', type: 'array', root: true}
+  });
+
   WorkflowInstance.remoteMethod('cancel', {
     description: '终止进行中或发生错误的工作流',
     isStatic: false,
     returns: {arg: 'instance', type: 'object', root: true}
   });
+
+
 };

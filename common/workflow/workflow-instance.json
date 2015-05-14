@@ -55,6 +55,7 @@
     },
     "TimeStamp": true
   },
+  "hidden":["script"],
   "validations": [],
   "relations": {
     "initiator": {
@@ -69,7 +70,7 @@
       "type": "belongsTo",
       "model": "WorkflowAssociation"
     },
-    "logs": {
+    "workflowLogs": {
       "type": "hasMany",
       "model": "WorkflowLog"
     }

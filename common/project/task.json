@@ -14,7 +14,11 @@
       "type": "string"
     },
     "startDate": {
-      "type": "date"
+      "type": "date",
+      "default":"$now"
+    },
+    "comment":{
+      "type": "string"
     },
     "outcome": {
       "type": "string",

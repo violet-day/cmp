@@ -5,21 +5,15 @@
   "views": [],
   "wfAss": [
     {
-      "title": "测试流程",
+      "id": "测试流程",
       "workflow": "ApproveWorkflow",
       "associatedData": {
         "queue": [
           {
-            "assignTo": [
-              "ROLE#IT经理"
-            ],
-            "type": "serial"
+            "assignTo": "客服"
           },
           {
-            "assigned": [
-              "ROLE#IT经理"
-            ],
-            "type": "serial"
+            "assignTo": "总经理"
           }
         ]
       }

@@ -63,9 +63,9 @@
           </div>
         </div>
       </div>
-      <!--<button ng-show="instance.workflowState!=='CANCELED'" class="btn btn-danger" type="button"-->
-      <!--ng-click="cancelWorkflow(instance._id)">终止流程-->
-      <!--</button>-->
+      <button ng-show="['Initial', 'Progressing', 'Terminated'].indexOf(instance.workflowState) >-1" class="btn btn-danger" type="button"
+              ng-click="cancelWorkflow()">终止流程
+      </button>
     </div>
   </div>
 
@@ -129,7 +129,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="log in instance.workflowLogs">
+        <tr ng-repeat="log in logs">
           <td ng-bind="log.created | date:'yyyy-MM-dd HH:mm'"></td>
           <td ng-bind="log.type"></td>
           <td ng-bind="log.body"></td>

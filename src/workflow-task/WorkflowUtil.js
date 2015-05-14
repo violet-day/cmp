@@ -18,17 +18,13 @@ module.exports = function () {
       }
     },
     {
-      relation: 'workflowAssociation',
-      scope: {
-        fields: ['title']
-      }
-    },
-    {
       relation: 'instance',
       scope: {
         fields: ['workflowState']
       }
     }
   ];
+
+
   return util;
 };

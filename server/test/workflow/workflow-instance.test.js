@@ -84,7 +84,10 @@ describe('WorkflowInstance', function () {
     it('should update initialItem', function (done) {
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (wrkInst) {
-          return wrkInst.updateInitialItem({title: 'new post'});
+          return wrkInst.updateInitialItem({title: 'new post'})
+            .then(function () {
+              return wrkInst.getInitialItem();
+            });
         })
         .then(function (item) {
           item.title.should.equal('new post');
@@ -130,6 +133,29 @@ describe('WorkflowInstance', function () {
           done(err);
         })
 
+    });
+  });
+
+  describe('#assignTask', function () {
+    it('should create task', function (done) {
+      app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
+        .then(function (inst) {
+          return inst.assignTask({
+            title: '请审批',
+            assignTo: 'nemo',
+            __t: 'WorkflowApproveTask',
+            changedMethod: 'WorkflowApproveTaskChanged'
+          })
+        })
+        .then(function (task) {
+          should.exist(task);
+          done();
+        })
+        .catch(function (err) {
+          console.trace(err);
+          should.not.exist(err);
+          done(err);
+        });
     });
   });
 
@@ -183,7 +209,7 @@ describe('WorkflowInstance', function () {
       app.models.WorkflowInstance.initialWorkflow(1, initialItem, wrkAss)
         .then(function (inst) {
           wrkInst = inst;
-          return wrkInst.updateAttributes({workflowState: 'Finished'})
+          return wrkInst.updateAttributes({workflowState: 'Completed'})
         })
         .then(function () {
           return wrkInst.cancel();
@@ -203,17 +229,18 @@ describe('WorkflowInstance', function () {
           return wrkInst.cancel();
         })
         .then(function (reloadedInst) {
-          reloadedInst.workflowState.should.equal('Cancel');
+          reloadedInst.workflowState.should.equal('Canceled');
           reloadedInst.internalState.should.equal('Cancel');
           return Q.all([
             wrkInst.getInitialItem(),
             wrkInst.resolveTask()
           ])
         })
-        .spread(function (initialItem,tasks) {
+        .spread(function (initialItem, tasks) {
+          console.log(initialItem.lk_workflow);
           initialItem.lk_workflow.should.be.false;
           tasks.should.matchEach(function (tk) {
-            ['Completed','Closed'].should.containEql(tk.status)
+            ['Completed', 'Closed'].should.containEql(tk.status)
           });
           done();
         })
@@ -227,22 +254,5 @@ describe('WorkflowInstance', function () {
   afterEach(function (done) {
     done();
   });
-  describe.skip('multi create', function () {
-    it('', function (done) {
-      app.models.Post.deleteAll()
-        .then(function () {
-          return Q.all([
-            app.models.Post.create({title: 'a post', tags: [1, 2]}),
-            app.models.Post.create({title: 'b post', tags: [1, 2, 3], lk_workflow: true}),
-          ])
-        })
-        .then(function (result) {
-          console.log(result);
-          done()
-        }, function (err) {
-          done(err);
-        })
-    })
-  })
 
 });

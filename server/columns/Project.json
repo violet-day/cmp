@@ -3,8 +3,7 @@
     "id": "project:assignTo",
     "name": "assignTo",
     "type": "string",
-    "displayName": "AssignTo",
-    "cellTemplate": "<div class=\"ui-grid-cell-contents\"><a href title-link=\"row.entity.assignTo\"></a></div>"
+    "displayName": "AssignTo"
   },
   {
     "id": "project:startDate",

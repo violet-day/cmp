@@ -157,7 +157,7 @@ gulp.task('dev', function (cb) {
 });
 
 gulp.task('doc', ['sdk'], function () {
-  return gulp.src(['./src/server.js'])
+  return gulp.src(['./public/assets/scripts/cmp/server.js'])
     .pipe(gulpDocs.process({
       //scripts:['./src/service.js']
     }))

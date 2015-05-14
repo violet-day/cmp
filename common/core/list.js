@@ -44,13 +44,13 @@ module.exports = function (List) {
         ),
         Q.all(
           definition.settings.wfAss.map(function (ass) {
-            ass.workflowTemplateId =ass.workflow;
+            ass.workflowTemplateId = ass.workflow;
             ass.listId = list.id;
             return app.models.WorkflowAssociation.create(ass);
           })
         )
       ];
-      console.log('publish %s done',definition.name);
+      console.log('publish %s done', definition.name);
     })();
   };
 

@@ -110,27 +110,29 @@ module.exports = function ($stateProvider) {
         /*@ngInject*/
         instance: function ($stateParams, WorkflowInstance) {
           return WorkflowInstance.findOne({
-            where: {
-              id: $stateParams.instanceId
-            },
             filter: {
+              where: {
+                id: $stateParams.instanceId
+              },
               include: [
                 {
                   relation: 'initiator',
                   scope: {
                     fields: ['username', 'email']
                   }
-                },
-                {
-                  relation: 'workflowAssociation',
-                  scope: {
-                    fields: ['title']
-                  }
                 }
               ]
             }
           })
-        }
+        },
+        /*@ngInject*/
+        tasks: function ($stateParams, WorkflowInstance) {
+          return WorkflowInstance.prototype$resolveTask({id: $stateParams.instanceId})
+        },
+        /*@ngInject*/
+        logs: function ($stateParams, WorkflowInstance) {
+          return WorkflowInstance.workflowLogs({id: $stateParams.instanceId})
+        },
       },
       ncyBreadcrumb: {
         label: 'Workflow State : {{ $stateParams.workflow }}'
