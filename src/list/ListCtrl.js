@@ -73,7 +73,11 @@ module.exports = function ($scope, $injector, $state, $stateParams, $q, List, AC
   $scope.gridOptions.columnDefs = $scope.currentView.columns;
 
   $scope.filter = {
-    include: util ? util.include : [],
+    include: $scope.gridOptions.columnDefs.filter(function (col) {
+      return col.include;
+    }).map(function (col) {
+      return col.include;
+    }),
     limit: 20,
     page: 1,
     where: {

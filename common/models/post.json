@@ -27,6 +27,7 @@
     "core:modifierId",
     "core:status",
     "Post:tags",
+    "workflow:instanceId",
     "core:remark"
   ],
   "properties": {

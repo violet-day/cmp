@@ -21,6 +21,9 @@
     "cellFilter": {
       "type": "string"
     },
+    "include":{
+      "type":"object"
+    },
     "aggregationType": {
       "type": "string"
     }
