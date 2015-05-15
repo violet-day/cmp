@@ -15,8 +15,8 @@ module.exports = function (WorkflowTask) {
 
   WorkflowTask.prototype.reAssignTask = function (task, callback) {
     var doc = this;
-    assert(task.assignTo);
-    assert(task.body);
+    assert(task.assignTo,'Task assignTo can not be blank');
+    assert(task.body,'Task body can not be blank');
 
     return Q.async(function *() {
       if (doc.status === 'Completed') {
@@ -80,6 +80,21 @@ module.exports = function (WorkflowTask) {
     })().nodeify(callback)
   };
 
+  WorkflowTask.prototype.complete = function (callback) {
+    var doc = this;
+    return Q.async(function *() {
+      if (doc.status === 'Completed') {
+        var error = new Error('Task Completed');
+        error.status = 400;
+        throw error;
+      }
+      yield doc.updateAttributes({status: 'Completed', outcome: 'Completed'});
+      doc.wakeUpInstance();
+    })().nodeify(callback)
+  };
+
+  //<editor-fold desc="remoteMethod">
+
   WorkflowTask.remoteMethod('reAssignTask', {
     description: '重新分配任务',
     isStatic: false,
@@ -110,4 +125,13 @@ module.exports = function (WorkflowTask) {
     accepts: [],
     http: {verb: 'Post'}
   });
+
+  WorkflowTask.remoteMethod('complete', {
+    description: '请求更改',
+    isStatic: false,
+    accepts: [],
+    http: {verb: 'Post'}
+  });
+
+  //</editor-fold>
 };

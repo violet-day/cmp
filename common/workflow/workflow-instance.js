@@ -116,10 +116,10 @@ module.exports = function (WorkflowInstance) {
    *
    * @returns {promise}
    */
-  WorkflowInstance.prototype.sleep = function () {
+  WorkflowInstance.prototype.sleep = function (internalState) {
     var self = this;
-    logger.info('id:%d sleep with state:%s', self.id, self.state().name);
-    self.internalState = self.state().name;
+    self.internalState = internalState || self.state().name;
+    logger.info('id:%d sleep with state:%s', self.id, self.internalState);
     self.isWake = false;
     return self.save();
   };
@@ -159,7 +159,7 @@ module.exports = function (WorkflowInstance) {
    */
   WorkflowInstance.prototype.getInitialItem = function (filter) {
     var self = this;
-    return WorkflowInstance.app.models[self.workflowList].findOne(_.defaults({id: self.workflowItemId}, filter || {}));
+    return WorkflowInstance.app.models[self.workflowList].findById(self.workflowItemId, filter);
   };
 
   /**
@@ -170,12 +170,12 @@ module.exports = function (WorkflowInstance) {
    */
   WorkflowInstance.prototype.updateInitialItem = function (data) {
     var self = this;
-    //return WorkflowInstance.app.models[self.workflowList].update({id: self.workflowItemId}},data);
-    return self.getInitialItem()
-      .then(function (item) {
-        return item.updateAttributes(data);
-      });
+    return Q.async(function *() {
+      var item = yield self.getInitialItem();
+      return yield item.updateAttributes(data);
+    })();
   };
+
   /**
    * 获取当前工作流实例的所有任务
    *
@@ -184,7 +184,6 @@ module.exports = function (WorkflowInstance) {
    * @return {promise}  工作流任务数组
    */
   WorkflowInstance.prototype.resolveTask = function (filter, base) {
-    console.log(arguments);
     var self = this;
     filter = filter || {};
     filter = _.merge({where: {instanceId: self.id}}, filter);
@@ -250,11 +249,11 @@ module.exports = function (WorkflowInstance) {
     var self = this;
     logger.info('id:%s,pre cancel,workflowState:%s', self.id, self.workflowState);
     return Q.async(function *() {
-      if (['Initial', 'Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
-        var error = new Error('WorkflowInstance has been ' + self.workflowState);
-        error.statusCode = 400;
-        throw error;
-      }
+      //if (['Initial', 'Progressing', 'Terminated'].indexOf(self.workflowState) == -1) {
+      //  var error = new Error('WorkflowInstance has been ' + self.workflowState);
+      //  error.statusCode = 400;
+      //  throw error;
+      //}
       var expression = yield self.stateExpression();
       state(self, expression);
       var cancelState = self.state('Cancel');

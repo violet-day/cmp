@@ -2,11 +2,18 @@
  * Created by Nemo on 15/5/14.
  */
 var app = require('../../server'),
-  Q = require('q'),
+  Q = require('q');
   should = require('should');
 
 describe('WorkflowTask', function () {
-  describe.only('#reAssignTask', function () {
+
+  before(function (done) {
+    app.models.WorkflowTask.deleteAll(done);
+  });
+  after(function (done) {
+    app.models.WorkflowTask.deleteAll(done);
+  });
+  describe('#reAssignTask', function () {
 
     it('should should throw 400 error', function (done) {
       app.models.WorkflowTask.create({
@@ -14,9 +21,9 @@ describe('WorkflowTask', function () {
         assignTo: 'u1',
         status: 'Completed'
       }).then(function (task) {
-        return task.reAssignTask({assignTo: 'jk'})
+        return task.reAssignTask({assignTo: 'jk', body: 'new task'})
       }).catch(function (err) {
-        should.exists(err);
+        err.status.should.equal(400);
         done();
       });
     });
@@ -28,7 +35,7 @@ describe('WorkflowTask', function () {
         instanceId: 153,
         changedMethod: 'WorkflowApproveTaskChanged'
       }).then(function (task) {
-        return task.reAssignTask({assignTo: 'jk'})
+        return task.reAssignTask({assignTo: 'jk', body: 'new task'})
           .then(function (resAssigned) {
             resAssigned.title.should.equal(task.title);
             return app.models.WorkflowTask.findById(task.id);

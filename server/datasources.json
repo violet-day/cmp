@@ -25,22 +25,10 @@
           "rejectUnauthorized": false
         },
         "auth": {
-          "user": "erp@optachem.com",
-          "pass": "OptaMeet2014"
+          "user": "user",
+          "pass": "pass"
         }
       }
     ]
-  },
-  "document": {
-    "name": "document",
-    "connector": "loopback-component-storage",
-    "provider": "filesystem",
-    "root": "./document"
-  },
-  "attachment": {
-    "name": "attachment",
-    "connector": "loopback-component-storage",
-    "provider": "filesystem",
-    "root": "./attachment"
   }
 }

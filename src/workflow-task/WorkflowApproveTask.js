@@ -43,7 +43,6 @@ angular.module('cmp.workflowApproveTask', [])
         });
       };
 
-
     }])
   .controller('WorkflowApproveTaskViewCtrl', ['$scope', '$modalInstance', function ($scope) {
 

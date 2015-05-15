@@ -32,6 +32,10 @@ describe('WorkflowInstance', function () {
       });
   });
 
+  afterEach(function (done) {
+    app.models.WorkflowInstance.deleteAll(done);
+  });
+
   describe('#initialWorkflow', function () {
 
     it('should throw workflow lock error', function (done) {

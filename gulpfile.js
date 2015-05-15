@@ -28,7 +28,7 @@ var browserify = require('gulp-browserify');
 var argv = require('minimist')(process.argv.slice(2));
 
 gulp.task('default', ['sdk', 'js', 'dev']);
-var dist = './public/assets/scripts/cmp';
+var dist = './public/assets/scripts';
 //gulp.task('js', function () {
 //  gulp.src([
 //    'src/server.js', 'src/partials.js', 'src/app.js', 'src/**/*.js'
@@ -40,12 +40,12 @@ var dist = './public/assets/scripts/cmp';
 //    .pipe(connect.reload());
 //});
 
-gulp.task('js', function() {
+gulp.task('js', function () {
   gulp.src('src/app.js')
     .pipe(browserify({
-      insertGlobals : true,
-      debug : !gulp.env.production,
-      transform:['browserify-ngannotate']
+      insertGlobals: true,
+      debug: !gulp.env.production,
+      transform: ['browserify-ngannotate']
     }))
     .pipe(gulp.dest(dist))
     .pipe(uglify())
@@ -58,7 +58,7 @@ gulp.task('sdk', function () {
   return gulp.src('./server/server.js')
     .pipe(loopbackAngular({apiUrl: 'http://127.0.0.1:3000/api'}))
     .pipe(gulp.dest(dist))
-    //.pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
+  //.pipe(gulp.dest('/Users/Nemo/Workspace/javis/src/components/services'));
 });
 
 gulp.task('tpl', function () {
@@ -106,15 +106,14 @@ gulp.task('hint', function () {
 });
 
 gulp.task('test', function () {
-  return gulp.src('./server/test/**/*.js')
-    .pipe(mocha({
-      globals: {
-        app: require('./server/server')
-      },
-      require: {
-        app: require('./server/server')
-      }
-    }));
+  return gulp.src('./server/test/**/*.js', {read: false})
+    .pipe(mocha())
+    .once('error', function () {
+      process.exit(1);
+    })
+    .once('end', function () {
+      process.exit();
+    });
 });
 
 gulp.task('server', function () {
@@ -157,11 +156,11 @@ gulp.task('dev', function (cb) {
 });
 
 gulp.task('doc', ['sdk'], function () {
-  return gulp.src(['./public/assets/scripts/cmp/server.js'])
+  return gulp.src(['./public/assets/scripts/server.js'])
     .pipe(gulpDocs.process({
       //scripts:['./src/service.js']
     }))
-    .pipe(gulp.dest('./docs'));
+    .pipe(gulp.dest('./ng-docs'));
 });
 
 gulp.task('jsdoc', function () {

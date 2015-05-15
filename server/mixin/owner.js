@@ -13,7 +13,7 @@ module.exports = function (Model, option) {
     if (ctx.isNewInstance) {
       ctx.instance.ownerId = ctx.instance.modifierId = token ? token.userId : 0;
     } else {
-      ctx.data.modifierId = token ? token.userId : 0;
+      ctx.data.modifierId = token ? token.userId : 9999;
     }
     next();
   });

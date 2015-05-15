@@ -95,7 +95,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="task in tasks">
-          <td ng-bind="task.assigned.title"></td>
+          <td ng-bind="task.assignTo"></td>
           <td>
             <a href ng-bind="task.title" ng-click="viewTask(task)"></a>
           </td>

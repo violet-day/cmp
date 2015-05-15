@@ -6,9 +6,7 @@
       "../common/workflow",
       "../common/project",
       "../common/hr",
-      "../common/models",
-      "../common/product",
-      "../common/member"
+      "../common/models"
     ]
   },
   "User": {
@@ -17,15 +15,15 @@
   },
   "AccessToken": {
     "dataSource": "local",
-    "public": true
+    "public": false
   },
   "Role": {
     "dataSource": "local",
-    "public": true
+    "public": false
   },
   "RoleMapping": {
     "dataSource": "local",
-    "public": true
+    "public": false
   },
   "ACL": {
     "dataSource": "local",
@@ -36,7 +34,7 @@
   },
   "Item": {
     "dataSource": "local",
-    "public": true
+    "public": false
   },
   "List": {
     "dataSource": "local",
@@ -48,10 +46,6 @@
   },
   "View": {
     "dataSource": "local",
-    "public": true
-  },
-  "Attachment": {
-    "dataSource": "attachment",
     "public": true
   },
   "ModerationComment": {
@@ -91,30 +85,6 @@
     "public": true
   },
   "Alert": {
-    "dataSource": "local",
-    "public": true
-  },
-  "DocumentLibrary": {
-    "dataSource": "document",
-    "public": true
-  },
-  "General": {
-    "dataSource": "local",
-    "public": true
-  },
-  "TravelRequest": {
-    "dataSource": "local",
-    "public": true
-  },
-  "ExpensesClaimRequest": {
-    "dataSource": "local",
-    "public": true
-  },
-  "RestaurantActivity": {
-    "dataSource": "local",
-    "public": true
-  },
-  "ActivitySubsidyContract": {
     "dataSource": "local",
     "public": true
   }

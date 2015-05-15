@@ -7,10 +7,10 @@ var extend = require('util')._extend;
 var Q = require('q');
 var _=require('lodash')
 var seed = {
-  errorHandler: state.bind(function (err) {
+  errorHandler: function (err) {
     console.trace(err);
-    this.logs.create({body: err.stack, type: 'Error'});
-  }),
+    console.log(this);
+  },
   seedSate: {
     enter: function () {
       console.log('enter seedSate');
@@ -19,16 +19,15 @@ var seed = {
 };
 var stateExpression = {
   Initial: {
-    enter: function () {
+    enter: function (transition) {
       var owner = this;
-      return owner.state().go('seedSate')
-      //TODO:发送邮件至抄送人
-      //owner.state().go('LoopApprove', {
-      //  success: function () {
-      //    owner.workflowState = 'Progressing';
-      //  }
-      //});
-    }
+
+      Q.async(function *() {
+        throw new Error('test error');
+
+      })().catch(owner.state().method('errorHandler').bind(owner));
+    },
+
   },
   //seedSate: {
   //  enter: function () {

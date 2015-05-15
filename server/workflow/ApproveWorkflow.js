@@ -13,13 +13,14 @@ module.exports = _.extend(seed, {
       var owner = this;
       logger.info('id:%s,enter:%s', owner.id, transition.target.name);
       Q.async(function *() {
+        //throw new Error('test error should be catch');
         //TODO:发送邮件至抄送人
         owner.state().go('LoopApprove', {
           success: function () {
             owner.workflowState = 'Progressing';
           }
         });
-      })().catch(owner.state().method('errorHandler'));
+      })().catch(owner.state().method('errorHandler').bind(owner));
     }
   },
   LoopApprove: {
@@ -46,8 +47,7 @@ module.exports = _.extend(seed, {
       var owner = this;
       Q.async(function *() {
         if (task.percent === 100 || task.status === 'Completed') {//任务完成
-          var queue = owner.associatedData.queue[owner.associatedData.index],
-            isLast = owner.associatedData.index === owner.associatedData.queue.length - 1;
+          var isLast = owner.associatedData.index === owner.associatedData.queue.length - 1;
           //if (queue.type === 'parallel') {
           //
           //} else if (queue.type === 'serial') {
@@ -67,8 +67,10 @@ module.exports = _.extend(seed, {
               break;
             case 'ReAssign':
               logger.info('id:%s,%s.%s,extendProp:%j', owner.id, task.__t, task.id, task.extendProp);
-              owner.associatedData.queue.push({assignTo: task.extendProp.assignTo});
               owner.associatedData.index++;
+              owner.associatedData.queue.splice(owner.associatedData.index, 0, {assignTo: task.extendProp.assignTo});
+              logger.info('id:%s,index:%s,queue:%j', owner.id, owner.associatedData.index, owner.associatedData.queue);
+              yield owner.save();
               yield owner.workflowLogs.create({body: '任务重新分配'});
               break;
             case 'RequestChange':
@@ -76,8 +78,8 @@ module.exports = _.extend(seed, {
                 title: '请求更改',
                 assignTo: owner.initiatorId,
                 body: task.comment,
-                __t: 'WorkflowTask',
-                changedMethod: 'WorkflowTaskChanged'
+                __t: 'RequestChangeTask',
+                changedMethod: 'RequestChangeTaskChanged'
               });
               owner.state().go('RequestChange');
               break;
@@ -86,7 +88,7 @@ module.exports = _.extend(seed, {
               break;
           }
         }
-      })().catch(owner.state().method('errorHandler'));
+      })().catch(owner.state().method('errorHandler').bind(owner));
     }
   },
   Approved: {
@@ -97,7 +99,7 @@ module.exports = _.extend(seed, {
         var updatedItem = yield owner.updateInitialItem({status: 'Approved'});
         logger.info('id:%s,%s.%s,status:%s', owner.id, updatedItem.__t, updatedItem.id, updatedItem.status);
         owner.state().go('Final');
-      })().catch(owner.state().method('errorHandler'));
+      })().catch(owner.state().method('errorHandler').bind(owner));
     }
   },
   Rejected: {
@@ -108,7 +110,7 @@ module.exports = _.extend(seed, {
         var updatedItem = yield owner.updateInitialItem({status: 'Rejected'});
         logger.info('id:%s,%s.%s,status:%s', owner.id, updatedItem.__t, updatedItem.id, updatedItem.status);
         owner.state().go('Final');
-      })().catch(owner.state().method('errorHandler'));
+      })().catch(owner.state().method('errorHandler').bind(owner));
     }
   },
   RequestChange: {
@@ -116,10 +118,10 @@ module.exports = _.extend(seed, {
       var owner = this;
       logger.info('id:%s,enter:%s', owner.id, transition.target.name);
       Q.async(function *() {
-        yield owner.sleep();
-      })().catch(owner.state().method('errorHandler'));
+        yield owner.sleep(transition.target.name);
+      })().catch(owner.state().method('errorHandler').bind(owner));
     },
-    WorkflowTaskChanged: function (task) {
+    RequestChangeTaskChanged: function (task) {
       var owner = this;
       if (task.percent === 100 || task.status === 'Completed') {//任务完成
         owner.state().go('LoopApprove');
@@ -135,7 +137,7 @@ module.exports = _.extend(seed, {
         yield owner.updateInitialItem({lk_update: true});
         yield owner.updateAttributes({workflowState: 'Completed'});
         yield owner.sleep();
-      })().catch(owner.state().method('errorHandler'));
+      })().catch(owner.state().method('errorHandler').bind(owner));
     }
   }
 });

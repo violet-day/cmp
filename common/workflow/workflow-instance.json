@@ -24,11 +24,13 @@
         "Terminated",
         "Cancel"
       ],
+      "required": true,
       "description": "工作流状态"
     },
     "internalState": {
       "type": "string",
       "default": "Initial",
+      "required": true,
       "description": "内部状态"
     },
     "isWake": {
@@ -44,18 +46,18 @@
       "type": "date",
       "description": "完成时间"
     },
-    "script":{
-      "type":"text",
+    "script": {
+      "type": "text",
       "description": "状态表达式"
     }
   },
   "mixins": {
     "Core": {
-      "title":false
+      "title": false
     },
     "TimeStamp": true
   },
-  "hidden":["script"],
+  "hidden": ["script"],
   "validations": [],
   "relations": {
     "initiator": {
@@ -85,20 +87,20 @@
       "principalType": "ROLE",
       "principalId": "Admin",
       "permission": "DENY",
-      "accessType":"ALLOW"
+      "accessType": "ALLOW"
     },
     {
       "principalType": "ROLE",
       "principalId": "Admin",
       "permission": "DENY",
-      "accessType":"ALLOW"
+      "accessType": "ALLOW"
     },
     {
       "principalType": "ROLE",
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "cancel",
-      "accessType":"EXECUTE"
+      "accessType": "EXECUTE"
     }
   ],
   "methods": []

@@ -1,0 +1,81 @@
+<form class="form-horizontal" role="form" name="frm">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$dismiss()"></button>
+    <h4 class="modal-title">Task</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label" translate="Title"></label>
+
+          <div class="col-sm-9">
+            <p class="form-control-static" ng-bind="doc.title"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label" translate="Status"></label>
+
+          <div class="col-sm-9">
+            <p class="form-control-static" ng-bind="doc.status | translate"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label" translate="Requested By"></label>
+
+          <div class="col-sm-9">
+            <p class="form-control-static" ng-bind="doc.requester"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="clo-sm-12">
+        <div class="form-group">
+          <label class="col-sm-3 control-label" translate="Consolidated Comments"></label>
+
+          <div class="col-sm-9">
+            <p class="form-control-static" ng-bind="doc.requester"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="clo-sm-12">
+        <div class="row form-group">
+          <label class="col-sm-3 control-label" translate="Comments"></label>
+
+          <div class="col-sm-9">
+            <textarea class="form-control" name="" id="" cols="30" rows="5" ng-model="doc.remark"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="completeTask()" data-ng-disabled="frm.$invalid"
+            translate="Submit"></button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()"
+            translate="Cancel"></button>
+    <button type="button" class="btn btn-warning" ng-click="reAssignTask()"
+            translate="ReAssign Task"></button>
+  </div>
+</form>
